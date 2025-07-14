@@ -232,6 +232,7 @@ namespace XvXR.Foundation
             DebugLog($"middleOfEyes_pos:" + middleOfEyes_pos);
 
             Quaternion middleQua = RotationMatrixToQuaternion(fed.calibrations[0].extrinsic.rotation);
+
             MatrixMiddleOfEyes.SetTRS(middleOfEyes_pos, new Quaternion(-middleQua.x, middleQua.y, -middleQua.z, middleQua.w), Vector3.one);
 
             middleOfEyeToHeadMatrix = MatrixHead * MatrixMiddleOfEyes;

@@ -1,6 +1,7 @@
 using UnityEngine;
 using XvXR.Engine;
-
+using XvXR.SystemEvents;
+using static XvXR.Foundation.XvSystemSetting;
 
 namespace XvXR.Foundation
 {
@@ -28,11 +29,11 @@ namespace XvXR.Foundation
         {
             this.level = level;
 
-            XvSystemSetting.xslam_display_set_brightnesslevel(level);
-#if !UNITY_EDITOR
-         
-            XvSystemSetting.xslam_display_set_brightnesslevel(level);
+
+#if UNITY_EDITOR
+            return;
 #endif
+            XvSystemSetting.xslam_display_set_brightnesslevel(level);
         }
 
         /// <summary>
@@ -41,13 +42,14 @@ namespace XvXR.Foundation
         /// <param name="ipd">55mm~75mm</param>
         public void SetIPD(float ipd)
         {
-#if !UNITY_EDITOR
-           float nowIpd = GetIPD();
+#if UNITY_EDITOR
+
+#endif
+
+            float nowIpd = GetIPD();
             XvXRAndroidDevice.updateCalibra((2 * ipd - nowIpd) / 10);
             XvXRManager.SDK.GetDevice().setFedDis((2 * ipd - nowIpd) / 10);
             XvXREye.EDI = 0;
-#endif
-
         }
         /// <summary>
         /// 获取当前IPD
@@ -62,6 +64,55 @@ namespace XvXR.Foundation
             float nowIpd = (float)(fed.calibrations[1].extrinsic.translation[0] - fed.calibrations[0].extrinsic.translation[0]);
             nowIpd *= 1000;
             return nowIpd;
+        }
+
+        /// <summary>
+        /// 监听眼镜按键事件、是否佩戴，感光事件等
+        /// </summary>
+        /// <param name="cb"></param>
+        public void XSlamStartEventStream(device_stream_callback cb) {
+
+#if UNITY_EDITOR
+            return;
+#endif
+            xslam_start_event_stream(cb);
+        }
+
+
+        public void XSlamStopEventStream()
+        {
+            xslam_stop_event_stream();
+        }
+
+       //获取当前音量
+        public int GetVolumeCurrent()
+        {
+#if UNITY_EDITOR
+            return 0;
+#endif
+            return AndroidConnection.getVolumeCurr();
+        }
+
+        //获取最大音量
+        public int GetVolumeMax()
+        {
+#if UNITY_EDITOR
+            return 0;
+#endif
+            return AndroidConnection.getVolumeMax();
+        }
+        /// <summary>
+        /// 调节音量
+        /// </summary>
+        /// <param name="direction">-1：减小音量  1:增加音量</param>
+        /// <returns></returns>
+        public int AdjustVolume(int direction)
+        {
+#if UNITY_EDITOR
+            return 0;
+#endif
+            return AndroidConnection.adjustVolume(direction);
+
         }
 
     }

@@ -18,6 +18,9 @@ namespace XvXR.Foundation
         /// 所有创建的mesh
         /// </summary>
         private Dictionary<string, GameObject> meshDic = new Dictionary<string, GameObject>();
+        public Dictionary<string, GameObject> MeshDic { 
+        get { return meshDic; }
+        }
 
 
         [SerializeField]
@@ -57,6 +60,12 @@ namespace XvXR.Foundation
             if (xvSpatialMeshManager == null)
             {
                 xvSpatialMeshManager = FindObjectOfType<XvSpatialMeshManager>();
+
+                if (xvSpatialMeshManager == null)
+                {
+
+                    xvSpatialMeshManager=new GameObject("XvSpatialMeshManager").AddComponent<XvSpatialMeshManager>();
+                }
             }
 
         }

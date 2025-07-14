@@ -13,27 +13,38 @@ namespace XvXR.Foundation
         private XvRgbdManager() { }
 
 
-        public  XvCameraManager cameraManager;
+        [SerializeField]
+        private XvCameraManager cameraManager;
+
+
+        public XvCameraManager CameraManager
+        {
+            get
+            {
+
+                if (cameraManager == null)
+                {
+                    cameraManager = FindObjectOfType<XvCameraManager>();
+                }
+
+                if (cameraManager == null)
+                {
+                    cameraManager = new GameObject("XvCameraManager").AddComponent<XvCameraManager>();
+                }
+                return cameraManager;
+
+            }
+        }
 
 
         private double hostTimestamp;
 
-        private void Awake()
-        {
-            if (cameraManager==null) {
-                cameraManager=FindObjectOfType<XvCameraManager>();
-            }
-
-            if (cameraManager==null) {
-                cameraManager=gameObject.AddComponent<XvCameraManager>();
-            }
-        }
-       
 
         /// <summary>
         /// 开启RGBD功能
         /// </summary>
         public void StartRgbPose() {
+           
 #if  UNITY_EDITOR
             return;
 
@@ -44,12 +55,12 @@ namespace XvXR.Foundation
             }
             MyDebugTool.Log("xslam_ready==true");
                 API.xv_start_rgb_pixel_pose();
-            cameraManager.StartCapture(XvCameraStreamType.ARCameraStream);
+            CameraManager.StartCapture(XvCameraStreamType.ARCameraStream);
             XvCameraManager.onARCameraStreamFrameArrived.AddListener(onFrameArrived);
 
-            API.xv_start_rgb_pixel_pose();
-            cameraManager.StartCapture(XvCameraStreamType.ARCameraStream);
-            XvCameraManager.onARCameraStreamFrameArrived.AddListener(onFrameArrived);
+            //API.xv_start_rgb_pixel_pose();
+            //CameraManager.StartCapture(XvCameraStreamType.ARCameraStream);
+            //XvCameraManager.onARCameraStreamFrameArrived.AddListener(onFrameArrived);
         }
         /// <summary>
         /// 关闭RGBD功能
@@ -60,7 +71,7 @@ namespace XvXR.Foundation
 
 #endif
             API.xv_stop_rgb_pixel_pose();
-            cameraManager.StopCapture(XvCameraStreamType.ARCameraStream);
+            CameraManager.StopCapture(XvCameraStreamType.ARCameraStream);
             XvCameraManager.onARCameraStreamFrameArrived.RemoveListener(onFrameArrived);
 
 

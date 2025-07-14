@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using System.Threading;
 using XvXR.SystemEvents;
 using static System.Runtime.CompilerServices.RuntimeHelpers;
+using UnityEngine.Events;
 
 namespace XvXR.Engine
 {
@@ -33,79 +34,71 @@ namespace XvXR.Engine
                 return manager;
             }
         }
-        //mesh注册回调接口返回的id
-        public static int meshSurfaceId;
+
         private static XvDeviceManager manager = null;
-        
-        private static Text infoTxt;
-       
+
+        [Tooltip("是否开启手势")]
+
+        public bool needStartGesture = false;
+
+        [Tooltip("是否输出Debug信息")]
+
+        public bool logEnable = false;
+      
+        [Tooltip("是否允许Back或Home按键退出应用")]
+        public bool backHome=true;//
+        private bool isStartGesture = false;
+        private int skeletonId = -1;
+        private const int skeletonType = 1;
+        private bool isFocus = false;
+        private void Awake()
+        {
+            XvXRLog.LogEnable = logEnable;
+            MyDebugTool.logEnable = logEnable;
+            AndroidConnection.setHomeKeyEnable(backHome);
+            transform.Find("Head").localRotation = Quaternion.identity;
+            transform.Find("Head").localPosition = Vector3.zero;
+
+            transform.Find("Head/XvXRCamera").localRotation = Quaternion.identity;
+            transform.Find("Head/XvXRCamera").localPosition = Vector3.zero;
+
+        }
+        void OnEnable()
+        {
+            isFocus = false;
+        }
+
+
+
         void Start()
         {
-            if (GameObject.Find("Canvas/Text") != null)
-            {
-                infoTxt = GameObject.Find("Canvas/Text").GetComponent<Text>();
-            }
             Application.targetFrameRate = 60;
 #if UNITY_EDITOR
             return;
 #endif
 
             Invoke("getConfig", 0.5f);
-            Invoke("hideMask", 0.8f);
-           // mask = GameObject.Find("ThrowScene/Canvas/mask");
-        }
 
-        private void getConfig()
-        {
-            int ipdVal = API.xslam_get_glass_ipd2();
-            if (ipdVal != 65000)
-            {
-                XvXRAndroidDevice.updateCalibra((float)(ipdVal / 10000.0));
-                XvXRManager.SDK.GetDevice().setFedDis((float)(ipdVal / 10000.0));
-                XvXREye.EDI = 0;
-            }
-            
-            API.xslam_set_device_status_callback(OnDeviceStatusCallback);
         }
-
-        private void hideMask()
-        {
-            //if (mask != null)
-            //{
-            //    mask.gameObject.SetActive(false);
-            //}
-        }
-
-        [MonoPInvokeCallback(typeof(API.device_status_callback_ex))]
-        public static void OnDeviceStatusCallback(API.deviceStatus_package devicesStatus)
-        {
-            Debug.LogError("devicesStatus.status === " + devicesStatus.status[0]);
-            //if (mask != null)
-            //{
-            //    if (devicesStatus.status[0] == 1)
-            //    {
-            //        mask.gameObject.SetActive(false);
-            //    }
-            //    else
-            //    {
-            //        mask.gameObject.SetActive(true);
-            //    }
-            //}
-        }
-
         void Update()
         {
-            if (Input.GetKeyUp(KeyCode.Escape)|| Input.GetKeyUp(KeyCode.Home))
+
+            
+            if (Input.GetKeyUp(KeyCode.Escape) || Input.GetKeyUp(KeyCode.Home))
             {
-                API.xslam_stop_rgb_stream();
-                API.xslam_stop_imu();
-                API.xslam_stop_tof_stream();
-                API.xslam_stop_stereo_stream();
-                API.xslam_stop_play();
-                API.xslam_unset_mic_callback();
-                //AndroidConnection.resetDevice();
-                //AndroidProcessData.OpenPackage("com.xv.launcher");
-                Application.Quit();
+                if (backHome)
+                {
+                    MyDebugTool.Log("Back  Home");
+                    API.xslam_stop_rgb_stream();
+                    API.xslam_stop_imu();
+                    API.xslam_stop_tof_stream();
+                    API.xslam_stop_stereo_stream();
+                    API.xslam_stop_play();
+                    API.xslam_unset_mic_callback();
+
+                    Application.Quit();
+                }
+               
             }
 
 
@@ -114,14 +107,14 @@ namespace XvXR.Engine
 #endif
             if (API.xslam_ready())
             {
-               
-             
+
+
 
                 if (needStartGesture)
                 {
                     if (!isStartGesture)
                     {
-                       
+
                         if (skeletonId >= 0)
                         {
                             API.xslam_stop_slam_skeleton_with_cb(skeletonType, skeletonId);
@@ -129,10 +122,19 @@ namespace XvXR.Engine
                         }
 
 
-                       // API.xslam_set_gesture_filter(level);
+                        // API.xslam_set_gesture_filter(level);
+
+                     string deviceName=   AndroidConnection.getBoxName();
+                        MyDebugTool.Log("getBoxName:" + deviceName);
+
+                        if (deviceName.Contains("Kalama")) { 
+                          API.xslam_set_gesture_platform(2);
+
+                        }
+
 
                         skeletonId = API.xslam_start_skeleton_ex_with_cb(XvXRInput.OnSkeletonCallback);
-                      
+
                         isStartGesture = true;
                     }
                 }
@@ -146,6 +148,32 @@ namespace XvXR.Engine
                 }
             }
         }
+        private void OnApplicationPause()
+        {
+            quit();
+        }
+        private void getConfig()
+        {
+            int ipdVal = API.xslam_get_glass_ipd2();
+            if (ipdVal != 65000)
+            {
+                XvXRAndroidDevice.updateCalibra((float)(ipdVal / 10000.0));
+                XvXRManager.SDK.GetDevice().setFedDis((float)(ipdVal / 10000.0));
+                XvXREye.EDI = 0;
+            }
+
+            API.xslam_set_device_status_callback(OnDeviceStatusCallback);
+        }
+
+
+
+        [MonoPInvokeCallback(typeof(API.device_status_callback_ex))]
+        public static void OnDeviceStatusCallback(API.deviceStatus_package devicesStatus)
+        {
+            Debug.LogError("devicesStatus.status === " + devicesStatus.status[0]);
+
+        }
+
 
         public void OnDestory()
         {
@@ -160,10 +188,10 @@ namespace XvXR.Engine
         }
 
 
-       
+
         public void init()
         {
-           
+
             needStartGesture = false;
 #if UNITY_ANDROID && !UNITY_EDITOR
             API.xslam_stop_stereo_stream();
@@ -172,21 +200,7 @@ namespace XvXR.Engine
 #endif
         }
 
-        //public void SetFilterLevel(int level) {
 
-        //    MyDebugTool.Log("SetFilterLevel"+ level);
-        //    ChangeGetureStatus(false);
-        //    this.level = level;
-        //    ChangeGetureStatus(true);
-        //    //Invoke("delayOpen",3);
-            
-        //}
-
-        //private void delayOpen() {
-        //    ChangeGetureStatus(true);
-        //}
-
-        //private int level;
         public bool ChangeGetureStatus(bool isOn)
         {
             if (API.xslam_ready())
@@ -201,11 +215,11 @@ namespace XvXR.Engine
                     }
                     else
                     {
-                      
+
                         needStartGesture = false;
                         if (skeletonId >= 0)
                         {
-                           bool close=  API.xslam_stop_slam_skeleton_with_cb(skeletonType, skeletonId);
+                            bool close = API.xslam_stop_slam_skeleton_with_cb(skeletonType, skeletonId);
                             MyDebugTool.Log("Stop gesture recognition:" + close);
                             skeletonId = -1;
                         }
@@ -263,28 +277,39 @@ namespace XvXR.Engine
         }
 
 
-    
-        public bool needStartGesture = false;
-        public bool logEnable = false;
-        private bool isStartGesture = false;
-        private int skeletonId = -1;
-        private const int skeletonType = 1;
-        private bool isFocus = false;
-        private void Awake()
+        public void onAppInstallState(string str)
         {
-            XvXRLog.LogEnable = logEnable;
-            MyDebugTool.logEnable = logEnable;
+            
+            }
+
+        public void onDisplayState(string str)
+        {
+
+        }
+        
+       [HideInInspector]
+        public UnityEvent<string> OnWifiConnectState;
+        [HideInInspector]
+
+        public UnityEvent<string> OnWifiApStateChange;
+
+
+        public void onWifiApStateChange(string str)
+        {
+
+            MyDebugTool.Log("onWifiApStateChange");
+            OnWifiApStateChange?.Invoke(str);
         }
 
-        void OnEnable()
+        public void onWifiConnectState(string str)
         {
-            isFocus = false;
+            MyDebugTool.Log("onWifiConnectState");
+
+            OnWifiConnectState?.Invoke(str);
         }
 
-        private void OnApplicationPause()
-        {
-            quit();
-        }
+
+       
 
         public void quit()
         {
@@ -329,6 +354,8 @@ namespace XvXR.Engine
             MyDebugTool.Log("Fisheye FE startThread...........");
             API.xslam_start_fisheyes_rectification_thread();
         }
+
+
 
     }
 }

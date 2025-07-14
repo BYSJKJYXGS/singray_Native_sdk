@@ -41,7 +41,7 @@ namespace XvXR.Foundation
         }
 
         public bool autoStreaming;
-        private bool audioStreaming=true;
+        private bool audioStreaming=false;
         private bool isStreeaming;
         public bool IsStreeaming { 
         get { return isStreeaming; } 
@@ -87,7 +87,7 @@ namespace XvXR.Foundation
 
         IEnumerator Start()
         {
-
+           
             if (Application.platform == RuntimePlatform.Android)
             {
                 MyDebugTool.LogError("nativeInit start.....");
@@ -102,7 +102,7 @@ namespace XvXR.Foundation
         {
             if (autoStreaming) {
                 CancelInvoke();
-                Invoke("StartRtspStreaming", 3);
+                Invoke("StartRtspStreaming", 5);
             }
         }
 
@@ -126,18 +126,28 @@ namespace XvXR.Foundation
         }
         private void CreateTextureAndPassToPlugin()
         {
+            MyDebugTool.Log("GetRenderEventFunc start.... renderInit");
             wifiCameraRenderTexture = XvMRVideoCaptureManager.CameraRenderTexture;
+            MyDebugTool.Log(wifiCameraRenderTexture.width + "     height:" + wifiCameraRenderTexture.height);
             SetCameraTextureFromUnity(wifiCameraRenderTexture.GetNativeTexturePtr(), wifiCameraRenderTexture.width, wifiCameraRenderTexture.height);
+     
+
             GL.IssuePluginEvent(GetRenderEventFunc(), renderInit);
+            MyDebugTool.Log("GetRenderEventFunc end.... renderInit");
+
         }
 
         private IEnumerator CallPluginAtEndOfFrames()
         {
             while (true)
             {
+
                 // Wait until all frame rendering is done
                 yield return new WaitForEndOfFrame();
+                MyDebugTool.Log("GetRenderEventFunc start.... renderDraw");
+
                 GL.IssuePluginEvent(GetRenderEventFunc(), renderDraw);
+                MyDebugTool.Log("GetRenderEventFunc end....renderDraw");
                 // yield return new WaitForEndOfFrame ();
 
             }
@@ -160,20 +170,28 @@ namespace XvXR.Foundation
 
             if (Application.platform == RuntimePlatform.Android)
             {
+
+                StartAudioCapture();
+
                 MyDebugTool.LogError("OnPcDisplayClick");
                 AndroidHelper.CallObjectMethod(InterfaceObject, "setUseDLNA", new object[] { false });
                 MyDebugTool.LogError("setUseDLNA");
 
                 AndroidHelper.CallObjectMethod(InterfaceObject, "tvDisplayClicked", new object[] { });
                 MyDebugTool.LogError("tvDisplayClicked");
-                Invoke("StartAudioCapture", 3);
+               // Invoke("StartAudioCapture", 3);
             }
         }
 
+        private bool initAudio;
+        /// <summary>
+        ///初始化音频 只能调用一次
+        /// </summary>
         private void StartAudioCapture()
         {
-            if (audioStreaming)
+            if (audioStreaming&&!initAudio)
             {
+                initAudio = true;
                 MyDebugTool.LogError("startAudioCapture");
 
                 if (activityObject == null)
@@ -198,8 +216,11 @@ namespace XvXR.Foundation
         /// </summary>
         public void StopRtspStreaming()
         {
+
+            
             if (isStreeaming)
             {
+
                 isStreeaming = false;
                 if (Application.platform == RuntimePlatform.Android)
                 {

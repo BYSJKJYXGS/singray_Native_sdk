@@ -15,7 +15,7 @@ namespace XvXR.SystemEvents
 		private AndroidJavaObject InterfaceObject{
 			get{
 				if(interfaceObject==null){
-					AndroidJavaClass activityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+					AndroidJavaClass activityClass = new AndroidJavaClass("top.xv.xrlib.unity.XvMainActivity");
 					AndroidJavaObject activityObject= activityClass.GetStatic<AndroidJavaObject>("currentActivity");
 					if(activityObject!=null){
 						interfaceObject=AndroidHelper.Create("top.xv.xrlib.unity.XvXRUnityInterface", new object[]{activityObject});
@@ -127,7 +127,6 @@ namespace XvXR.SystemEvents
 		/// <param name="isVrMode"></param>
 		public void onSdkSwitchVrMode(string isVrMode)
 		{
-			
 			if ("true".Equals(isVrMode))
 			{
 				XvXRManager.SDK.EnterVrMode();
@@ -136,7 +135,6 @@ namespace XvXR.SystemEvents
 			{
 				XvXRManager.SDK.LeaveVrMode();
 			}
-
 		}
 
 		public void onSdkReCenter(string nullstr)
@@ -152,7 +150,42 @@ namespace XvXR.SystemEvents
 			XvXRManager.SDK.onSdkConfigParamterChange();
 		}
 
+		/// <summary>
+		/// 获取wifi连接状态的改变
+		/// </summary>
+		/// <param name="state"></param>
+		public void onWifiConnectState(string state)
+		{
+			XvDeviceManager.Manager.onWifiConnectState(state);
+		}
+		
+		/// <summary>
+		/// 获取IP 相关信息
+		/// </summary>
+		/// <param name="ipInfo"></param>
+		public void onIpInfo(string ipInfo)
+		{
+			//SetStaticIpControl.getIpInfo(ipInfo);
+		}
 
+		/// <summary>
+		/// app 安装 删除 的状态回调
+		/// </summary>
+		/// <param name="state"></param>		
+		public void onPkgChangeState(string state)
+		{
+			XvDeviceManager.Manager.onAppInstallState(state);
+		}
+
+		public void onWifiDisplayState(string state)
+        {
+			XvDeviceManager.Manager.onDisplayState(state);
+		}
+
+		public void onWifiApStateChange(string state)
+		{
+			XvDeviceManager.Manager.onWifiApStateChange(state);
+		}
 
 	}
 }

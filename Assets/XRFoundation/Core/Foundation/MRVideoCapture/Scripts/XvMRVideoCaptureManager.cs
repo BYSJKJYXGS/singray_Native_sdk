@@ -44,7 +44,9 @@ namespace XvXR.Foundation
         private RawImage rgbBackground;
 
         [SerializeField]
-        private CaptureType captureType=CaptureType.MR;
+        private CaptureType captureType = CaptureType.MR;
+
+        private int cullingMask;
 
         public CaptureType CaptureType
         {
@@ -58,17 +60,17 @@ namespace XvXR.Foundation
                 {
                     case CaptureType.OnlyCamera:
                         rgbBackground.enabled = true;
-                        BgCamera.cullingMask =1<<31;
+                        BgCamera.cullingMask = (1 << rgbBackground.gameObject.layer);
                         break;
                     case CaptureType.OnlyUnityScene:
-                        rgbBackground.enabled=false;
-                        BgCamera.cullingMask = -1;
+                        rgbBackground.enabled = false;
+                        BgCamera.cullingMask = cullingMask;
 
+                        BgCamera.cullingMask |= (1 << rgbBackground.gameObject.layer);
                         break;
                     case CaptureType.MR:
                         rgbBackground.enabled = true;
-                        BgCamera.cullingMask = -1;
-
+                        BgCamera.cullingMask = cullingMask;
                         break;
                     default:
                         break;
@@ -80,7 +82,7 @@ namespace XvXR.Foundation
 
 
 
-     
+
         private Camera bgCamera;
         public Camera BgCamera
         {
@@ -124,14 +126,20 @@ namespace XvXR.Foundation
         }
 
         // Start is called before the first frame update
-        void Awake()
+       
+
+        private void Awake()
         {
+
+            //
+
+          
+            rgbBackground.gameObject.layer = LayerMask.NameToLayer("XvBGVideo");
+
+            cullingMask = BgCamera.cullingMask;
             BgCamera.targetTexture = CameraRenderTexture;
             CaptureType = captureType;
-        }
 
-        private void Start()
-        {
             if (autoCapture)
             {
                 StartCapture();
@@ -141,20 +149,19 @@ namespace XvXR.Foundation
 
         private void Update()
         {
+            //if (Input.GetKeyDown(KeyCode.LeftArrow))
+            //{
+            //    CaptureType = CaptureType.MR;
+            //}
+            //if (Input.GetKeyDown(KeyCode.RightArrow))
+            //{
+            //    CaptureType = CaptureType.OnlyCamera;
+            //}
 
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                CaptureType = CaptureType.MR;
-            }
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                CaptureType = CaptureType.OnlyCamera;
-            }
-
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                CaptureType = CaptureType.OnlyUnityScene;
-            }
+            //if (Input.GetKeyDown(KeyCode.UpArrow))
+            //{
+            //    CaptureType = CaptureType.OnlyUnityScene;
+            //}
         }
 
         /// <summary>
@@ -166,6 +173,7 @@ namespace XvXR.Foundation
             //
             if (!CameraManager.IsOn(XvCameraStreamType.ARCameraStream))
             {
+                MyDebugTool.Log("StartCapture XvCameraStreamType.ARCameraStream");
                 CameraManager.StartCapture(XvCameraStreamType.ARCameraStream);
             }
 
@@ -177,6 +185,8 @@ namespace XvXR.Foundation
                 rgbBackground.gameObject.SetActive(true);
                 BgCamera.gameObject.SetActive(true);
                 XvCameraManager.onARCameraStreamFrameArrived.AddListener(onFrameArrived);
+                MyDebugTool.Log("onARCameraStreamFrameArrived onFrameArrived");
+
             }
 
         }

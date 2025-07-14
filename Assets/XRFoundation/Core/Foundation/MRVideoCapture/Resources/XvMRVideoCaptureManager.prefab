@@ -71,7 +71,7 @@ Camera:
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 8990399268027355326}
   - component: {fileID: 366704790056520706}
   - component: {fileID: 1323729855567745439}
-  m_Layer: 31
+  m_Layer: 6
   m_Name: RGBBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 2536262489838702887}
   - component: {fileID: 7840624782300900184}
   - component: {fileID: 91303527780187125}
-  m_Layer: 31
+  m_Layer: 6
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -306,5 +306,4 @@ MonoBehaviour:
   cameraManager: {fileID: 0}
   rgbBackground: {fileID: 1323729855567745439}
   captureType: 2
-  bgCamera: {fileID: 8035286377562020903}
   autoCapture: 0

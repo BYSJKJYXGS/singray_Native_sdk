@@ -1,5 +1,7 @@
 
 
+using UnityEngine;
+using XvXR.Engine;
 using static XvXR.Foundation.XvCameraBase;
 
 namespace XvXR.Foundation
@@ -16,12 +18,10 @@ namespace XvXR.Foundation
     /// </summary>
     public class XvTofDepth
     {
-
-
         private XvCameraBase frameBase;
        
         public bool IsOn { get; private set; }
-        public void StartCapture(int requestedWidth, int requestedHeight, int requestedFPS)
+        public void StartCapture(XvTofCameraParameter xvTofCameraParameter)
         {
 #if UNITY_EDITOR
             return;
@@ -35,15 +35,15 @@ namespace XvXR.Foundation
 
             if (frameBase==null) { 
             
-            frameBase = new XvTofCamera(requestedWidth, requestedHeight, requestedFPS, FrameArrived);
+            frameBase = new XvTofCamera(xvTofCameraParameter, FrameArrived);
             }
             IsOn = true;
 
-            if (XvTofManager.GetXvTofManager().modelSet == false)
-            {
-                XvTofManager.GetXvTofManager().SetTofStreamMode(0);
-            }
-            XvTofManager.GetXvTofManager().StartTofStream();
+            //if (XvTofManager.GetXvTofManager().modelSet == false)
+            //{
+            //    XvTofManager.GetXvTofManager().SetTofStreamMode(2);
+            //}
+            XvTofManager.GetXvTofManager().StartTofStream(xvTofCameraParameter);
             frameBase.StartCapture();
         }
 
@@ -87,7 +87,7 @@ namespace XvXR.Foundation
             get;
             private set;
         }
-        public void StartCapture(int requestedWidth, int requestedHeight, int requestedFPS)
+        public void StartCapture(XvTofCameraParameter xvTofIRCameraParameter)
         {
             MyDebugTool.Log("StartIRCapture == 1:");
 #if UNITY_EDITOR
@@ -102,16 +102,16 @@ namespace XvXR.Foundation
 
             if (frameBase==null) { 
             
-            frameBase = new XvTofIRCamera(requestedWidth, requestedHeight, requestedFPS, FrameArrived);
+            frameBase = new XvTofIRCamera(xvTofIRCameraParameter, FrameArrived);
             }
             IsOn = true;
 
-            if (XvTofManager.GetXvTofManager().modelSet == false)
-            {
-                XvTofManager.GetXvTofManager().SetTofStreamMode(0);
-            }
+            //if (XvTofManager.GetXvTofManager().modelSet == false)
+            //{
+            //    XvTofManager.GetXvTofManager().SetTofStreamMode(2);
+            //}
 
-            XvTofManager.GetXvTofManager().StartTofIRStream();
+            XvTofManager.GetXvTofManager().StartTofIRStream(xvTofIRCameraParameter);
             frameBase.StartCapture();
         }
 
@@ -140,8 +140,16 @@ namespace XvXR.Foundation
 
         public void Update()
         {
+            
+          
+
             frameBase?.Update();
         }
+      
+
+
+       
+
     }
 
   
@@ -171,11 +179,11 @@ namespace XvXR.Foundation
         /// 
         /// </summary>
         /// <param name="streamType">0: deapth  1:IR </param>
-        public void StartCapture(int requestedWidth, int requestedHeight, int requestedFPS, TofStreamType streamType)
+        public void StartCapture(XvTofCameraParameter xvTofCameraParameter)
         {
-            MyDebugTool.Log("StartCapture:"+ streamType);
+            MyDebugTool.Log("StartCapture:"+ xvTofCameraParameter.streamType);
 
-            switch (streamType)
+            switch (xvTofCameraParameter.streamType)
             {
                 case TofStreamType.Unknown:
                     break;
@@ -184,16 +192,19 @@ namespace XvXR.Foundation
                     {
                         xvTofDepth = new XvTofDepth();
                     }
-                    xvTofDepth.StartCapture(requestedWidth, requestedHeight, requestedFPS);
+
+                    SetTofStreamMode((int)xvTofCameraParameter.tofStreamMode);
+                    xvTofDepth.StartCapture(xvTofCameraParameter);
                     break;
                 case TofStreamType.IRStream:
                     if (xvTofIR == null)
                     {
                         xvTofIR = new XvTofIR();
                     }
-                    MyDebugTool.Log("tofImageType == 1:" + streamType);
+                    MyDebugTool.Log("tofImageType == 1:" + xvTofCameraParameter.streamType);
+                    SetTofStreamMode((int)xvTofCameraParameter.tofStreamMode);
 
-                    xvTofIR.StartCapture(requestedWidth, requestedHeight, requestedFPS);
+                    xvTofIR.StartCapture(xvTofCameraParameter);
                     break;
                 default:
                     break;
@@ -255,17 +266,22 @@ namespace XvXR.Foundation
         /// <summary>
         /// 开启tof深度相机流
         /// </summary>
-        public void StartTofStream()
+        public void StartTofStream(XvTofCameraParameter xvTofIRCameraParameter)
         {
             API.xslam_start_tof_stream();
+            API.xslam_start_sony_tof_stream((int)xvTofIRCameraParameter.sonyTofLibMode, (int)xvTofIRCameraParameter.tofResolution, (int)xvTofIRCameraParameter.tofFramerate);
+
         }
 
         /// <summary>
         /// 开启tof IR相机流
         /// </summary>
-        public void StartTofIRStream()
+        public void StartTofIRStream(XvTofCameraParameter xvTofIRCameraParameter)
         {
-            API.xslam_start_tofir_stream();
+            API.xslam_start_tofir_stream((int)xvTofIRCameraParameter.sonyTofLibMode, (int)xvTofIRCameraParameter.tofResolution, (int)xvTofIRCameraParameter.tofFramerate);
+
+            API.xslam_tof_enbale_ir_gramma(xvTofIRCameraParameter.enableGamma);
+   
         }
 
         /// <summary>
@@ -273,8 +289,12 @@ namespace XvXR.Foundation
         /// </summary>
         /// <param name="mode"></param>
       public void SetTofStreamMode(int mode) {
-            API.xslam_stop_tof_stream();
-            API.xslam_tof_set_steam_mode(mode);
+
+            if (!modelSet)
+            {
+                API.xslam_stop_tof_stream();
+                API.xslam_tof_set_steam_mode(mode);
+            }
             modelSet = true;
         }
         /// <summary>
@@ -284,11 +304,8 @@ namespace XvXR.Foundation
         public void StopTofStream()
         {
             API.xslam_stop_tof_stream();
+            modelSet = false;
         }
-
-
-
-
 
         public void Update()
         {

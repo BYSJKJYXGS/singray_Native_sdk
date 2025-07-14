@@ -1,14 +1,25 @@
 
+using System;
 using UnityEngine;
 namespace XvXR.Foundation
 {
+    [Serializable]
+    public class XvWebCameraParameter : XvCameraParameterSetting
+    {
+        public int width;
+        public int height;
+        public int fps;
+    }
+
     public class XvWebCamera : XvCameraBase
     {
         private WebCamTexture webCamTexture;
         private Material material;
         private RenderTexture renderTexture;
-        public XvWebCamera(int width, int height, int fps, FrameArrived frameArrived) : base(width, height, fps, frameArrived)
+        public XvWebCamera(XvWebCameraParameter cameraParameter, FrameArrived frameArrived) : base(cameraParameter, frameArrived)
         {
+
+            this.cameraParameter = cameraParameter;
 
             Shader shader = Shader.Find("MyShader/RgbImage");
 
@@ -22,6 +33,9 @@ namespace XvXR.Foundation
                 Debug.LogError("没有找到材质球MyShader/RgbImage");
             }
         }
+
+        private XvWebCameraParameter cameraParameter;
+
         public override void StartCapture()
         {
             WebCamDevice[] webCamDevices = WebCamTexture.devices;
@@ -37,12 +51,12 @@ namespace XvXR.Foundation
             {
                 MyDebugTool.Log("Detected number of cameras：" + webCamDevices.Length);
             }
-            webCamTexture = new WebCamTexture(webCamDevices[0].name, width, height);
+            webCamTexture = new WebCamTexture(webCamDevices[0].name, cameraParameter.width, cameraParameter.height);
             webCamTexture.Play();
             cameraData.tex = webCamTexture;
-            cameraData.texWidth = width;
-            cameraData.texHeight = height;
-            renderTexture = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32);
+            cameraData.texWidth = cameraParameter.width;
+            cameraData.texHeight = cameraParameter.height;
+            renderTexture = new RenderTexture(cameraParameter.width, cameraParameter.height, 0, RenderTextureFormat.ARGB32);
 
             MyDebugTool.Log("Turn on the camera" + webCamTexture.isPlaying);
             isOpen = true;
@@ -54,8 +68,8 @@ namespace XvXR.Foundation
             if (webCamTexture != null)
             {
                 cameraData.tex = webCamTexture;
-                cameraData.texHeight = width;
-                cameraData.texHeight = height;
+                cameraData.texHeight = cameraParameter.width;
+                cameraData.texHeight = cameraParameter.height;
 
                 Graphics.Blit(webCamTexture, renderTexture, material);
 

@@ -34,8 +34,8 @@ namespace XvXR.Foundation
         private bool isOn;
         public bool IsOn { get { return isOn; } }
 
-        private bool isLeft;
-        public void StartCapture(int requestedWidth, int requestedHeight, int requestedFPS, bool isLeft)
+        private StereoCameraIndex stereoCameraIndex;
+        public void StartCapture(XvStereoCameraParameter xvStereoCameraParameter)
         {
 #if UNITY_EDITOR
             return;
@@ -44,10 +44,10 @@ namespace XvXR.Foundation
             {
                 return;
             }
-            this.isLeft = isLeft;
+            this.stereoCameraIndex = xvStereoCameraParameter.cameraIndex;
 
             StopCapture();
-            frameBase = new XvStereoCamera(requestedWidth, requestedHeight, requestedFPS, FrameArrived, isLeft);
+            frameBase = new XvStereoCamera(xvStereoCameraParameter ,FrameArrived);
             isOn = true;
             frameBase.StartCapture();
 
@@ -73,18 +73,20 @@ namespace XvXR.Foundation
 
         private void FrameArrived(cameraData cameraData)
         {
-            if (isLeft)
+            switch (stereoCameraIndex)
             {
+                case StereoCameraIndex.LeftEye:
+                    XvCameraManager.onLeftStereoStreamFrameArrived?.Invoke(cameraData);
 
-                XvCameraManager.onLeftStereoStreamFrameArrived?.Invoke(cameraData);
+                    break;
+                case StereoCameraIndex.RightEye:
+                    XvCameraManager.onRightStereoStreamFrameArrived?.Invoke(cameraData);
+
+                    break;
+                default:
+                    break;
             }
-            else
-            {
-                XvCameraManager.onRightStereoStreamFrameArrived?.Invoke(cameraData);
-
-            }
-
-
+           
         }
 
         public void Update()

@@ -11,7 +11,7 @@ namespace XvXR.SystemEvents
 
         private static AndroidJavaClass androidClass;
 
-      
+
         internal static void NativeJniEnvInit(int bufferMode)
         {
             if (activityObject == null)
@@ -24,35 +24,12 @@ namespace XvXR.SystemEvents
 
         internal static void SetVrMode(bool isVrMode)
         {
-            if(activityObject == null)
+            if (activityObject == null)
             {
                 InitActivityObject();
             }
-           
+
             AndroidHelper.CallObjectMethod(activityObject, "setVrMode", new object[] { isVrMode });
-        }
-
-		internal static void addImageToOverlay(byte[] imageData)
-        {
-            if (activityObject == null)
-            {
-                InitActivityObject();
-            }
-            sbyte[] mSByte = new sbyte[imageData.Length];
-            for (int i = 0; i < imageData.Length; i++)
-            {
-                mSByte[i] = (sbyte)imageData[i];
-            }
-            AndroidHelper.CallObjectMethod(activityObject, "addImageToOverlay", new object[] { mSByte });
-        }
-
-        internal static void updateTextToOverlay(String overStr)
-        {
-            if (activityObject == null)
-            {
-                InitActivityObject();
-            }
-            AndroidHelper.CallObjectMethod(activityObject, "updateTextToOverlay", new object[] { overStr });
         }
 
         internal static bool GetVrMode()
@@ -64,7 +41,7 @@ namespace XvXR.SystemEvents
             bool result = false;
             AndroidHelper.CallObjectMethod<bool>(ref result, activityObject, "getVrMode", new object[] { });
             return result;
-            
+
         }
 
         //蓝牙是否打开了
@@ -103,6 +80,20 @@ namespace XvXR.SystemEvents
             return result;
         }
 
+   
+        //设置wifi连接走service
+        internal static void startBackService()
+        {
+            if (activityObject == null)
+            {
+                InitActivityObject();
+            }
+            AndroidHelper.CallObjectMethod(activityObject, "startBackService", new object[] { });
+
+
+        }
+
+
         //wifi是否打开
         internal static bool getWifiState()
         {
@@ -129,7 +120,7 @@ namespace XvXR.SystemEvents
         }
 
         //获取 wifi List
-        internal static string getWifiList ()
+        internal static string getWifiList()
         {
             if (activityObject == null)
             {
@@ -142,14 +133,16 @@ namespace XvXR.SystemEvents
         }
 
         // 连接wifi
-        internal static void connectWifi(String SSID, String pwd)
+        internal static void connectWifi(String SSID, String pwd, bool isHasPwd)
         {
             if (activityObject == null)
             {
                 InitActivityObject();
             }
-            AndroidHelper.CallObjectMethod(activityObject, "connectWifi", new object[] { SSID, pwd });
+            AndroidHelper.CallObjectMethod(activityObject, "connectWifi", new object[] { SSID, pwd, isHasPwd });
         }
+
+
 
         internal static void openWifi()
         {
@@ -168,6 +161,17 @@ namespace XvXR.SystemEvents
             }
             AndroidHelper.CallObjectMethod(activityObject, "closeWifi", new object[] { });
         }
+        internal static string getCurrWifiSsid()
+        {
+            if (activityObject == null)
+            {
+                InitActivityObject();
+            }
+            string result = "";
+            AndroidHelper.CallObjectMethod<string>(ref result, activityObject, "getCurrWifiSsid", new object[] { });
+            result = result.Substring(1, result.Length - 2);
+            return result;
+        }
 
         internal static string getWifiIpAddress()
         {
@@ -176,9 +180,26 @@ namespace XvXR.SystemEvents
                 InitActivityObject();
             }
             string result = "";
-            AndroidHelper.CallObjectMethod<string>(ref result,activityObject, "getWifiIpAddress", new object[] {  });
+            AndroidHelper.CallObjectMethod<string>(ref result, activityObject, "getWifiIpAddress", new object[] { });
             return result;
         }
+
+        /// <summary>
+        /// 当本地设备开启热点功能的时候，通过该接口获取到连接当前热点的设备IP
+        /// </summary>
+        /// <returns>格式如："{name=192.168.1.45, address=16:5F:3A:8C:9D:F1}{name=192.168.1.187, address=38:2A:7E:54:BF:D2}"</returns>
+        public static string getConnectedApInfo()
+        {
+            if (activityObject == null)
+            {
+                InitActivityObject();
+            }
+            string result = "";
+            AndroidHelper.CallObjectMethod<string>(ref result, activityObject, "getConnectedApInfo", new object[] { });
+            return result;
+        }
+
+
 
         internal static bool setStaticIp(string ip, string mask, string gatway, string dns)
         {
@@ -188,6 +209,47 @@ namespace XvXR.SystemEvents
             }
             bool result = false;
             AndroidHelper.CallObjectMethod<bool>(ref result, activityObject, "setStaticIp", new object[] { ip, mask, gatway, dns });
+            return result;
+        }
+
+        internal static void getIpInfo()
+        {
+            if (activityObject == null)
+            {
+                InitActivityObject();
+            }
+            //bool result = false;
+            AndroidHelper.CallObjectMethod(activityObject, "getIpInfo", new object[] { });
+            //return result;
+        }
+
+
+        internal static void startCustomPackage(String packageName)
+        {
+            if (activityObject == null)
+            {
+                InitActivityObject();
+            }
+            AndroidHelper.CallObjectMethod(activityObject, "startCustomerPackage", new object[] { packageName });
+        }
+
+        internal static void setBootStartPackage(String packageName)
+        {
+            if (activityObject == null)
+            {
+                InitActivityObject();
+            }
+            AndroidHelper.CallObjectMethod(activityObject, "setBootStartPackage", new object[] { packageName });
+        }
+
+        internal static String getBootStartPackage()
+        {
+            if (activityObject == null)
+            {
+                InitActivityObject();
+            }
+            string result = "";
+            AndroidHelper.CallObjectMethod<string>(ref result, activityObject, "getBootStartPackage", new object[] { });
             return result;
         }
 
@@ -280,7 +342,7 @@ namespace XvXR.SystemEvents
         }
 
         /** 获得手机系统总内存 */
-        internal static String getTotalMemory() 
+        internal static String getTotalMemory()
         {
             if (activityObject == null)
             {
@@ -303,7 +365,7 @@ namespace XvXR.SystemEvents
             return result;
         }
 
-        /*获取cpu 信息 频率 | 核数*/
+        /*获取cpu 信息 占用率|温度|内存占用*/
         internal static String getCpuInfo()
         {
             if (activityObject == null)
@@ -447,7 +509,7 @@ namespace XvXR.SystemEvents
             }
             AndroidHelper.CallObjectMethod(activityObject, "setHourFormat", new object[] { hour });
         }
-        
+
         //判断是否插入眼镜后自启动app
         internal static bool isAutoEntryLauncher()
         {
@@ -518,7 +580,7 @@ namespace XvXR.SystemEvents
             string[] names = new string[count];
             string[] pknames = new string[count];
             List<Sprite> sprites = new List<Sprite>();
- 
+
             for (int i = 0; i < count; i++)
             {
                 AndroidJavaObject currentObject = packages.Call<AndroidJavaObject>("get", i);
@@ -532,7 +594,7 @@ namespace XvXR.SystemEvents
                         pknames[i] = currentObject.Get<string>("packageName");
                         byte[] decodedBytes = null;
                         AndroidHelper.CallObjectMethod<byte[]>(ref decodedBytes, activityObject, "getIcon", new object[] { pm, currentObject });
-                   
+
                         Texture2D text = new Texture2D(1, 1, TextureFormat.ARGB32, false);
                         text.LoadImage(decodedBytes);
                         Sprite sprite = Sprite.Create(text, new Rect(0, 0, text.width, text.height), new Vector2(.5f, .5f));
@@ -541,8 +603,8 @@ namespace XvXR.SystemEvents
                 }
                 catch (Exception e)
                 {
-                   // Debug.LogError(e, this);
-  
+                    // Debug.LogError(e, this);
+
                 }
 
             }
@@ -556,16 +618,6 @@ namespace XvXR.SystemEvents
             }
 
             AndroidHelper.CallObjectMethod(activityObject, "vrShowRecenter", new object[] { });
-        }
-
- 		internal static void resetDevice()
-        {
-            if (activityObject == null)
-            {
-                InitActivityObject();
-            }
-
-            AndroidHelper.CallObjectMethod(activityObject, "resetDevice", new object[] { });
         }
 
         /// <summary>
@@ -600,7 +652,7 @@ namespace XvXR.SystemEvents
                 InitActivityObject();
             }
             string result = "";
-            AndroidHelper.CallObjectMethod<string>(ref result, activityObject, "getLoginUser", new object[] {});
+            AndroidHelper.CallObjectMethod<string>(ref result, activityObject, "getLoginUser", new object[] { });
             return result;
         }
 
@@ -624,6 +676,205 @@ namespace XvXR.SystemEvents
             AndroidHelper.CallObjectMethod(activityObject, "shutdownDevice", new object[] { });
         }
 
+        /// <summary>
+        /// wifi 投屏 开关
+        /// </summary>
+        /// <param name="isOpen"></param>
+        internal static void startWifiDisplay(bool isOpen)
+        {
+            if (activityObject == null)
+            {
+                InitActivityObject();
+            }
+            Debug.LogError("wayland = startWifiDisplay == " + isOpen);
+            AndroidHelper.CallObjectMethod(activityObject, "startWifiDisplay", new object[] { isOpen });
+        }
+
+        internal static void openWifiDisplay(bool isOpen)
+        {
+            if (activityObject == null)
+            {
+                InitActivityObject();
+            }
+            Debug.LogError("wayland = openWifiDisplay == " + isOpen);
+            AndroidHelper.CallObjectMethod(activityObject, "openWifiDisplay", new object[] { isOpen });
+        }
+
+
+
+        /// <summary>
+        /// 连接电视
+        /// </summary>
+        /// <param name="displayName"></param>
+        internal static void connectWifiDisplay(String displayName)
+        {
+            if (activityObject == null)
+            {
+                InitActivityObject();
+            }
+            AndroidHelper.CallObjectMethod(activityObject, "connectWifiDisplay", new object[] { displayName });
+        }
+
+        /// <summary>
+        /// 连接电视 状态
+        /// 0 1 不可用
+        /// 2   已关闭
+        /// 3   已打开
+        /// 
+        /// </summary>
+        /// <param name="displayName"></param>
+        internal static int getWifiDisplayStatus()
+        {
+            if (activityObject == null)
+            {
+                InitActivityObject();
+            }
+            int result = 0;
+            AndroidHelper.CallObjectMethod<int>(ref result, activityObject, "getWifiDisplayStatus", new object[] { });
+            return result;
+        }
+
+
+        /// <summary>
+        /// 打开热点
+        /// </summary>
+        internal static void startTether()
+        {
+            if (activityObject == null)
+            {
+                InitActivityObject();
+            }
+            AndroidHelper.CallObjectMethod(activityObject, "startTether", new object[] { });
+        }
+
+        /// <summary>
+        //已关闭 11
+        //关闭中 10
+        //已打开 13
+        //打开中 12
+        //打开失败 14
+        /// </summary>
+        /// <returns></returns>
+        internal static string getWifiApStatus()
+        {
+            if (activityObject == null)
+            {
+                InitActivityObject();
+            }
+
+            string result = "";
+            AndroidHelper.CallObjectMethod<string>(ref result, activityObject, "getWifiApStatus", new object[] { });
+
+            return result;
+        }
+
+        /// <summary>
+        /// 关闭热点
+        /// </summary>
+        internal static void stopTether()
+        {
+            if (activityObject == null)
+            {
+                InitActivityObject();
+            }
+            AndroidHelper.CallObjectMethod(activityObject, "stopTether", new object[] { });
+        }
+
+        /// <summary>
+        /// 设置热点
+        /// </summary>
+        /// <param name="type">默认 1</param>
+        /// <param name="ssid"></param>
+        /// <param name="passwd"></param>
+        internal static void onTetherConfigUpdated(int type, String ssid, String passwd)
+        {
+            if (activityObject == null)
+            {
+                InitActivityObject();
+            }
+            AndroidHelper.CallObjectMethod(activityObject, "onTetherConfigUpdated", new object[] { type, ssid, passwd });
+        }
+
+
+        /// <summary>
+        /// /// <summary>
+        /// 设置GPU CPU频率为系统自动调节模式，必须使用系统签名
+        /// </summary>
+        /// 
+        /// </summary>
+        internal static void setNormalPerformance()
+        {
+            if (activityObject == null)
+            {
+                InitActivityObject();
+            }
+            AndroidHelper.CallObjectMethod(activityObject, "setNormalPerformance");
+        }
+
+        /// <summary>
+        /// 设置GPU CPU频率，必须使用系统签名
+        /// </summary>
+        /// <param name="level">3 2 1  3最大 1最小</param>
+        internal static void setHighPerformance(int level)
+        {
+            if (activityObject == null)
+            {
+                InitActivityObject();
+            }
+            AndroidHelper.CallObjectMethod(activityObject, "setHighPerformance", new object[] { level });
+        }
+
+
+       
+
+        /// <summary>
+        /// 设置应用是否可以通过Back和Home返回主界面
+        /// </summary>
+        /// <param name="enable">true 返回： false 不返回</param>
+        internal static void setHomeKeyEnable(bool enable)
+        {
+
+#if UNITY_EDITOR
+            return;
+#endif
+            if (activityObject == null)
+            {
+                InitActivityObject();
+            }
+            AndroidHelper.CallObjectMethod(activityObject, "setHomeKeyEnable", new object[] { enable });
+        }
+
+
+        /// <summary>
+        /// 获取当前设备名称，判断G2还是3588平台
+        /// </summary>
+        /// <returns>包含Kalama:G2    包含SeerPad:3588</returns>
+        internal static string getBoxName()
+        {
+            if (activityObject == null)
+            {
+                InitActivityObject();
+            }
+            string result = "";
+            AndroidHelper.CallObjectMethod<string>(ref result, activityObject, "getBoxName", new object[] { });
+
+            return result;
+        }
+
+
+        internal static int getGpuLoad()
+        {
+            if (activityObject == null)
+            {
+                InitActivityObject();
+            }
+
+            int result = 0;
+            AndroidHelper.CallObjectMethod<int>(ref result, activityObject, "getGpuLoad", new object[] { });
+
+            return result;
+        }
+
 
 
         internal static void UnityFinish()
@@ -638,7 +889,7 @@ namespace XvXR.SystemEvents
 
         private static void InitActivityObject()
         {
-            AndroidJavaClass activityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+            AndroidJavaClass activityClass = new AndroidJavaClass("top.xv.xrlib.unity.XvMainActivity");
             activityObject = activityClass.GetStatic<AndroidJavaObject>("currentActivity");
         }
 

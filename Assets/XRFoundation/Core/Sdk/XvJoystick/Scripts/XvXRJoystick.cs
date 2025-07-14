@@ -249,10 +249,6 @@ namespace XvXR.MixedReality.Toolkit.XvXR.Input
             GetInstance().mSyncData.keyB = data.keyB == 1;
             GetInstance().mSyncData.keySlide = data.keySide > 50;
             GetInstance().mSyncData.keyTrigger = data.keyTrigger > 50;
-
-
-
-
             GetInstance().SetReady(true);
         }
 
@@ -312,6 +308,7 @@ namespace XvXR.MixedReality.Toolkit.XvXR.Input
             API.xv_wireless_scan(OnWirelessScanCallback);//获取蓝牙列表
             API.xv_wireless_register(OnWirelessPoseCallback);//手柄状态 pose
             API.xv_wireless_register_state(OnWirelessStateCallback);//蓝牙连接状态
+           
             Utility.Log(TAG, "StartXvBle");
             mXvBleInit = true;
         }
@@ -326,10 +323,7 @@ namespace XvXR.MixedReality.Toolkit.XvXR.Input
             {
                 StartXvBle();
             }
-
-            mJoystickData.Copy(mSyncData);
-
-        
+            mJoystickData.Copy(mSyncData);      
 #endif
         }
     }

@@ -105,6 +105,7 @@ namespace XvXR.UI.Keyboard
 
         public void Show()
         {
+            transform.parent.parent.gameObject.SetActive(true);
             gameObject.SetActive(true);
 
             if (!isInitialized)
@@ -117,6 +118,8 @@ namespace XvXR.UI.Keyboard
 
         public void Hide()
         {
+            transform.parent.parent.gameObject.SetActive(false);
+
             InputContentPanel.OKEvent();
             gameObject.SetActive(false);
           

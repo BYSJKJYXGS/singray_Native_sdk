@@ -11,6 +11,9 @@ namespace XvXR.Foundation
         private XvPlaneMeshVisualizer() { }
 
         private List<GameObject> planeList = new List<GameObject>();
+        private List<GameObject> PlaneList { 
+        get { return planeList; }
+        }
 
         [SerializeField]
         private XvPlaneManager xvPlaneManager;

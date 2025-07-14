@@ -12,7 +12,7 @@ namespace XvXR.utils
         {
             if (LogEnable)
             {
-                Debug.LogError("vr_log:unity:LogError:" + message);
+                MyDebugTool.LogError("vr_log:unity:LogError:" + message);
             }
         }
 
@@ -49,7 +49,7 @@ namespace XvXR.utils
         {
             if (LogEnable)
             {
-                Debug.LogException(e);
+                MyDebugTool.LogError(e);
             }
         }
     }

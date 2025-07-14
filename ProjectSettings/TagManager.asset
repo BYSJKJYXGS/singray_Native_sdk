@@ -13,6 +13,7 @@ TagManager:
   - UI
   - 
   - 
+  - XvBGVideo
   - 
   - 
   - 
@@ -36,7 +37,6 @@ TagManager:
   - 
   - 
   - 
-  - CameraBG
   m_SortingLayers:
   - name: Default
     uniqueID: 0

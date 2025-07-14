@@ -206,6 +206,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 76224682, guid: 902a04de5938e4e2088ce0417294356c, type: 3}
+      propertyPath: logEnable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 76224682, guid: 902a04de5938e4e2088ce0417294356c, type: 3}
+      propertyPath: needStartGesture
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -221,7 +229,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4890012464652379300, guid: 60cdb9bc117b5f04798cadf13320b2bd, type: 3}
       propertyPath: m_Name
-      value: MixedRealityToolkit
+      value: MixedRealityToolkit (Inactive)
       objectReference: {fileID: 0}
     - target: {fileID: 4890012464652379302, guid: 60cdb9bc117b5f04798cadf13320b2bd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -570,6 +578,26 @@ PrefabInstance:
     - target: {fileID: 6679780464784560421, guid: 73d86853bf4c34c4c9bc830d18d517e3, type: 3}
       propertyPath: m_Name
       value: SpatialMapDemo
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092353347386367520, guid: 73d86853bf4c34c4c9bc830d18d517e3, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092353347386367520, guid: 73d86853bf4c34c4c9bc830d18d517e3, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7161600639995399552, guid: 73d86853bf4c34c4c9bc830d18d517e3, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7161600639995399552, guid: 73d86853bf4c34c4c9bc830d18d517e3, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7161600639995399552, guid: 73d86853bf4c34c4c9bc830d18d517e3, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

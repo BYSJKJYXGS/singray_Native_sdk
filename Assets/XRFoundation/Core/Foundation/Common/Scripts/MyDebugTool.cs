@@ -4,7 +4,7 @@ using XvXR.utils;
 
 public sealed class MyDebugTool
 {
-    private static string TAG = "wuxh:";
+    private static string TAG = "singray:";
     
     public static bool logEnable = true;
 

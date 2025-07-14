@@ -23,7 +23,7 @@ namespace XvXR.Foundation
 
         public RawImage mrVideoImage;
 
-       // public RawImage tofIRCameraImage;
+        public RawImage tofIRCameraImage;
 
 
 
@@ -83,18 +83,18 @@ namespace XvXR.Foundation
             tofCameraImage.texture = null;
         }
 
-        //public void StartTofIRCamera()
-        //{
-        //    XvCameraManager.onTofIRCameraStreamFrameArrived.AddListener(onTofIRCameraFrameArrived);
-        //    cameManager.StartCapture(XvCameraStreamType.TofIRCameraStream);
+        public void StartTofIRCamera()
+        {
+            XvCameraManager.onTofIRCameraStreamFrameArrived.AddListener(onTofIRCameraFrameArrived);
+            cameManager.StartCapture(XvCameraStreamType.TofIRCameraStream);
 
-        //}
-        //public void StopTofIRCamera()
-        //{
-        //    XvCameraManager.onTofIRCameraStreamFrameArrived.RemoveListener(onTofIRCameraFrameArrived);
-        //    cameManager.StopCapture(XvCameraStreamType.TofIRCameraStream);
-        //    tofIRCameraImage.texture = null;
-        //}
+        }
+        public void StopTofIRCamera()
+        {
+            XvCameraManager.onTofIRCameraStreamFrameArrived.RemoveListener(onTofIRCameraFrameArrived);
+            cameManager.StopCapture(XvCameraStreamType.TofIRCameraStream);
+            tofIRCameraImage.texture = null;
+        }
 
 
 
@@ -201,13 +201,13 @@ namespace XvXR.Foundation
             }
         }
 
-        //private void onTofIRCameraFrameArrived(cameraData cameraData)
-        //{
+        private void onTofIRCameraFrameArrived(cameraData cameraData)
+        {
 
-        //    if (tofIRCameraImage != null)
-        //    {
-        //        tofIRCameraImage.texture = cameraData.tex;
-        //    }
-        //}
+            if (tofIRCameraImage != null)
+            {
+                tofIRCameraImage.texture = cameraData.tex;
+            }
+        }
     }
 }

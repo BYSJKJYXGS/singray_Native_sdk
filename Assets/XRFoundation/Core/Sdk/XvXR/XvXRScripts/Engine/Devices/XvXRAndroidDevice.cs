@@ -201,7 +201,7 @@ namespace XvXR.Engine
                 recommendedTextureSize = new Vector2(0, 0);//new Vector2(Info.parameter.screen_width_pixels, Info.parameter.screen_height_pixels);
             }
 
-            Debug.Log("compute from profile width:" + recommendedTextureSize.x + ",height:" + recommendedTextureSize.y);
+            MyDebugTool.Log("compute from profile width:" + recommendedTextureSize.x + ",height:" + recommendedTextureSize.y);
         }
 
         internal override void SetRenderDataMobile()

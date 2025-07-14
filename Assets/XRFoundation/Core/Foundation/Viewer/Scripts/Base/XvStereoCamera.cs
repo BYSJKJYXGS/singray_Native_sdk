@@ -3,17 +3,31 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 namespace XvXR.Foundation
 {
+    public enum StereoCameraIndex { 
+      LeftEye,
+
+      RightEye,
+    }
+    [Serializable]
+    public class XvStereoCameraParameter : XvCameraParameterSetting
+    {
+      
+        public StereoCameraIndex cameraIndex;//0==left       1=right
+    }
     public class XvStereoCamera : XvCameraBase
     {
-        public XvStereoCamera(int width, int height, int fps, FrameArrived frameArrived,bool isLeft) : base(width, height, fps, frameArrived)
+        public XvStereoCamera(XvStereoCameraParameter cameraParameter, FrameArrived frameArrived) : base(cameraParameter, frameArrived)
         {
-            this.isLeft = isLeft;
+           
+            this.cameraParameter = cameraParameter;
+
         }
         private Color32[] pixel32;
         private GCHandle pixelHandle;
         private IntPtr pixelPtr;
         private Texture2D tex = null;
-        public bool isLeft = true;
+       
+        private XvStereoCameraParameter cameraParameter;
         public override void StartCapture()
         {
             base.StartCapture();
@@ -55,51 +69,53 @@ namespace XvXR.Foundation
 
 
                         }
-
-                        if (isLeft)
+                        double ts = 0;
+                        switch (cameraParameter.cameraIndex)
                         {
-                            double ts = 0;
-                            if (API.xslam_get_left_image(pixelPtr, tex.width, tex.height, ref ts))
-                            {
-                                //Update the Texture2D with array updated in C++
-                                tex.SetPixels32(pixel32);
-                                tex.Apply();
-
-                                cameraData.tex = tex;
-                                cameraData.texWidth = tex.width;
-
-                                cameraData.texHeight = tex.height;
+                            case StereoCameraIndex.LeftEye:
                                 
-                                frameArrived?.Invoke(cameraData);
-                            }
-                            else
-                            {
-                                MyDebugTool.Log("Invalid Stereo texture");
-                            }
+                                if (API.xslam_get_left_image(pixelPtr, tex.width, tex.height, ref ts))
+                                {
+                                    //Update the Texture2D with array updated in C++
+                                    tex.SetPixels32(pixel32);
+                                    tex.Apply();
+
+                                    cameraData.tex = tex;
+                                    cameraData.texWidth = tex.width;
+
+                                    cameraData.texHeight = tex.height;
+
+                                    frameArrived?.Invoke(cameraData);
+                                }
+                                else
+                                {
+                                    MyDebugTool.Log("Invalid Stereo texture");
+                                }
+                                break;
+                            case StereoCameraIndex.RightEye:
+                               
+                                if (API.xslam_get_right_image(pixelPtr, tex.width, tex.height, ref ts))
+                                {
+                                    //Update the Texture2D with array updated in C++
+                                    tex.SetPixels32(pixel32);
+                                    tex.Apply();
+
+                                    cameraData.tex = tex;
+                                    cameraData.texWidth = tex.width;
+
+                                    cameraData.texHeight = tex.height;
+
+                                    frameArrived?.Invoke(cameraData);
+                                }
+                                else
+                                {
+                                    MyDebugTool.Log("Invalid Stereo texture");
+                                }
+                                break;
+                            default:
+                                break;
                         }
-                        else
-                        {
-                            double ts = 0;
-                            if (API.xslam_get_right_image(pixelPtr, tex.width, tex.height, ref ts))
-                            {
-                                //Update the Texture2D with array updated in C++
-                                tex.SetPixels32(pixel32);
-                                tex.Apply();
-
-                                cameraData.tex = tex;
-                                cameraData.texWidth = tex.width;
-
-                                cameraData.texHeight = tex.height;
-                                
-                                frameArrived?.Invoke(cameraData);
-                            }
-                            else
-                            {
-                                MyDebugTool.Log("Invalid Stereo texture");
-                            }
-                        }
-
-
+                     
 
                         /*int leftPointsCount = 0;
                         if( API.xslam_get_left_points( leftPoints, ref leftPointsCount) ){

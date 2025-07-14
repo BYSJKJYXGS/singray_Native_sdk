@@ -3,10 +3,64 @@ using System.Runtime.InteropServices;
 using System;
 namespace XvXR.Foundation
 {
+    public enum TofFramerate
+    {
+        FPS_5,
+        FPS_10,
+        FPS_15,
+        FPS_20,
+        FPS_25,
+        FPS_30
+    }
+    public enum SonyTofLibMode
+    {
+        IQMIX_DF,
+        IQMIX_SF,
+        LABELIZE_DF,
+        LABELIZE_SF,
+        M2MIX_DF,
+        M2MIX_SF
+    }
+    public enum TofResolution
+    {
+        Unknown = -1,
+        VGA,
+        QVGA,
+        HQVGA,
+
+    }
+
+    public enum TofStreamMode
+    { 
+    
+    DepthOnly=0,//0:
+    CloudOnly=1,//1:
+    DepthAndCloud=2,//2:
+    None=3,//3
+    CloudOnLeftHandSlam=4,//4:
+    }
+    [Serializable]
+    public class XvTofCameraParameter : XvCameraParameterSetting
+    {
+
+
+        [HideInInspector]
+        public TofStreamType streamType;
+        public TofFramerate tofFramerate;
+        public SonyTofLibMode sonyTofLibMode;
+        public TofResolution tofResolution;
+        public TofStreamMode tofStreamMode;
+
+
+
+        public bool enableGamma;//IRÍ¼Ïñ¿ÉÓÃ
+    }
     public class XvTofCamera : XvCameraBase
     {
-        public XvTofCamera(int width, int height, int fps, FrameArrived frameArrived) : base(width, height, fps, frameArrived)
+
+        public XvTofCamera(XvTofCameraParameter cameraParameter, FrameArrived frameArrived) : base(cameraParameter, frameArrived)
         {
+            this.cameraParameter = cameraParameter;
 
         }
 
@@ -16,6 +70,7 @@ namespace XvXR.Foundation
         private Color32[] pixel32;
         private GCHandle pixelHandle;
         private IntPtr pixelPtr;
+        private XvTofCameraParameter cameraParameter;
 
         public override void StartCapture()
         {

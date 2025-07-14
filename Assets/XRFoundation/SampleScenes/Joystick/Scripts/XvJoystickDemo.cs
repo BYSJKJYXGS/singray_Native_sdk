@@ -229,6 +229,8 @@ namespace XvXR.Foundation.SampleScenes
             string id = btn.transform.GetComponent<BlueTeethControl>().id;
             string mac = btn.transform.GetComponent<BlueTeethControl>().mac;
 
+            MyDebugTool.Log("blueTeechConnect" + id + "   " + mac);
+
             if (btn.GetComponent<BlueTeethControl>().state == 0)
             {
                XvJoystickManager.Instance.ConnectXvBle(TrackerType.Right,id, mac);

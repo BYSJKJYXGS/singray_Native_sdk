@@ -537,9 +537,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3692436211909195711, guid: d12b738bce6d7c44f9ef67bd7791e983, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5681967335839875411, guid: d12b738bce6d7c44f9ef67bd7791e983, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 7427853055959949959, guid: d12b738bce6d7c44f9ef67bd7791e983, type: 3}
       propertyPath: m_Name
       value: XvMRVideoCaptureManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8035286377562020903, guid: d12b738bce6d7c44f9ef67bd7791e983, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 119
       objectReference: {fileID: 0}
     - target: {fileID: 8303640839566520163, guid: d12b738bce6d7c44f9ef67bd7791e983, type: 3}
       propertyPath: cameraManager

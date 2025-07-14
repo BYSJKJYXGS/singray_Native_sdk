@@ -3,31 +3,50 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Events;
 
+using Quaternion = UnityEngine.Quaternion;
 
 namespace XvXR.Foundation
 {
-   /// <summary>
-   /// 可以通过该类获取相机的图像数据以及相机的开关功能
-   /// tof相机
-   /// AR眼镜相机
-   /// 计算单元相机
-   /// 左右鱼眼相机
-   /// </summary>
+    /// <summary>
+    /// 可以通过该类获取相机的图像数据以及相机的开关功能
+    /// tof相机
+    /// AR眼镜相机
+    /// 计算单元相机
+    /// 左右鱼眼相机
+    /// </summary>
     [DisallowMultipleComponent]
-    public sealed class XvCameraManager :MonoBehaviour
+    public sealed class XvCameraManager : MonoBehaviour
     {
 
         private XvCameraManager() { }
-        /// <summary>
-        /// 设置分辨率
-        /// </summary>
-        [SerializeField]
-        private RgbResolution rgbResolution;
-        /// <summary>
-        /// 设置帧率
-        /// </summary>
-        [SerializeField]
-        private int requestedFPS = 30;
+
+
+        public XvARCameraParameter XvARCameraParameter = new XvARCameraParameter()
+        {
+            rgbResolution = RgbResolution.RGB_1280x720,
+            fps = 30,
+
+        };
+        public XvWebCameraParameter XvWebCameraParameter = new XvWebCameraParameter()
+        {
+            width = 1280,
+            height = 720,
+            fps = 30,
+        };
+
+        public XvTofCameraParameter XvTofCameraParameter = new XvTofCameraParameter()
+        {
+            streamType = TofStreamType.DeapthStream,
+            tofFramerate = TofFramerate.FPS_30,
+            sonyTofLibMode = SonyTofLibMode.IQMIX_SF,
+            tofResolution = TofResolution.QVGA,
+            enableGamma = false,
+
+        };
+
+
+
+
 
         /// <summary>
         /// 宽高尺寸
@@ -35,46 +54,115 @@ namespace XvXR.Foundation
         private int requestedWidth = 1920;
         private int requestedHeight = 1080;
 
-        public int Width {
-            get { return requestedWidth; }
-        
+        public int Width
+        {
+            get
+            {
+                switch (XvARCameraParameter.rgbResolution)
+                {
+                    case RgbResolution.RGB_1920x1080:
+                        requestedWidth = 1920;
+                        requestedHeight = 1080;
+
+                        break;
+                    case RgbResolution.RGB_1280x720:
+                        requestedWidth = 1280;
+                        requestedHeight = 720;
+
+                        break;
+                    case RgbResolution.RGB_640x480:
+                        requestedWidth = 640;
+                        requestedHeight = 480;
+                        break;
+                    case RgbResolution.RGB_320x240:
+                        requestedWidth = 320;
+                        requestedHeight = 240;
+
+                        break;
+                    case RgbResolution.RGB_2560x1920:
+                        requestedWidth = 2560;
+                        requestedHeight = 1920;
+
+                        break;
+                    default:
+                        break;
+                }
+
+                return requestedWidth;
+
+            }
+
+
         }
         public int Height
         {
-            get { return requestedHeight; }
+            get
+            {
+                switch (XvARCameraParameter.rgbResolution)
+                {
+                    case RgbResolution.RGB_1920x1080:
+                        requestedWidth = 1920;
+                        requestedHeight = 1080;
+
+                        break;
+                    case RgbResolution.RGB_1280x720:
+                        requestedWidth = 1280;
+                        requestedHeight = 720;
+
+                        break;
+                    case RgbResolution.RGB_640x480:
+                        requestedWidth = 640;
+                        requestedHeight = 480;
+                        break;
+                    case RgbResolution.RGB_320x240:
+                        requestedWidth = 320;
+                        requestedHeight = 240;
+
+                        break;
+                    case RgbResolution.RGB_2560x1920:
+                        requestedWidth = 2560;
+                        requestedHeight = 1920;
+                        break;
+                    default:
+                        break;
+                }
+
+                return requestedHeight;
+
+            }
+
 
         }
 
         public int Fps
         {
-            get { return requestedFPS; }
+            get { return XvARCameraParameter.fps; }
 
         }
 
         /// <summary>
         /// 相机数据回调
         /// </summary>
-        public static UnityEvent<cameraData> onARCameraStreamFrameArrived=new UnityEvent<cameraData>();
+        public static UnityEvent<cameraData> onARCameraStreamFrameArrived = new UnityEvent<cameraData>();
         public static UnityEvent<cameraData> onLeftStereoStreamFrameArrived = new UnityEvent<cameraData>();
         public static UnityEvent<cameraData> onRightStereoStreamFrameArrived = new UnityEvent<cameraData>();
         public static UnityEvent<cameraData> onTofDepthCameraStreamFrameArrived = new UnityEvent<cameraData>();
         public static UnityEvent<cameraData> onTofIRCameraStreamFrameArrived = new UnityEvent<cameraData>();
-
         public static UnityEvent<cameraData> onWebCameraStreamFrameArrived = new UnityEvent<cameraData>();
-        
 
-        private void SetCameraParameter(CameraSetting cameraSetting) {
-             requestedWidth = cameraSetting.width;
-             requestedHeight = cameraSetting.height;
-             requestedFPS = cameraSetting.requestedFPS;
+
+        private void Awake()
+        {
+
         }
+
         /// <summary>
         /// 打开相机
         /// </summary>
         /// <param name="cameraType"></param>
         public void StartCapture(XvCameraStreamType cameraType)
         {
-        
+
 #if PLATFORM_ANDROID && !UNITY_EDITOR
 
             while (!API.xslam_ready())
@@ -83,65 +171,54 @@ namespace XvXR.Foundation
             }
 #endif
 
-            switch (rgbResolution)
-            {
-                case RgbResolution.RGB_1920x1080:
-                    requestedWidth = 1920;
-                    requestedHeight = 1080;
-                    break;
-                case RgbResolution.RGB_1280x720:
-                    requestedWidth = 1280;
-                    requestedHeight = 720;
-                    break;
-                case RgbResolution.RGB_640x480:
-                    requestedWidth = 640;
-                    requestedHeight = 1048080;
-                    break;
-                case RgbResolution.RGB_320x240:
-                    requestedWidth = 320;
-                    requestedHeight = 240;
-                    break;
-                case RgbResolution.RGB_2560x1920:
-                    requestedWidth = 2560;
-                    requestedHeight = 1920;
-                    break;
-                default:
-                    break;
-            }
+
 
 
             switch (cameraType)
             {
                 case XvCameraStreamType.WebCameraStream:
-                   
-                    XvWebCameraManager.GetXvWebCameraManager().StartCapture(requestedWidth, requestedHeight, requestedFPS);
+
+
+                    XvWebCameraManager.GetXvWebCameraManager().StartCapture(XvWebCameraParameter);
                     break;
                 case XvCameraStreamType.ARCameraStream:
-
-                   
-                    XvARCameraManager.GetXvARCameraManager().StartCapture(requestedWidth, requestedHeight, requestedFPS);
+                    XvARCameraManager.GetXvARCameraManager().StartCapture(XvARCameraParameter);
                     break;
                 case XvCameraStreamType.TofDepthCameraStream:
-                   
-                    XvTofManager.GetXvTofManager().StartCapture(requestedWidth, requestedHeight, requestedFPS, TofStreamType.DeapthStream);
-                    break;
-                //case XvCameraStreamType.TofIRCameraStream:
 
-                //    XvTofManager.GetXvTofManager().StartCapture(requestedWidth, requestedHeight, requestedFPS, 1);
-                //    break;
+                    XvTofCameraParameter.streamType = TofStreamType.DeapthStream;
+
+                    XvTofManager.GetXvTofManager().StartCapture(XvTofCameraParameter);
+                    break;
+                case XvCameraStreamType.TofIRCameraStream:
+
+                    XvTofCameraParameter.streamType = TofStreamType.IRStream;
+
+                    XvTofManager.GetXvTofManager().StartCapture(XvTofCameraParameter);
+                    break;
                 case XvCameraStreamType.LeftStereoCameraStream:
-                   
-                    XvStereoCameraManager.GetXvStereoCameraManager(true).StartCapture(requestedWidth, requestedHeight, requestedFPS,true);
+
+                    XvStereoCameraParameter XvLeftStereoCameraParameter = new XvStereoCameraParameter()
+                    {
+                        cameraIndex = StereoCameraIndex.LeftEye
+                    };
+
+
+                    XvStereoCameraManager.GetXvStereoCameraManager(true).StartCapture(XvLeftStereoCameraParameter);
                     break;
                 case XvCameraStreamType.RightStereoCameraStream:
+                    XvStereoCameraParameter XvRightStereoCameraParameter = new XvStereoCameraParameter()
+                    {
+                        cameraIndex = StereoCameraIndex.RightEye
+                    };
 
-                    XvStereoCameraManager.GetXvStereoCameraManager(false).StartCapture(requestedWidth, requestedHeight, requestedFPS, false);
+                    XvStereoCameraManager.GetXvStereoCameraManager(false).StartCapture(XvRightStereoCameraParameter);
 
                     break;
                 default:
                     break;
             }
-           
+
         }
         /// <summary>
         /// 关闭相机
@@ -162,9 +239,9 @@ namespace XvXR.Foundation
                     XvTofManager.GetXvTofManager().StopCapture(TofStreamType.DeapthStream);
                     break;
 
-                //case XvCameraStreamType.TofIRCameraStream:
-                //    XvTofManager.GetXvTofManager().StopCapture(1);
-                //    break;
+                case XvCameraStreamType.TofIRCameraStream:
+                    XvTofManager.GetXvTofManager().StopCapture(TofStreamType.IRStream);
+                    break;
 
                 case XvCameraStreamType.LeftStereoCameraStream:
                     XvStereoCameraManager.GetXvStereoCameraManager(true).StopCapture();
@@ -183,26 +260,26 @@ namespace XvXR.Foundation
             switch (cameraType)
             {
                 case XvCameraStreamType.WebCameraStream:
-                   return XvWebCameraManager.GetXvWebCameraManager().IsOn;
+                    return XvWebCameraManager.GetXvWebCameraManager().IsOn;
 
                 case XvCameraStreamType.ARCameraStream:
                     return XvARCameraManager.GetXvARCameraManager().IsOn;
-             
+
                 case XvCameraStreamType.TofDepthCameraStream:
 
                     return XvTofManager.GetXvTofManager().IsOn(TofStreamType.DeapthStream);
 
-                //case XvCameraStreamType.TofIRCameraStream:
+                case XvCameraStreamType.TofIRCameraStream:
 
-                //    return XvTofManager.GetXvTofManager().IsOn(1);
+                    return XvTofManager.GetXvTofManager().IsOn(TofStreamType.IRStream);
 
                 case XvCameraStreamType.LeftStereoCameraStream:
                     return XvStereoCameraManager.GetXvStereoCameraManager(true).IsOn;
 
-            
+
                 case XvCameraStreamType.RightStereoCameraStream:
                     return XvStereoCameraManager.GetXvStereoCameraManager(false).IsOn;
-               
+
                 default:
                     break;
             }
@@ -211,11 +288,12 @@ namespace XvXR.Foundation
         }
 
 
-       
+
         private void Update()
         {
 
-            if (XvStereoCameraManager.GetXvStereoCameraManager(true).IsOn) {
+            if (XvStereoCameraManager.GetXvStereoCameraManager(true).IsOn)
+            {
                 XvStereoCameraManager.GetXvStereoCameraManager(true).Update();
             }
 
@@ -238,11 +316,11 @@ namespace XvXR.Foundation
 
         private void OnDestroy()
         {
-           
+
             StopCapture(XvCameraStreamType.WebCameraStream);
             StopCapture(XvCameraStreamType.ARCameraStream);
             StopCapture(XvCameraStreamType.TofDepthCameraStream);
-            //StopCapture(XvCameraStreamType.TofIRCameraStream);
+            StopCapture(XvCameraStreamType.TofIRCameraStream);
             StopCapture(XvCameraStreamType.LeftStereoCameraStream);
             StopCapture(XvCameraStreamType.RightStereoCameraStream);
 
@@ -253,7 +331,7 @@ namespace XvXR.Foundation
             StopCapture(XvCameraStreamType.WebCameraStream);
             StopCapture(XvCameraStreamType.ARCameraStream);
             StopCapture(XvCameraStreamType.TofDepthCameraStream);
-           // StopCapture(XvCameraStreamType.TofIRCameraStream);
+            StopCapture(XvCameraStreamType.TofIRCameraStream);
             StopCapture(XvCameraStreamType.LeftStereoCameraStream);
             StopCapture(XvCameraStreamType.RightStereoCameraStream);
         }
@@ -269,8 +347,7 @@ namespace XvXR.Foundation
 
         private bool startPointCloud;
 
-        [DllImport("xslam-unity-wrapper")]
-        public static extern bool xslam_tof_set_exposure(int aecMode, int exposureGain, float exposureTimeMs);
+     
 
         /// <summary>
         /// 启用tof点云获取
@@ -288,8 +365,11 @@ namespace XvXR.Foundation
             {
                 StopCapture(XvCameraStreamType.TofDepthCameraStream);
             }
-            XvTofManager.GetXvTofManager().SetTofStreamMode(4);
-            XvTofManager.GetXvTofManager().StartTofStream();
+            XvTofManager.GetXvTofManager().SetTofStreamMode((int)XvTofCameraParameter.tofStreamMode);
+
+            XvTofManager.GetXvTofManager().StartTofStream(XvTofCameraParameter);
+
+           //StartCapture(XvCameraStreamType.TofDepthCameraStream);
         }
 
         /// <summary>
@@ -336,6 +416,11 @@ namespace XvXR.Foundation
             return false;
         }
 
+        
+
+
+        
+
         /// <summary>
         /// 设置tof参数
         /// </summary>
@@ -348,7 +433,7 @@ namespace XvXR.Foundation
             XvTofManager.GetXvTofManager().StopTofStream();
 
             bool v1 = API.xslam_start_sony_tof_stream(libmode, resulution, fps);
-            bool v2 = xslam_tof_set_exposure(1, 0, exposureTimeMs);
+            bool v2 = API.xslam_tof_set_exposure(1, 0, exposureTimeMs);
         }
 
         public void StopTofPointCloud()
@@ -369,7 +454,7 @@ namespace XvXR.Foundation
         WebCameraStream,//计算单元后置摄像头
         ARCameraStream,//MR眼镜rgb相机
         TofDepthCameraStream,//Tof 深度相机
-        //TofIRCameraStream,//Tof IR相机
+        TofIRCameraStream,//Tof IR相机
 
         LeftStereoCameraStream,//左鱼眼相机
         RightStereoCameraStream,//右鱼眼相机
@@ -380,22 +465,18 @@ namespace XvXR.Foundation
         public int texWidth;
         public int texHeight;
         public Texture tex;
-      
 
         //相机姿态
-
-
         public CameraParameter parameter;
-
     }
+
+
 
     public struct CameraParameter
     {
         //AR相机位姿
         public Vector3 position;
         public Quaternion rotation;
-
-        
 
         //时间戳
         public double timeStamp;
@@ -425,13 +506,5 @@ namespace XvXR.Foundation
         RGB_640x480 = 2,
         RGB_320x240 = 3,
         RGB_2560x1920 = 4
-    }
-
-    public struct CameraSetting
-    {
-
-        public int width;
-        public int height;
-        public int requestedFPS;
     }
 }

@@ -1,4 +1,7 @@
+using System;
 using UnityEngine;
+using static API;
+
 namespace XvXR.Foundation
 {
     /// <summary>
@@ -16,11 +19,13 @@ namespace XvXR.Foundation
 
         public float confidence;//识别率，范围0-1
        
-        public char[] qrcode; //二维码信息
+        public byte[] qrcode; //二维码信息
     }
 
     public class XvAprilTag
     {
+
+        public delegate void TagArrayCallback(IntPtr tagData,int count);
         /// <summary>
         /// 开启Apritag的鱼眼检测模式
         /// </summary>
@@ -83,6 +88,7 @@ namespace XvXR.Foundation
                 Debug.LogError("xslam没有准备好");
                 return;
             }
+            MyDebugTool.Log("StopFishEyeDetector");
 
             API.xslam_stop_detect_tags();
         }
@@ -96,7 +102,24 @@ namespace XvXR.Foundation
         /// QRCode检测tagFamily传参qr-code</param>
         /// <param name="size">识别码的物理尺寸，单位米</param>
         /// <returns></returns>
-        public static TagDetection[] StartRgbDetector(string tagFamily, double size)
+        public static  void StartRgbDetector(string tagFamily, double size, TagArrayCallback tagArrayCallback)
+        {
+            if (!API.xslam_ready())
+            {
+                Debug.LogError("xslam没有准备好");
+                return ;
+            }
+
+            API.xslam_getTagDetectionrgbImage(tagFamily, size, tagArrayCallback);
+
+      
+            //int len = API.xslam_start_rgb_detect_tags(tagFamily, size);
+
+            MyDebugTool.Log("StartRgbDetector"+ tagFamily+"  "+ size);
+        }
+
+
+        public static TagDetection[] GetRgbDetectTags()
         {
             if (!API.xslam_ready())
             {
@@ -105,27 +128,24 @@ namespace XvXR.Foundation
             }
 
             API.TagData tags = default(API.TagData);
-            int len = API.xslam_start_rgb_detect_tags(tagFamily, size, ref tags, 64);
+            int len = API.xslam_get_rgb_detect_tags(ref tags, 64);
             if (len <= 0)
             {
                 return null;
             }
 
             TagDetection[] result = new TagDetection[len];
-            MyDebugTool.Log("AprilTag##StartDetector tags size:" + len);
+            MyDebugTool.Log("AprilTag##GetRgbDetectTags tags size:" + len);
             for (int i = 0; i < len; i++)
             {
                 API.DetectData tag = tags.detect[i];
 
-                // Debug.Log("AprilTag##StartRgbDetector tag position:(" + tag.position.x + "," + tag.position.y + "," + tag.position.z + ")");
-                // Debug.Log("AprilTag##StartRgbDetector tag orientation:(" + tag.orientation.x + "," + tag.orientation.y + "," + tag.orientation.z + ")");
-                // Debug.Log("AprilTag##StartRgbDetector tag quaternion:(" + tag.quaternion.x + "," + tag.quaternion.y + "," + tag.quaternion.z + "," + tag.quaternion.w + ")");
 
                 TagDetection detection = new TagDetection();
 
                 if (detection.qrcode == null)
                 {
-                    detection.qrcode = new char[512];
+                    detection.qrcode = new byte[512];
                 }
 
                 detection.id = tag.tagID;
@@ -141,14 +161,14 @@ namespace XvXR.Foundation
                 MyDebugTool.Log("AprilTag##StartRgbDetector detection quaternion:(" + detection.quaternion.x + "," + detection.quaternion.y + "," + detection.quaternion.z + "," + detection.quaternion.w + ")");
 
 
-                
+
                 try
                 {
                     //for (int j = 0; j < detection.qrcode.Length; j++)
                     //{
                     //    Debug.Log($"AprilTag##StartRgbDetector detection qrcode[{j}]:{detection.qrcode[j]}");
                     //}
-                    MyDebugTool.Log($"AprilTag##StartRgbDetector detection qrcode string:{new string(detection.qrcode)}");
+                    MyDebugTool.Log($"AprilTag##StartRgbDetector detection qrcode string:{System.Text.Encoding.UTF8.GetString(detection.qrcode)}");
                 }
                 catch (System.Exception e)
                 {
@@ -156,14 +176,15 @@ namespace XvXR.Foundation
                     MyDebugTool.Log($"AprilTag##StartRgbDetector detection qrcode==null?:{detection.qrcode == null}");
                 }
 
-                 
+
             }
 
             return result;
         }
 
+
         /// <summary>
-        /// 关闭Apritag的RGB相机检测模式
+        /// 关闭RGB相机检测模式
         /// </summary>
         public static void StopRgbDetector()
         {
@@ -173,6 +194,7 @@ namespace XvXR.Foundation
                 return;
             }
 
+            MyDebugTool.Log("StopRgbDetector");
             API.xslam_stop_rgb_detect_tags();
         }
     }

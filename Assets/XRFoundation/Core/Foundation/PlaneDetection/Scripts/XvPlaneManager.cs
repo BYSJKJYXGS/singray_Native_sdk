@@ -92,6 +92,9 @@ namespace XvXR.Foundation
 
         private void Update()
         {
+#if !PLATFORM_ANDROID || UNITY_EDITOR
+            return;
+#endif   
             if (isDetecting)
             {
                 gapTime += Time.deltaTime;

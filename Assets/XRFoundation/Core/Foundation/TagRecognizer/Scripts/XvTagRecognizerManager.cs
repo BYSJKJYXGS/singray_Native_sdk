@@ -1,34 +1,47 @@
+using AOT;
 using System;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Events;
+using static API;
+
 namespace XvXR.Foundation
 {
-   /// <summary>
-   /// 该类提供Apriltag、QRCode等识别功能
-   /// </summary>
+
+    /// <summary>
+    /// 该类提供Apriltag、QRCode等识别功能
+    /// </summary>
     public sealed class XvTagRecognizerManager : MonoBehaviour
     {
         private XvTagRecognizerManager() { }
-        [SerializeField]
-        private CameraType cameraType = 0;
 
-        public CameraType CameraType
+        [SerializeField]
+        private XvCameraManager xvCameraManager;
+
+        public XvCameraManager XvCameraManager
         {
             get
             {
-                return cameraType;
-            }
+                if (xvCameraManager == null)
+                {
+                    xvCameraManager = FindFirstObjectByType<XvCameraManager>();
+                    if (xvCameraManager == null)
+                    {
 
-            set
-            {
-                cameraType = value;
+                        GameObject newObj = new GameObject("XvCameraManager");
+                        xvCameraManager = newObj.AddComponent<XvCameraManager>();
+
+                    }
+                }
+                return xvCameraManager;
             }
         }
 
+
         /// <summary>
-        /// 使用识别码名称 apritag="36h11"   qrcode="qrcode"
+        /// 使用识别码名称 apritag="36h11"   qrcode="qr-code"
         /// </summary>
-        [SerializeField]
+        //[SerializeField]
 
         private string tagGroupName = "36h11";
 
@@ -81,22 +94,7 @@ namespace XvXR.Foundation
             }
 
         }
-
-        [SerializeField]
-        private bool isDetect = true;
-        public bool IsDetect
-        {
-            get
-            {
-                return isDetect;
-            }
-
-            set
-            {
-                isDetect = value;
-            }
-
-        }
+        private bool IsDetection = false;
 
 
         private UnityEvent<TagDetection[]> onDetectedAprilTagEvent;
@@ -113,29 +111,56 @@ namespace XvXR.Foundation
             }
 
         }
-        private TagDetection[] tagDetection;
+        private static TagDetection[] tagDetection;
+
+
+        [SerializeField]
+        private RecognizerMode currentRecognizerMode;
+        public RecognizerMode RecognizerMode
+        {
+            get { return currentRecognizerMode; }
+        }
+
 
         private void Awake()
         {
-            if (OnDetectedAprilTagEvent == null)
-            {
-
-                Debug.LogError("Awake.OnDetectedAprilTagEvent==null");
-            }
+            StartTagDetector(currentRecognizerMode);
         }
-        void StartDetect()
-        {
-#if !PLATFORM_ANDROID || UNITY_EDITOR
-            return;
-#endif
 
-            if (cameraType == CameraType.Rgb)
+        // Update is called once per frame
+        void Update()
+        {
+            StartDetect();
+
+        }
+
+
+
+        private void OnDestroy()
+        {
+            StopTagDetector();
+        }
+
+        private void StartDetect()
+        {
+
+            switch (currentRecognizerMode)
             {
-                tagDetection = XvAprilTag.StartRgbDetector(tagGroupName, size);//鱼眼 模式
-            }
-            else if (cameraType == CameraType.FishEye)
-            {
-                tagDetection = XvAprilTag.StartFishEyeDetector(tagGroupName, size);//鱼眼 模式
+                case RecognizerMode.None:
+
+                    return;
+
+                case RecognizerMode.RGB_QRCode:
+                    OnDetectedAprilTagEvent?.Invoke(tagDetection);
+                    break;
+                case RecognizerMode.RGB_Apriltag:
+                    OnDetectedAprilTagEvent?.Invoke(tagDetection);
+                    break;
+                case RecognizerMode.FishEye_Apriltag:
+                    tagDetection = XvAprilTag.StartFishEyeDetector(TagGroupName, size);//鱼眼 模式
+                    break;
+                default:
+                    break;
             }
 
             if (tagDetection == null || tagDetection.Length == 0)
@@ -146,16 +171,7 @@ namespace XvXR.Foundation
                 return;
             }
 
-            MyDebugTool.Log($"AprilTagDemo##tagDetection.Length:{tagDetection.Length}");
-            for (int i = 0; i < tagDetection.Length; i++)
-            {
-                TagDetection tag = tagDetection[i];
-                MyDebugTool.Log("AprilTagDemo##StartDetect translation:" + string.Format($"{i}=id:{tag.id},translation:{tag.translation.ToString()}"));
-                MyDebugTool.Log("AprilTagDemo##StartDetect rotation:" + string.Format($"{i}=id:{tag.id},{tag.rotation.ToString()}"));
-                MyDebugTool.Log("AprilTagDemo##StartDetect quaternion:" + string.Format($"{i}=id:{tag.id},{tag.quaternion.ToString()}"));
-            }
 
-            // Debug.LogError("tagDetection ==== " + tagDetection);
 
             try
             {
@@ -163,12 +179,9 @@ namespace XvXR.Foundation
                 {
 
                     Debug.LogError("tagDetection.Length ==== " + tagDetection.Length);
-                    if (OnDetectedAprilTagEvent == null)
-                    {
 
-                        Debug.LogError("StartDetect.OnDetectedAprilTagEvent==null");
-                    }
                     OnDetectedAprilTagEvent?.Invoke(tagDetection);
+
                 }
                 else
                 {
@@ -189,53 +202,135 @@ namespace XvXR.Foundation
         /// <param name="isDetect"></param>
         public void SetDetectStatus(bool isDetect)
         {
-#if !PLATFORM_ANDROID || UNITY_EDITOR
-            return;
-#endif
 
-            if (this.isDetect)
+        }
+
+        public void StopTagDetector()
+        {
+
+            MyDebugTool.Log("StopTagDetector" + currentRecognizerMode);
+
+            switch (currentRecognizerMode)
             {
-                if (!isDetect) {
-                    if (cameraType == CameraType.Rgb)
-                    {
-                        XvAprilTag.StopRgbDetector();//鱼眼 模式
-                    }
-                    else if (cameraType == CameraType.FishEye)
-                    {
-                        XvAprilTag.StopFishEyeDetector();//鱼眼 模式
-                    }
-                }
-            
-            }
+                case RecognizerMode.None:
+                    break;
+                case RecognizerMode.RGB_QRCode:
+                    XvAprilTag.StopRgbDetector();
 
-            this.isDetect = isDetect;
+                    break;
+                case RecognizerMode.RGB_Apriltag:
+                    XvAprilTag.StopRgbDetector();
+                    break;
+                case RecognizerMode.FishEye_Apriltag:
+                    XvAprilTag.StopFishEyeDetector();
+                    break;
+                default:
+                    break;
+            }
+            currentRecognizerMode = RecognizerMode.None;
+            IsDetection = false;
         }
 
 
-
-
-        // Update is called once per frame
-        void Update()
+        public void StartTagDetector(RecognizerMode recognizerMode)
         {
-            if (!isDetect)
+            if (IsDetection && currentRecognizerMode == recognizerMode)
             {
                 return;
             }
 
-            StartDetect();
+            if (IsDetection)
+            {
+                StopTagDetector();
+
+            }
+            MyDebugTool.Log("StartTagDetector 1" + recognizerMode);
+            switch (recognizerMode)
+            {
+                case RecognizerMode.RGB_QRCode:
+
+                    if (!XvCameraManager.IsOn(XvCameraStreamType.ARCameraStream))
+                    {
+
+                        XvCameraManager.StartCapture(XvCameraStreamType.ARCameraStream);
+                    }
+                    TagGroupName = "qr-code";
+                    MyDebugTool.Log("StartTagDetector 11" + recognizerMode);
+
+                    XvAprilTag.StartRgbDetector(TagGroupName, Size, OnDetecterTags);
+                    MyDebugTool.Log("StartTagDetector 12" + recognizerMode);
+
+                    break;
+                case RecognizerMode.RGB_Apriltag:
+                    if (!XvCameraManager.IsOn(XvCameraStreamType.ARCameraStream))
+                    {
+
+                        XvCameraManager.StartCapture(XvCameraStreamType.ARCameraStream);
+                    }
+                    TagGroupName = "qr-code";
+                    MyDebugTool.Log("StartTagDetector 21" + recognizerMode);
+
+                    XvAprilTag.StartRgbDetector(TagGroupName, Size, OnDetecterTags);
+                    MyDebugTool.Log("StartTagDetector 22" + recognizerMode);
 
 
+                    break;
+                case RecognizerMode.FishEye_Apriltag:
+                    TagGroupName = "36h11";
+
+                    break;
+                default:
+                    break;
+            }
+
+            IsDetection = true;
+            currentRecognizerMode = recognizerMode;
         }
 
-        private void OnDestroy()
+        [MonoPInvokeCallback(typeof(XvAprilTag.TagArrayCallback))]
+        private static void OnDetecterTags(IntPtr tagArrayPtr, int count)
         {
-            SetDetectStatus(false);
+
+            MyDebugTool.Log("OnDetecterTags: count=" + count);
+
+            // Marshal TagArray
+            TagData tagArray = Marshal.PtrToStructure<TagData>(tagArrayPtr);
+            tagDetection = new TagDetection[count];
+            for (int i = 0; i < count; i++)
+            {
+                API.DetectData tag = tagArray.detect[i];
+
+                TagDetection detection = new TagDetection();
+                detection.id = tag.tagID;
+                detection.translation = new Vector3(tag.position.x, tag.position.y, tag.position.z);
+                detection.rotation = new Vector3(tag.orientation.x, tag.orientation.y, tag.orientation.z);
+                detection.quaternion = new Vector4(tag.quaternion.x, tag.quaternion.y, tag.quaternion.z, tag.quaternion.w);
+                detection.confidence = tag.confidence;
+                tagDetection[i] = detection;
+
+                MyDebugTool.Log("AprilTag##StartDetector detection translation:(" + detection.translation.x + "," + detection.translation.y + "," + detection.translation.z + ")");
+                MyDebugTool.Log("AprilTag##StartDetector detection rotation:(" + detection.rotation.x + "," + detection.rotation.y + "," + detection.rotation.z + ")");
+                MyDebugTool.Log("AprilTag##StartDetector detection quaternion:(" + detection.quaternion.x + "," + detection.quaternion.y + "," + detection.quaternion.z + "," + detection.quaternion.w + ")");
+            }
         }
+
+
     }
+
     public enum CameraType
     {
         Rgb = 0,//rgb相机
         FishEye = 1,//鱼眼相机
     }
+
+    public enum RecognizerMode
+    {
+        None,
+        RGB_QRCode,
+        RGB_Apriltag,
+        FishEye_Apriltag,
+    }
+
+
 }
 

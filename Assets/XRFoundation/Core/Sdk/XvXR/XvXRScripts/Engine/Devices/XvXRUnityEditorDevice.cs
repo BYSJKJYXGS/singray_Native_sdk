@@ -32,7 +32,9 @@ namespace XvXR.Engine
 
         public override void OnApplicationQuit()
         {
+#if !UNITY_EDITOR
             TerminatePlugin();
+#endif
         }
         public override void Init()
         {

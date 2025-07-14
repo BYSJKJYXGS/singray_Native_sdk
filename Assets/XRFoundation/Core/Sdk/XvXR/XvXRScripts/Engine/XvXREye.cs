@@ -24,7 +24,7 @@ namespace XvXR.Engine
         private double[] _EulerAngles;
 
         private XvXRStereoController mController;
-        private List<Transform> mTransformsList =   new List<Transform>();
+        private List<Transform> mTransformsList = new List<Transform>();
 
         public XvXRStereoController Controller
         {
@@ -34,7 +34,7 @@ namespace XvXR.Engine
                 if (transform.parent == null) { return null; }
                 if ((XvXRSdkConfig.PLATFORM.XvXR_UNITY_EDITOR == XvXRSdkConfig.XvXR_PLATFORM && !Application.isPlaying) || mController == null)
                 {
-                    mController= transform.parent.GetComponentInParent<XvXRStereoController>();
+                    mController = transform.parent.GetComponentInParent<XvXRStereoController>();
                 }
                 return mController;
             }
@@ -87,7 +87,7 @@ namespace XvXR.Engine
                 }
             }
 
-            if(mTransformsList.Count ==  0)
+            if (mTransformsList.Count == 0)
             {
                 for (int i = 0; i < mCanvasRenderObject.Length; i++)
                 {
@@ -127,9 +127,9 @@ namespace XvXR.Engine
             }
             //XvXRLog.LogError("this game object name is :" + this.gameObject.name);
 
- 
+
             monoCamera = Controller.GetComponent<Camera>();
-          
+
             UpdateStereoValues();
 
         }
@@ -147,7 +147,7 @@ namespace XvXR.Engine
         public void UpdateStereoValues()//原vr
         {
 #if UNITY_EDITOR_WIN
-           // return;
+            // return;
 #endif
             if (XvXRSdkConfig.XvXR_PLATFORM == XvXRSdkConfig.PLATFORM.XvXR_UNITY_EDITOR || XvXRSdkConfig.XvXR_PLATFORM == XvXRSdkConfig.PLATFORM.XvXR_UNITY_IOS)
             {
@@ -164,15 +164,20 @@ namespace XvXR.Engine
             else
             {
 
-              if(XvXRManager.SDK.GetDevice().isConnected && XvXRSdkConfig.XvXR_PLATFORM == XvXRSdkConfig.PLATFORM.XvXR_UNITY_ANDROID )
+                if (XvXRManager.SDK.GetDevice() == null)
+                {
+                    MyDebugTool.Log("XvXRManager.SDK.GetDevice()==null");
+                }
+
+                if (XvXRManager.SDK.GetDevice().isConnected && XvXRSdkConfig.XvXR_PLATFORM == XvXRSdkConfig.PLATFORM.XvXR_UNITY_ANDROID)
                 {
 
-               
-                API.stereo_pdm_calibration fed_ = default(API.stereo_pdm_calibration);
 
-                //     XvXRLog.InternalXvXRLog("camera is :" + (camera == null) + ",monocamera is:" + (monoCamera == null));
-                if (XvXRManager.SDK.GetDevice().isReadFed == false)
-                {
+                    API.stereo_pdm_calibration fed_ = default(API.stereo_pdm_calibration);
+
+                    //     XvXRLog.InternalXvXRLog("camera is :" + (camera == null) + ",monocamera is:" + (monoCamera == null));
+                    if (XvXRManager.SDK.GetDevice().isReadFed == false)
+                    {
                         //从glass获取显示标定参数fed,fed会在ComputeEyesFromProfile()计算投影矩阵时使用
                         if (XvXRAndroidDevice.readStereoDisplayCalibration(ref fed_))
                         {
@@ -186,9 +191,9 @@ namespace XvXR.Engine
                         {
                             XvXRLog.LogInfo("readStereoDisplayCalibration faild");
                         }
+                    }
                 }
-                }
-				  else if(XvXRManager.SDK.GetDevice().isConnected && XvXRSdkConfig.XvXR_PLATFORM == XvXRSdkConfig.PLATFORM.XvXR_UNITY_EDITOR)
+                else if (XvXRManager.SDK.GetDevice().isConnected && XvXRSdkConfig.XvXR_PLATFORM == XvXRSdkConfig.PLATFORM.XvXR_UNITY_EDITOR)
                 {
 
                     API.stereo_pdm_calibration fed_ = default(API.stereo_pdm_calibration);
@@ -212,7 +217,7 @@ namespace XvXR.Engine
 
                 Matrix4x4 proj = XvXRManager.SDK.Projection(eye);
 
-               
+
                 camera.CopyFrom(monoCamera);
 
 
@@ -227,9 +232,9 @@ namespace XvXR.Engine
 
                 camera.projectionMatrix = proj;
 
-             
 
-                API.stereo_pdm_calibration fed= XvXRManager.SDK.GetDevice().GetFed();
+
+                API.stereo_pdm_calibration fed = XvXRManager.SDK.GetDevice().GetFed();
 
                 //眼镜标定数据的使用（眼镜左右眼是正常的顺序）
                 if (eye == XvXRManager.Eye.Left)
@@ -274,7 +279,7 @@ namespace XvXR.Engine
                         _T = new double[3] { fed.calibrations[1].extrinsic.translation[0], -fed.calibrations[1].extrinsic.translation[1], fed.calibrations[1].extrinsic.translation[2] };
                         _R = new double[9] { fed.calibrations[1].extrinsic.rotation[0], -fed.calibrations[1].extrinsic.rotation[1], fed.calibrations[1].extrinsic.rotation[2], -fed.calibrations[1].extrinsic.rotation[3], fed.calibrations[1].extrinsic.rotation[4],
                                      -fed.calibrations[1].extrinsic.rotation[5],fed.calibrations[1].extrinsic.rotation[6],-fed.calibrations[1].extrinsic.rotation[7],fed.calibrations[1].extrinsic.rotation[8]};
-                       
+
                         RotationMatrixToEulerAngles(ref _EulerAngles, _R);
 
 
@@ -289,7 +294,7 @@ namespace XvXR.Engine
 
                     }
 
-                  
+
                 }
 
 
@@ -377,13 +382,13 @@ namespace XvXR.Engine
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN
         void OnRenderImage(RenderTexture sourceTexture, RenderTexture destTexture)
         {
-           
+
 
             if (null != destTexture)
             {
                 Graphics.Blit(sourceTexture, destTexture);
             }
-            
+
         }
 #endif
 
@@ -408,17 +413,17 @@ namespace XvXR.Engine
 
             //camera.targetTexture = (eye == XvXRManager.Eye.Left ? XvXRManager.SDK.StereoScreen[0] : XvXRManager.SDK.StereoScreen[1]);
             bool isLeft = eye == XvXRManager.Eye.Left ? true : false;
-     
+
             camera.targetTexture = XvXRManager.GetTexture(isLeft);
 
 
-           // Debug.LogError("shudan Object count:" + mTransformsList.Count);
+            // Debug.LogError("shudan Object count:" + mTransformsList.Count);
             if (isLeft)
             {
                 int tCount = 0;
                 float sumDis = 0.0f;
 
-                for (int i = 0;i< mTransformsList.Count; i++) 
+                for (int i = 0; i < mTransformsList.Count; i++)
                 {
                     Vector3 dir = (mTransformsList[i].position - this.transform.position).normalized;
                     float dot = Vector3.Dot(this.transform.forward, dir);
@@ -456,14 +461,14 @@ namespace XvXR.Engine
                 {
 
                     //眼镜的外参设置（左眼相机）
-                    transform.localPosition = new Vector3((float)fed.calibrations[0].extrinsic.translation[0], (float)-fed.calibrations[0].extrinsic.translation[1],(float) fed.calibrations[0].extrinsic.translation[2]);
+                    transform.localPosition = new Vector3((float)fed.calibrations[0].extrinsic.translation[0], (float)-fed.calibrations[0].extrinsic.translation[1], (float)fed.calibrations[0].extrinsic.translation[2]);
 
                     EDI++;
                     //Debug.LogError("set localPosition left:" + transform.localPosition[0] + transform.localPosition[1] + transform.localPosition[2]);
                 }
                 else if (eye == XvXRManager.Eye.Right)
                 {
-                    transform.localPosition = new Vector3((float)fed.calibrations[1].extrinsic.translation[0],(float) -fed.calibrations[1].extrinsic.translation[1], (float)fed.calibrations[1].extrinsic.translation[2]);
+                    transform.localPosition = new Vector3((float)fed.calibrations[1].extrinsic.translation[0], (float)-fed.calibrations[1].extrinsic.translation[1], (float)fed.calibrations[1].extrinsic.translation[2]);
 
                     EDI++;
                     //Debug.LogError("set localPosition Right:" + transform.localPosition[0] + transform.localPosition[1] + transform.localPosition[2]);

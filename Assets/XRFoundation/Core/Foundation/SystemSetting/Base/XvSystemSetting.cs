@@ -1,5 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
-
+using UnityEngine;
 namespace XvXR.Foundation
 {
     /// <summary>
@@ -26,6 +28,12 @@ namespace XvXR.Foundation
         [DllImport("xslam-unity-wrapper")]
         public static extern void xslam_display_set_brightnesslevel(int level); //level为亮度等级
 
- 
+        [DllImport("xslam-unity-wrapper")]
+        public static extern int xslam_start_event_stream(device_stream_callback cb);
+
+        [DllImport("xslam-unity-wrapper")]
+        public static extern void xslam_stop_event_stream();
+
+        public delegate void device_stream_callback(XvEvent xvEvent);
     }
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEditor;
 using System;
 using System.Runtime.InteropServices;
+using static XvXR.Foundation.XvAprilTag;
+using System.Drawing;
 
 public class API : MonoBehaviour
 {
@@ -434,8 +436,20 @@ public class API : MonoBehaviour
     [DllImport("xslam-unity-wrapper")]
     public static extern bool xslam_stop_rgb_stream();
 
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="aecMode">   0:auto exposure 1:manual exposure </param>
+    /// <param name="exposureGain">exposureGain Only valid in manual exposure mode, [0,255]</param>
+    /// <param name="exposureTimeMs">exposureTimeMs Only valid in manual exposure mode    milliseconds</param>
+    /// <returns></returns>
+    [DllImport("xslam-unity-wrapper")]
+    public static extern bool xslam_rgb_set_exposure(int aecMode, int exposureGain, float exposureTimeMs);
+
     //RGBD
-    
+
 
     [DllImport("xslam-unity-wrapper")]
     public static extern void xv_start_rgb_pixel_pose();
@@ -469,10 +483,17 @@ public class API : MonoBehaviour
     // Get the TOF image width, return 0 if no image is available
     [DllImport("xslam-unity-wrapper")]
     public static extern int xslam_get_tof_width();
+ 
 
     // Get the TOF image height, return 0 if no image is available
     [DllImport("xslam-unity-wrapper")]
     public static extern int xslam_get_tof_height();
+
+    [DllImport("xslam-unity-wrapper")]
+    public static extern void xslam_get_tofir_size(ref int width, ref int height);
+    [DllImport("xslam-unity-wrapper")]
+
+    public static extern void xslam_tof_enbale_ir_gramma(bool enable);
 
     // Get the TOF image with RGBA format, set width and height to resize the image or 0 to keep the original size
     // Return false if no image is available
@@ -502,8 +523,12 @@ public class API : MonoBehaviour
 
 
 
+    //[DllImport("xslam-unity-wrapper")]
+    //public static extern void xslam_start_tofir_stream();
+
+
     [DllImport("xslam-unity-wrapper")]
-    public static extern void xslam_start_tofir_stream();
+    public static extern void xslam_start_tofir_stream(int libmode, int resulution, int fps);
 
     // Stop TOF stream.
     [DllImport("xslam-unity-wrapper")]
@@ -513,7 +538,12 @@ public class API : MonoBehaviour
     [DllImport("xslam-unity-wrapper")]
     public static extern bool xslam_tof_set_steam_mode(int cmd);
 
- 
+
+
+    [DllImport("xslam-unity-wrapper")]
+    public static extern bool xslam_tof_set_exposure(int aecMode, int exposureGain, float exposureTimeMs);
+
+
 
     // ** Other **
 
@@ -733,10 +763,14 @@ public class API : MonoBehaviour
     };
 
     [DllImport("xslam-unity-wrapper")]
-    public static extern void xslam_set_gesture_platform(int platform,bool ego);//设置手势平台,ego:true->第一人称，false->第三人称
+    public static extern void xslam_set_gesture_platform(int platform);
+    [DllImport("xslam-unity-wrapper")]
+    public static extern void xslam_set_gesture_ego( bool ego);//设置手势平台,ego:true->第一人称，false->第三人称
 
     [DllImport("xslam-unity-wrapper")]
     public static extern void xslam_set_gesture_filter(int level);
+
+
 
     [DllImport("xslam-unity-wrapper")]
     public static extern int xslam_start_skeleton_with_cb(int type, xslam_skeleton_callback cb);
@@ -776,7 +810,7 @@ public class API : MonoBehaviour
         public double hostTimestamp;
         public float confidence;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 512)]
-        public char[] qrcode;
+        public byte[] qrcode;
     };
 
     public struct TagData
@@ -800,8 +834,18 @@ public class API : MonoBehaviour
     [DllImport("xslam-unity-wrapper")]
     public static extern int xslam_start_rgb_detect_tags(string tagFamily, double size, ref TagData tagsArray, int arraySize);
 
-    // stop rgb detect
     [DllImport("xslam-unity-wrapper")]
+    public static extern int xslam_start_rgb_detect_tags(string tagFamily, double size);
+    [DllImport("xslam-unity-wrapper")]
+    public static extern void xslam_getTagDetectionrgbImage(string tagFamily, double size, TagArrayCallback tagArrayCallback);
+
+
+    [DllImport("xslam-unity-wrapper")]
+    public static extern int xslam_get_rgb_detect_tags(ref TagData tagsArray, int arraySize);
+
+
+   // stop rgb detect
+   [DllImport("xslam-unity-wrapper")]
     public static extern int xslam_stop_rgb_detect_tags();
 
 
@@ -1042,5 +1086,7 @@ public class API : MonoBehaviour
 
     [DllImport("xslam-unity-wrapper")]
     public static extern bool xslam_switch_audio(bool status);
+
+
 
 }

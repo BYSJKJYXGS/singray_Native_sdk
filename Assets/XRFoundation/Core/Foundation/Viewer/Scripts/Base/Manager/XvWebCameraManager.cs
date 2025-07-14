@@ -23,7 +23,8 @@ namespace XvXR.Foundation
         private XvCameraBase frameBase;
         private bool isOn;
         public bool IsOn { get { return isOn; } }
-        public void StartCapture(int requestedWidth, int requestedHeight, int requestedFPS)
+        public void StartCapture(XvWebCameraParameter cameraParameter)
+
         {
             if (IsOn)
             {
@@ -31,7 +32,7 @@ namespace XvXR.Foundation
             }
 
             //StopCapture();
-            frameBase = new XvWebCamera(requestedWidth, requestedHeight, requestedFPS, FrameArrived);
+            frameBase = new XvWebCamera(cameraParameter  , FrameArrived);
             isOn = true;
 
             frameBase.StartCapture();

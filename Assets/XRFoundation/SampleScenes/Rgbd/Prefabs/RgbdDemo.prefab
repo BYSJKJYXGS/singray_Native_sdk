@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3847602159697377901}
-  - component: {fileID: 6971180689213371504}
+  - component: {fileID: 1937375472593754658}
   m_Layer: 0
   m_Name: RgbdDemo
   m_TagString: Untagged
@@ -26,14 +26,14 @@ Transform:
   m_GameObject: {fileID: 8847585704861954233}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.47707546, y: -0.092800006, z: 0.6234833}
+  m_LocalPosition: {x: 0, y: 0, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9172274044746976904}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6971180689213371504
+--- !u!114 &1937375472593754658
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,10 +42,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8847585704861954233}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1121b60b1c3cbec42bcc211ce4dada77, type: 3}
+  m_Script: {fileID: 11500000, guid: 98e4aba0e623cca49886bbff251b1d48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  image: {fileID: 0}
   rgbdManager: {fileID: 0}
+  xvCameraManager: {fileID: 0}
+  rawImage: {fileID: 0}
 --- !u!1 &8914161153144234399
 GameObject:
   m_ObjectHideFlags: 0
@@ -73,9 +76,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8914161153144234399}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3847602159697377901}

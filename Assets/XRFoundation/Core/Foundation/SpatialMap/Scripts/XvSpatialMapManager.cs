@@ -38,6 +38,7 @@ namespace XvXR.Foundation
         /// </summary>
         public void StartSlamMap()
         {
+
             MyDebugTool.Log("…®√ËµÿÕº1");
 #if UNITY_ANDROID && !UNITY_EDITOR
          API.xslam_reset_slam();

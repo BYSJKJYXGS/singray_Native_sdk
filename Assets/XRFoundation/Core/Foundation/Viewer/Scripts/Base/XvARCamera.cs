@@ -6,12 +6,19 @@ using Quaternion = UnityEngine.Quaternion;
 
 namespace XvXR.Foundation
 {
+    [Serializable]
+    public class XvARCameraParameter: XvCameraParameterSetting {
+        public RgbResolution rgbResolution;
+     
+        public int fps;
+    }
     public  class XvARCamera : XvCameraBase
     {
-        public XvARCamera(int width, int height, int fps, FrameArrived frameArrived) : base(width, height, fps, frameArrived)
+        public XvARCamera(XvARCameraParameter cameraParameter, FrameArrived frameArrived) : base(cameraParameter, frameArrived)
         {
-
+            this.cameraParameter = cameraParameter;
         }
+        
         private Texture2D tex = null;
        
         private byte[] pixelBytes;
@@ -21,6 +28,8 @@ namespace XvXR.Foundation
         private int lastHeight = 0;
         private int countTime = 0;
 
+        private XvARCameraParameter cameraParameter;
+
 
         public bool needOpenCamera;
 
@@ -28,27 +37,33 @@ namespace XvXR.Foundation
 
         public override void StartCapture()
         {
-
-            if (height == 1080)
+            switch (cameraParameter.rgbResolution)
             {
-                 API.xslam_set_rgb_resolution(0);
+                case RgbResolution.RGB_1920x1080:
+                    API.xslam_set_rgb_resolution(0);
 
+                    break;
+                case RgbResolution.RGB_1280x720:
+                    API.xslam_set_rgb_resolution(1);
+
+                    break;
+                case RgbResolution.RGB_640x480:
+                    API.xslam_set_rgb_resolution(2);
+
+                    break;
+                case RgbResolution.RGB_320x240:
+                    break;
+                case RgbResolution.RGB_2560x1920:
+                    break;
+                default:
+                    break;
             }
-            else if (height == 720)
-            {
-                API.xslam_set_rgb_resolution(1);
 
-
-            }
-            else if (height == 480)
-            {
-                API.xslam_set_rgb_resolution(2);
-
-
-            }
-
+          
 
             needOpenCamera = true;
+
+            //API.xslam_rgb_set_exposure(1, 0, 5);
 
         }
         public override void StopCapture()
@@ -189,6 +204,8 @@ namespace XvXR.Foundation
                         {
                             if (API.xslam_get_rgb_image_RGBA_Byte(pixelBytes, tex.width, tex.height, ref rgbTimestamp))
                             {
+                                MyDebugTool.Log("xslam_get_rgb_image_RGBA_Byte texture true");
+
                                 tex.SetPixelData(pixelBytes,0,0);
                                 tex.Apply();
 
@@ -258,31 +275,31 @@ namespace XvXR.Foundation
                 float far = 1000f;
                 MyDebugTool.Log("readRGBCalibration");
                 pdm pdm = rgb_Calibration.intrinsic720;
-                if (height == 1080)
+
+
+
+                switch (cameraParameter.rgbResolution)
                 {
-                    MyDebugTool.Log("intrinsic1080");
-                    pdm = rgb_Calibration.intrinsic1080;
+                    case RgbResolution.RGB_1920x1080:
+                        pdm = rgb_Calibration.intrinsic1080;
+
+                        break;
+                    case RgbResolution.RGB_1280x720:
+                        pdm = rgb_Calibration.intrinsic720;
+
+                        break;
+                    case RgbResolution.RGB_640x480:
+                        pdm = rgb_Calibration.intrinsic480;
+
+                        break;
+                    case RgbResolution.RGB_320x240:
+                        break;
+                    case RgbResolution.RGB_2560x1920:
+                        break;
+                    default:
+                        break;
                 }
-                else if (height == 480)
-                {
-                    pdm = rgb_Calibration.intrinsic480;
-
-                    MyDebugTool.Log("intrinsic480");
-
-                }
-                else
-                if (height == 720)
-                {
-                    pdm = rgb_Calibration.intrinsic720;
-
-                    MyDebugTool.Log("intrinsic720");
-
-                }
-                else
-                {
-                    MyDebugTool.Log("intrinsic没有参数");
-                }
-
+                
 
                 //intrinsic720
                 //Matrix4x4 proj = XvXR.Engine.XvXRBaseDevice.PerspectiveOffCenter((float)pdm.K[0], (float)pdm.K[1],
@@ -315,7 +332,8 @@ namespace XvXR.Foundation
                 cameraData.parameter.width = (float)pdm.K[9];
                 cameraData.parameter.height = (float)pdm.K[10];
 
-                
+               
+
                 MyDebugTool.Log("RGBRecord ReadRgbCalibration:" + rgb_Calibration);
 
                 MyDebugTool.Log("RGBRecord ReadRgbCalibration camera Fx,Fy: " +

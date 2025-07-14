@@ -260,6 +260,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: XvXRManager
       objectReference: {fileID: 0}
+    - target: {fileID: 432504, guid: 902a04de5938e4e2088ce0417294356c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 432504, guid: 902a04de5938e4e2088ce0417294356c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 432504, guid: 902a04de5938e4e2088ce0417294356c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 432504, guid: 902a04de5938e4e2088ce0417294356c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 432504, guid: 902a04de5938e4e2088ce0417294356c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -7.07
+      objectReference: {fileID: 0}
     - target: {fileID: 432506, guid: 902a04de5938e4e2088ce0417294356c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -302,6 +322,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2032500, guid: 902a04de5938e4e2088ce0417294356c, type: 3}
       propertyPath: m_ClearFlags
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032500, guid: 902a04de5938e4e2088ce0417294356c, type: 3}
+      propertyPath: field of view
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 76224682, guid: 902a04de5938e4e2088ce0417294356c, type: 3}
+      propertyPath: backHome
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 76224682, guid: 902a04de5938e4e2088ce0417294356c, type: 3}
+      propertyPath: logEnable
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -550,6 +582,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3246798629249695662, guid: 7a6c66173f15ee743a7e39c9c0fbe17d, type: 3}
+      propertyPath: XvTofCameraParameter.enableGamma
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3246798629249695662, guid: 7a6c66173f15ee743a7e39c9c0fbe17d, type: 3}
+      propertyPath: XvTofIRCameraParameter.enableGamma
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3246798629249695662, guid: 7a6c66173f15ee743a7e39c9c0fbe17d, type: 3}
+      propertyPath: XvTofDepthCameraParameter.enableGamma
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4834791676996597672, guid: 7a6c66173f15ee743a7e39c9c0fbe17d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -630,6 +674,14 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1248031453596876536, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartTofIRCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 1248031453596876536, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: XvXR.Foundation.XvCameraDemo, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 1505295465747987495, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -650,6 +702,14 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3668960600022237465, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
+      propertyPath: m_Size.x
+      value: 2.8714488
+      objectReference: {fileID: 0}
+    - target: {fileID: 3668960600022237465, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
+      propertyPath: m_Center.x
+      value: 0.4519093
+      objectReference: {fileID: 0}
     - target: {fileID: 3832687967042881619, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -666,9 +726,13 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 7127323646375230749, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
-      propertyPath: m_Text
-      value: AR Glass
+    - target: {fileID: 6828614489169306980, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StopTofIRCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 6828614489169306980, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: XvXR.Foundation.XvCameraDemo, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8090996125191386755, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
       propertyPath: m_Mesh

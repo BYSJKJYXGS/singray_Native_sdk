@@ -21,7 +21,7 @@ namespace XvXR.Foundation
         private XvCameraBase frameBase;
         private bool isOn;
         public bool IsOn { get { return isOn; } }
-        public void StartCapture(int requestedWidth, int requestedHeight, int requestedFPS)
+        public void StartCapture(XvARCameraParameter xvARCameraParameter)
         {
 #if UNITY_EDITOR
             return;
@@ -32,7 +32,7 @@ namespace XvXR.Foundation
             }
 
             //StopCapture();
-            frameBase = new XvARCamera(requestedWidth, requestedHeight, requestedFPS, FrameArrived);
+            frameBase = new XvARCamera(xvARCameraParameter, FrameArrived);
             isOn = true;
             frameBase.StartCapture();
         }

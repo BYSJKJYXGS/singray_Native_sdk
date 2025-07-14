@@ -9,9 +9,13 @@ namespace XvXR.Foundation
 
     public class XvTagRecognizerBehavior : MonoBehaviour
     {
-        
+
+        [Tooltip("Apriltag ID")]
 
         public int id=-1;
+        [Tooltip("QRCode 文本作为ID")]
+        public string qrcodeID ;
+
         public UnityEvent OnFoundEvent = new UnityEvent();
         public UnityEvent OnLostEvent = new UnityEvent();
 
@@ -89,16 +93,41 @@ namespace XvXR.Foundation
 
                     if (tagDetections[i].confidence >= aprilTagManager.Confidence)
                     {
-                        if (tagDetections[i].id == id)
+                        if (aprilTagManager.TagGroupName == "36h11")
                         {
-                            isFound = true;
-                            Vector3 position = tagDetections[i].translation;
-                            Quaternion rotation = new Quaternion(tagDetections[i].quaternion[0], tagDetections[i].quaternion[1], tagDetections[i].quaternion[2], tagDetections[i].quaternion[3]);
-                            transform.position = position;
-                            transform.rotation = rotation;
-                            tagDetection = tagDetections[i];
-                            break;
+
+                            if (tagDetections[i].id == id)
+                            {
+                                isFound = true;
+                                Vector3 position = tagDetections[i].translation;
+                                Quaternion rotation = new Quaternion(tagDetections[i].quaternion[0], tagDetections[i].quaternion[1], tagDetections[i].quaternion[2], tagDetections[i].quaternion[3]);
+                                transform.position = position;
+                                transform.rotation = rotation;
+                                tagDetection = tagDetections[i];
+                                break;
+                            }
                         }
+                        else {
+                           
+                            string qrText = System.Text.Encoding.UTF8.GetString(tagDetections[i].qrcode).Trim();
+
+                            MyDebugTool.Log("二维码内容："+ tagDetections[i].qrcode+"  "+ qrText);
+                          
+                            if (qrText .Contains(qrcodeID) )
+                            {
+                                MyDebugTool.Log("qrText:" + qrText);
+                                MyDebugTool.Log("qrTextID:" + qrcodeID);
+                                isFound = true;
+                                Vector3 position = tagDetections[i].translation;
+                                Quaternion rotation = new Quaternion(tagDetections[i].quaternion[0], tagDetections[i].quaternion[1], tagDetections[i].quaternion[2], tagDetections[i].quaternion[3]);
+                                transform.position = position;
+                                transform.rotation = rotation;
+                                tagDetection = tagDetections[i];
+                                break;
+                            }
+                        }
+                        
+                        
                     }
                 }
             }
