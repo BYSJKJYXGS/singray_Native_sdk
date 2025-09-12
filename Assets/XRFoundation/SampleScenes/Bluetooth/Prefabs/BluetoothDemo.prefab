@@ -2466,7 +2466,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8772429197024711547}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2521,7 +2521,7 @@ GameObject:
   - component: {fileID: 2782680479043510837}
   - component: {fileID: 5670143712925232541}
   m_Layer: 5
-  m_Name: "\u84DD\u7259\u5217\u8868"
+  m_Name: list
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2587,4 +2587,4 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u84DD\u7259\u5217\u8868"
+  m_Text: BT list

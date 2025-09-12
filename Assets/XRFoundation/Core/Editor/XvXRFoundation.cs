@@ -10,7 +10,7 @@ namespace XvXR.Foundation
 {
     public class XvXRFoundation : MonoBehaviour
     {
-        [MenuItem("GameObject/XvXR/XvFoundation/XvCameraManager", false, 0)]
+        [MenuItem("GameObject/Singray XR/XvFoundation/XvCameraManager", false, 0)]
         static void CreateXvCameraManager()
         {
 
@@ -35,7 +35,7 @@ namespace XvXR.Foundation
 
 
 
-        [MenuItem("GameObject/XvXR/XvFoundation/XvMRVideoCaptureManager", false, 1)]
+        [MenuItem("GameObject/Singray XR/XvFoundation/XvMRVideoCaptureManager", false, 1)]
         static void CreateXvMRVideoCaptureManager()
         {
             CreateXvCameraManager();
@@ -62,7 +62,7 @@ namespace XvXR.Foundation
         }
 
 
-        [MenuItem("GameObject/XvXR/XvFoundation/XvMediaRecorderManager", false, 2)]
+        [MenuItem("GameObject/Singray XR/XvFoundation/XvMediaRecorderManager", false, 2)]
 
         static void CreateXvMediaRecorderManager()
         {
@@ -84,7 +84,7 @@ namespace XvXR.Foundation
             Selection.activeObject = xvMediaRecorderManager.gameObject;
         }
 
-        [MenuItem("GameObject/XvXR/XvFoundation/XvMediaRecorder", false, 3)]
+        [MenuItem("GameObject/Singray XR/XvFoundation/XvMediaRecorder", false, 3)]
 
         static void CreateXvMediaRecorder()
         {
@@ -111,7 +111,7 @@ namespace XvXR.Foundation
 
         }
 
-        [MenuItem("GameObject/XvXR/XvFoundation/XvTagRecognizerManager", false, 4)]
+        [MenuItem("GameObject/Singray XR/XvFoundation/XvTagRecognizerManager", false, 4)]
 
         static void CreateXvTagRecognizerManager()
         {
@@ -137,7 +137,7 @@ namespace XvXR.Foundation
             Selection.activeObject = xvAprilTagManager.gameObject;
         }
 
-        [MenuItem("GameObject/XvXR/XvFoundation/XvTagRecognizerBehavior", false, 4)]
+        [MenuItem("GameObject/Singray XR/XvFoundation/XvTagRecognizerBehavior", false, 4)]
 
         static void CreateXvTagRecognizerBehavior()
         {
@@ -158,7 +158,7 @@ namespace XvXR.Foundation
         }
 
 
-        [MenuItem("GameObject/XvXR/XvFoundation/XvRgbdManager", false, 5)]
+        [MenuItem("GameObject/Singray XR/XvFoundation/XvRgbdManager", false, 5)]
 
         static void CreateXvRgbdManager()
         {
@@ -181,7 +181,7 @@ namespace XvXR.Foundation
 
         }
 
-        [MenuItem("GameObject/XvXR/XvFoundation/XvRTSPStreamerManager", false,6)]
+        [MenuItem("GameObject/Singray XR/XvFoundation/XvRTSPStreamerManager", false,6)]
 
         static void CreateXvRTSPStreamerManager()
         {
@@ -206,7 +206,7 @@ namespace XvXR.Foundation
         }
 
 
-        [MenuItem("GameObject/XvXR/XvFoundation/XvPlaneManager", false, 7)]
+        [MenuItem("GameObject/Singray XR/XvFoundation/XvPlaneManager", false, 7)]
 
         static void CreateXvPlaneManager()
         {
@@ -233,7 +233,7 @@ namespace XvXR.Foundation
         }
 
 
-        [MenuItem("GameObject/XvXR/XvFoundation/XvSpatialMapManager", false, 8)]
+        [MenuItem("GameObject/Singray XR/XvFoundation/XvSpatialMapManager", false, 8)]
 
         static void CreateXvSpatialMapManager()
         {
@@ -257,7 +257,7 @@ namespace XvXR.Foundation
 
         }
 
-        [MenuItem("GameObject/XvXR/XvFoundation/XvSpatialMeshManager", false, 9)]
+        [MenuItem("GameObject/Singray XR/XvFoundation/XvSpatialMeshManager", false, 9)]
 
         static void CreateXvSpatialMeshManager()
         {
@@ -284,7 +284,7 @@ namespace XvXR.Foundation
         }
 
 
-        [MenuItem("GameObject/XvXR/XvFoundation/XvSpeechVoiceManager", false, 10)]
+        [MenuItem("GameObject/Singray XR/XvFoundation/XvSpeechVoiceManager", false, 10)]
 
         static void CreateXvSpeechVoiceManager()
         {
@@ -309,7 +309,7 @@ namespace XvXR.Foundation
         }
 
 
-        [MenuItem("GameObject/XvXR/XvFoundation/XvEyeTrackingManager", false, 11)]
+        [MenuItem("GameObject/Singray XR/XvFoundation/XvEyeTrackingManager", false, 11)]
 
         static void CreateXvEyeTrackingManager()
         {
@@ -334,7 +334,7 @@ namespace XvXR.Foundation
         }
 
 
-        [MenuItem("GameObject/XvXR/XvFoundation/XvStaticGestureManager", false, 0)]
+        [MenuItem("GameObject/Singray XR/XvFoundation/XvStaticGestureManager", false, 0)]
         static void CreateXvStaticGestureManager()
         {
 
@@ -356,7 +356,7 @@ namespace XvXR.Foundation
 
         }
 
-        [MenuItem("GameObject/XvXR/XvFoundation/XvJoystickManager", false, 0)]
+        [MenuItem("GameObject/Singray XR/XvFoundation/XvJoystickManager", false, 0)]
         static void CreateXvJoystickManager()
         {
 
@@ -384,7 +384,7 @@ namespace XvXR.Foundation
         }
         
 
-        [MenuItem("GameObject/XvXR/XvFoundation/XvHeadGazeInputController", false, 12)]
+        [MenuItem("GameObject/Singray XR/XvFoundation/XvHeadGazeInputController", false, 12)]
 
         static void CreateXvHeadGazeInputController()
         {
@@ -435,7 +435,7 @@ namespace XvXR.Foundation
 
         
 
-        [MenuItem("XvXR/Tookkit/Add To Scene and Configure", false, 98)]
+        [MenuItem("Singray XR/Tookkit/Add To Scene and Configure", false, 98)]
 
         static void ConfigProject()
         {
@@ -488,7 +488,7 @@ namespace XvXR.Foundation
         }
 
 
-        [MenuItem("GameObject/XvXR/Add To Scene and Configure", false, 98)]
+        [MenuItem("GameObject/Singray XR/Add To Scene and Configure", false, 98)]
 
         static void ConfigProjectA()
         {

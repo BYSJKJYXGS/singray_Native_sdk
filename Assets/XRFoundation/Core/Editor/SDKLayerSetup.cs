@@ -6,7 +6,7 @@ using System.IO;
 public class SDKLayerSetup : AssetPostprocessor
 {
     // 定义需要创建的Layer名称
-    private const string TARGET_LAYER = "XvBGVideo";
+    private const string TARGET_LAYER = "BGVideo";
 
     static void OnPostprocessAllAssets(
         string[] importedAssets,
@@ -18,7 +18,7 @@ public class SDKLayerSetup : AssetPostprocessor
         bool sdkImported = false;
         foreach (string asset in importedAssets)
         {
-            if ( asset.Contains("XvXRFoundation"))
+            if ( asset.Contains("XRFoundation"))
             {
                 sdkImported = true;
                 break;
@@ -43,7 +43,7 @@ public class SDKLayerSetup : AssetPostprocessor
 
         // 检查Layer是否已存在
         bool layerExists = false;
-        for (int i = 6; i < layers.arraySize; i++) // 8-31为用户可用Layer
+        for (int i = 6; i < layers.arraySize; i++) 
         {
             SerializedProperty layerProp = layers.GetArrayElementAtIndex(i);
             if (layerProp.stringValue == TARGET_LAYER)
@@ -53,7 +53,6 @@ public class SDKLayerSetup : AssetPostprocessor
             }
         }
 
-        // 创建新Layer
         if (!layerExists)
         {
             for (int i = 6; i < layers.arraySize; i++)
@@ -63,15 +62,15 @@ public class SDKLayerSetup : AssetPostprocessor
                 {
                     layerProp.stringValue = TARGET_LAYER;
                     tagManager.ApplyModifiedProperties();
-                    Debug.Log($"[XvSDK] Created layer: {TARGET_LAYER} at index {i}");
+                    Debug.Log($"[SDK] Created layer: {TARGET_LAYER} at index {i}");
                     return;
                 }
             }
-            Debug.LogError($"[XvSDK] Failed to create layer! All user layers are in use.");
+            Debug.LogError($"[SDK] Failed to create layer! All user layers are in use.");
         }
         else
         {
-            Debug.Log($"[XvSDK] Layer {TARGET_LAYER} already exists");
+            Debug.Log($"[SDK] Layer {TARGET_LAYER} already exists");
         }
     }
 }
