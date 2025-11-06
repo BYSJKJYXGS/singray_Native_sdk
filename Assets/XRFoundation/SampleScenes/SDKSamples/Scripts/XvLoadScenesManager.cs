@@ -7,7 +7,7 @@ namespace XvXR.Foundation.SampleScenes
     {
 
         public static XvLoadScenesManager Instance;
-      
+
 
         public string currentSceneName = "MainMenu";
 
@@ -40,7 +40,7 @@ namespace XvXR.Foundation.SampleScenes
 
         }
 
-     
-     
+
+
     }
 }

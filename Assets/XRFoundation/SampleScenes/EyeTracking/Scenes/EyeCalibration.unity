@@ -221,7 +221,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4890012464652379300, guid: 60cdb9bc117b5f04798cadf13320b2bd, type: 3}
       propertyPath: m_Name
-      value: MixedRealityToolkit (Inactive)
+      value: MixedRealityToolkit
       objectReference: {fileID: 0}
     - target: {fileID: 4890012464652379302, guid: 60cdb9bc117b5f04798cadf13320b2bd, type: 3}
       propertyPath: m_RootOrder
@@ -390,6 +390,12 @@ PrefabInstance:
     - target: {fileID: 1217080740756433732, guid: 4e540ca325acb3c45b56fab1b85efdbe, type: 3}
       propertyPath: m_Name
       value: XvEyeCalibration
+      objectReference: {fileID: 0}
+    - target: {fileID: 4274129267413187670, guid: 4e540ca325acb3c45b56fab1b85efdbe, type: 3}
+      propertyPath: m_Text
+      value: Please adjust the head-mounted device so that both eyes can see the
+        entire screen and the pupils are properly detected. Keep your eyes open for
+        2 seconds before proceeding to the next step.
       objectReference: {fileID: 0}
     - target: {fileID: 5300139608408127770, guid: 4e540ca325acb3c45b56fab1b85efdbe, type: 3}
       propertyPath: xvEyeTrackingManager

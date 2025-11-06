@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace XvXR.Foundation
 {
-   /// <summary>
-   /// 该类演示相机的开关控制，以及视频流的获取
-   /// </summary>
+    /// <summary>
+    /// This class demonstrates the camera's power control and video stream acquisition.
+    /// </summary>
     public class XvCameraDemo : MonoBehaviour
     {
         [SerializeField]
@@ -30,7 +30,8 @@ namespace XvXR.Foundation
 
         private void Awake()
         {
-            if (cameManager==null) {
+            if (cameManager == null)
+            {
                 cameManager = FindObjectOfType<XvCameraManager>();
 
                 if (cameManager == null)
@@ -54,11 +55,12 @@ namespace XvXR.Foundation
 
         }
 
-     
 
 
-       
-        public void StartARCamera() {
+
+
+        public void StartARCamera()
+        {
             XvCameraManager.onARCameraStreamFrameArrived.AddListener(onARCameraFrameArrived);
             cameManager.StartCapture(XvCameraStreamType.ARCameraStream);
         }
@@ -71,7 +73,8 @@ namespace XvXR.Foundation
             arCameraImage.texture = null;
         }
 
-        public void StartTofCamera() {
+        public void StartTofCamera()
+        {
             XvCameraManager.onTofDepthCameraStreamFrameArrived.AddListener(onTofCameraFrameArrived);
             cameManager.StartCapture(XvCameraStreamType.TofDepthCameraStream);
 
@@ -106,7 +109,8 @@ namespace XvXR.Foundation
 
         }
 
-        public void StopWebCamera() {
+        public void StopWebCamera()
+        {
             XvCameraManager.onWebCameraStreamFrameArrived.RemoveListener(onWebCameraFrameArrived);
 
             cameManager.StopCapture(XvCameraStreamType.WebCameraStream);
@@ -114,7 +118,8 @@ namespace XvXR.Foundation
 
         }
 
-        public void StartLeftStereoCamera() {
+        public void StartLeftStereoCamera()
+        {
             XvCameraManager.onLeftStereoStreamFrameArrived.AddListener(onLeftStereoCameraFrameArrived);
 
             cameManager.StartCapture(XvCameraStreamType.LeftStereoCameraStream);

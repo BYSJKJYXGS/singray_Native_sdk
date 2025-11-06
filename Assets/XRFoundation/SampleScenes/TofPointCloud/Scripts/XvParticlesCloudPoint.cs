@@ -12,9 +12,9 @@ namespace XvXR.Foundation.SampleScenes
 
         Matrix4x4 P_tofpoint_world = Matrix4x4.identity;
 
-        Matrix4x4 P_tofpoint_tofcam = Matrix4x4.identity;//原始tof点云
-        Matrix4x4 P_tofcam_glassImu = Matrix4x4.identity;//tof外参
-        Matrix4x4 P_glassImu_world = Matrix4x4.identity;//眼镜6dof
+        Matrix4x4 P_tofpoint_tofcam = Matrix4x4.identity;//Original TOF point cloud
+        Matrix4x4 P_tofcam_glassImu = Matrix4x4.identity;//TOF external parameters
+        Matrix4x4 P_glassImu_world = Matrix4x4.identity;//Glasses 6DOF
 
         public Material[] Mat_alpha;
         public List<GameObject> planeList = new List<GameObject>();
@@ -102,15 +102,15 @@ namespace XvXR.Foundation.SampleScenes
             ps.GetParticles(allParticles);
             for (int i = 0; i < pointCount; i++)
             {
-                allParticles[i].position = (Vector3)FilterVec[i];    // 设置每个点的位置
-                allParticles[i].startColor = Color.blue;    // 设置每个点的rgb
+                allParticles[i].position = (Vector3)FilterVec[i];    // Set the position of each point
+                allParticles[i].startColor = Color.blue;    // Set the RGB of each point
                 allParticles[i].startSize = 0.025f;
             }
 
 
-            ps.SetParticles(allParticles, pointCount);      // 将点云载入粒子系统
+            ps.SetParticles(allParticles, pointCount);      // Load the point cloud into the particle system
             /*
-            //绘制mesh
+            //Draw mesh
             if (isCreateMesh)
             {
                 CreateMesh(FilterVec);
@@ -139,28 +139,28 @@ namespace XvXR.Foundation.SampleScenes
         }
 
         /// <summary>
-        /// 生成自定义多边形方法
+        /// Method to generate custom polygons
         /// </summary>
-        /// <param name="s_Vertives">自定义的顶点数组</param>
+        /// <param name="s_Vertives">Custom vertex array</param>
         public void DoCreatPloygonMesh(Vector3[] s_Vertives)
         {
-            //新建一个空物体进行进行绘制自定义多边形
+            //Create a new empty object to draw a custom polygon
             GameObject tPolygon = new GameObject("tPolygon");
 
-            //绘制所必须的两个组件
+            //The two components necessary for drawing
             tPolygon.AddComponent<MeshFilter>();
             tPolygon.AddComponent<MeshRenderer>();
 
-            //新申请一个Mesh网格
+            //Apply for a new Mesh network
             Mesh tMesh = new Mesh();
 
-            //存储所有的顶点
+            //Store all vertices
             Vector3[] tVertices = s_Vertives;
 
-            //存储画所有三角形的点排序
+            //Store the sorted points of all triangles in the drawing
             List<int> tTriangles = new List<int>();
 
-            //根据所有顶点填充点排序
+            //Sort the fill points based on all vertices
             for (int i = 0; i < tVertices.Length - 1; i++)
             {
                 tTriangles.Add(i);
@@ -168,17 +168,17 @@ namespace XvXR.Foundation.SampleScenes
                 tTriangles.Add(tVertices.Length - i - 1);
             }
 
-            //赋值多边形顶点
+            //Assign polygon vertices
             tMesh.vertices = tVertices;
 
-            //赋值三角形点排序
+            //Assign triangle point sorting
             tMesh.triangles = tTriangles.ToArray();
 
-            //重新设置UV，法线
+            //Reset UVs and normals
             tMesh.RecalculateBounds();
             tMesh.RecalculateNormals();
 
-            //将绘制好的Mesh赋值
+            //Assign the drawn Mesh
             tPolygon.GetComponent<MeshFilter>().mesh = tMesh;
             tPolygon.GetComponent<Renderer>().materials = Mat_alpha;
             tPolygon.AddComponent<MeshCollider>();

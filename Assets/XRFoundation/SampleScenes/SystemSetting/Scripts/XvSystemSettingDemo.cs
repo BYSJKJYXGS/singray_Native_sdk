@@ -18,7 +18,7 @@ namespace XvXR.Foundation.SampleScenes
         public static Text lightPerceptiontText;
         public static Text keyTxt;
         public static Text keyStateTxt;
-        public  Text volumnText;
+        public Text volumnText;
         public AudioSource audioSourceOfVolumn;
 
 
@@ -26,10 +26,12 @@ namespace XvXR.Foundation.SampleScenes
 
         private void Awake()
         {
-            if (settingManager==null) {
-                settingManager=FindObjectOfType<XvSystemSettingManager>();
+            if (settingManager == null)
+            {
+                settingManager = FindObjectOfType<XvSystemSettingManager>();
 
-                if (settingManager==null) {
+                if (settingManager == null)
+                {
                     settingManager = new GameObject("XvSystemSettingManager").AddComponent<XvSystemSettingManager>();
                 }
             }
@@ -58,19 +60,20 @@ namespace XvXR.Foundation.SampleScenes
         private void Initialized()
         {
 
-            ipd=  (float)Math.Round(settingManager.GetIPD(), 1);
+            ipd = (float)Math.Round(settingManager.GetIPD(), 1);
             SetIpd(ipd);
 
             brightnessValue.text = string.Format("{0}", settingManager.GetBrightnessLevel());
             ipdValue.text = string.Format("{0}mm", ipd);
 
             settingManager.XSlamStartEventStream(OnDevice_stream_callback);
-            volumnText.text=settingManager.GetVolumeCurrent().ToString();
+            volumnText.text = settingManager.GetVolumeCurrent().ToString();
         }
 
 
-        public void BrightnessUp() {
-           int level= settingManager.GetBrightnessLevel();
+        public void BrightnessUp()
+        {
+            int level = settingManager.GetBrightnessLevel();
             level++;
             SetBrightness(level);
         }
@@ -84,16 +87,16 @@ namespace XvXR.Foundation.SampleScenes
         {
             int level = (int)value;
             level = Mathf.Clamp(level, 0, 9);
-           
+
             brightnessValue.text = string.Format("{0}", level);
 
-           
+
             settingManager.SetBrightnessLevel(level);
         }
         public void IpdUp()
         {
             ipd += 1;
-           
+
             SetIpd(ipd);
         }
         public void IpdDown()
@@ -104,27 +107,27 @@ namespace XvXR.Foundation.SampleScenes
         public void SetIpd(float value)
         {
             ipd = value;
-          
+
             ipd = Mathf.Clamp(ipd, 55, 75);
             settingManager.SetIPD(ipd);
             ipdValue.text = string.Format("{0}mm", ipd);
-          
+
             // ipdSlider.value = value;
 
         }
 
 
-        private static bool isWear=false;
+        private static bool isWear = false;
         [MonoPInvokeCallback(typeof(device_stream_callback))]
         public static void OnDevice_stream_callback(XvEvent xvEvent)
         {
-            //key = 2 ,state = 0 ÑÛ¾µÕªµô×´Ì¬
-            //key = 2 ,state = 1 ÑÛ¾µ´÷ÉÏ×´Ì¬
+            //key = 2 ,state = 0 State of wearing no glasses
+            //key = 2 ,state = 1 Wearing glasses state
 
-            //key = 6 ,state = 0 ¹â¸Ð
+            //key = 6 ,state = 0 Light sensing
 
-            //key = 14 ¡¢1 ¡¢13¡¢ 3 ,state = 254 Ñ¹ÏÂ 255 Ì§Æð 
-            //key = 17 ¡¢18 ,state = 101 Ðý×ª+ 99 Ðý×ª-
+            //key = 14 ¡¢1 ¡¢13¡¢ 3 ,state = 254 Suppress 255 Lift up 
+            //key = 17 ¡¢18 ,state = 101 Rotate + 99 Rotate-
             switch (xvEvent.type)
             {
                 case 14:
@@ -138,17 +141,17 @@ namespace XvXR.Foundation.SampleScenes
                     break;
                 case 2:
 
-                   
+
                     if (xvEvent.state == 1)
                     {
-                        wearText.text = "Åå´÷ÖÐ";
+                        wearText.text = "Wearing";
 
 
                     }
                     else
                     {
 
-                        wearText.text = "Î´Åå´÷";
+                        wearText.text = "Not worn";
 
                     }
                     break;
@@ -159,17 +162,20 @@ namespace XvXR.Foundation.SampleScenes
         }
 
 
-        public void VolumnUp() {
+        public void VolumnUp()
+        {
             AdjustVolume(1);
         }
 
-        public void VolumnDown() { 
+        public void VolumnDown()
+        {
             AdjustVolume(-1);
 
         }
-        internal  void AdjustVolume(int direction)
+        internal void AdjustVolume(int direction)
         {
-            if (audioSourceOfVolumn!=null) {
+            if (audioSourceOfVolumn != null)
+            {
                 if (audioSourceOfVolumn.isPlaying)
                 {
                     audioSourceOfVolumn.Stop();
@@ -177,7 +183,7 @@ namespace XvXR.Foundation.SampleScenes
 
                 audioSourceOfVolumn.Play();
             }
-            
+
             volumnText.text = settingManager.AdjustVolume(direction).ToString();
         }
 

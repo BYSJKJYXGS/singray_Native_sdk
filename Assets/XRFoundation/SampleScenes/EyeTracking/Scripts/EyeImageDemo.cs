@@ -51,7 +51,7 @@ namespace XvXR.Foundation.SampleScenes
 
         private void OnApplicationPause(bool isPause)
         {
-            //退回到桌面时触发
+            //Triggered when returning to the desktop
             if (isPause)
             {
                 bool b = xvEyeTrackingManager.StopCapture();

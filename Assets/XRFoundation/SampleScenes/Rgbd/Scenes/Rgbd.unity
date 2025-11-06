@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44402242, g: 0.49316543, b: 0.5722324, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -601,7 +601,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u4F7F\u7528\u65B9\u6CD5\uFF1A\u901A\u8FC7\u8BA1\u7B97\u5355\u5143\u4E0A\u9762\u7684\u65B9\u5411\u6309\u952E\u8C03\u6574\u7EFF\u8272\u5C0F\u7403\u5728rgb\u56FE\u50CF\u4E0A\u7684\u4F4D\u7F6E\uFF0C\u540C\u6B65\u4F1A\u5728\u7269\u7406\u7A7A\u95F4\u4E2D\u6295\u5C04\u7EFF\u8272\u7684\u5C0F\u7403\u3002"
+  m_Text: 'Instructions: Use the directional keys on the computing unit to adjust
+    the position of the green ball on the RGB image. At the same time, a green ball
+    will be projected in the physical space.'
 --- !u!222 &695882542
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -620,7 +622,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4890012464652379300, guid: 60cdb9bc117b5f04798cadf13320b2bd, type: 3}
       propertyPath: m_Name
-      value: MixedRealityToolkit (Inactive)
+      value: MixedRealityToolkit
       objectReference: {fileID: 0}
     - target: {fileID: 4890012464652379302, guid: 60cdb9bc117b5f04798cadf13320b2bd, type: 3}
       propertyPath: m_LocalPosition.x

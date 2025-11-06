@@ -1894,9 +1894,41 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 726763087740820192, guid: 4bc76e7353e54d14c909debf78c5c17b, type: 3}
+      propertyPath: m_Text
+      value: Turned on
+      objectReference: {fileID: 0}
+    - target: {fileID: 1067447401084663979, guid: 4bc76e7353e54d14c909debf78c5c17b, type: 3}
+      propertyPath: m_Text
+      value: Taking a screenshot
+      objectReference: {fileID: 0}
+    - target: {fileID: 2963675766303433444, guid: 4bc76e7353e54d14c909debf78c5c17b, type: 3}
+      propertyPath: m_Text
+      value: Start screen recording
+      objectReference: {fileID: 0}
+    - target: {fileID: 2974611359159402906, guid: 4bc76e7353e54d14c909debf78c5c17b, type: 3}
+      propertyPath: m_Text
+      value: Start streaming
+      objectReference: {fileID: 0}
     - target: {fileID: 2982368607743718787, guid: 4bc76e7353e54d14c909debf78c5c17b, type: 3}
       propertyPath: m_Name
       value: MediaRecorder
+      objectReference: {fileID: 0}
+    - target: {fileID: 5170755562345892073, guid: 4bc76e7353e54d14c909debf78c5c17b, type: 3}
+      propertyPath: m_Text
+      value: Open camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 5183580789570696116, guid: 4bc76e7353e54d14c909debf78c5c17b, type: 3}
+      propertyPath: m_Text
+      value: Start screenshot
+      objectReference: {fileID: 0}
+    - target: {fileID: 5676559171535558564, guid: 4bc76e7353e54d14c909debf78c5c17b, type: 3}
+      propertyPath: m_Text
+      value: Streaming
+      objectReference: {fileID: 0}
+    - target: {fileID: 6380188170413820872, guid: 4bc76e7353e54d14c909debf78c5c17b, type: 3}
+      propertyPath: m_Text
+      value: Recording
       objectReference: {fileID: 0}
     - target: {fileID: 7821766081848223216, guid: 4bc76e7353e54d14c909debf78c5c17b, type: 3}
       propertyPath: xvCameraManager

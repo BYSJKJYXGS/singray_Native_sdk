@@ -26,7 +26,8 @@ namespace XvXR.Foundation.SampleScenes
             {
                 xvPlaneManager = FindObjectOfType<XvPlaneManager>();
 
-                if (xvPlaneManager==null) {
+                if (xvPlaneManager == null)
+                {
                     GameObject newObj = Instantiate(Resources.Load<GameObject>("XvPlaneManager"));
 
                     newObj.name = "XvPlaneManager";
@@ -85,23 +86,25 @@ namespace XvXR.Foundation.SampleScenes
             AddLine();
 
         }
-        public void SetPlaneDetection() {
+        public void SetPlaneDetection()
+        {
             if (xvPlaneManager.IsDetecting)
             {
                 xvPlaneManager.StopPlaneDetection();
 
                 meshText.text = "StartDetction";
             }
-            else { 
-            xvPlaneManager.StartPlaneDetction();
+            else
+            {
+                xvPlaneManager.StartPlaneDetction();
                 meshText.text = "StopDetction";
 
             }
 
         }
-       
 
-       
+
+
         public void SetCollider()
         {
             if (xvPlaneMeshVisualizer.EnableCollider)
@@ -110,7 +113,8 @@ namespace XvXR.Foundation.SampleScenes
                 xvPlaneMeshVisualizer.SetCollider(false);
                 colliderText.text = "EnableCollider";
             }
-            else { 
+            else
+            {
                 xvPlaneMeshVisualizer.SetCollider(true);
                 colliderText.text = "DisableCollider";
 
@@ -131,7 +135,7 @@ namespace XvXR.Foundation.SampleScenes
                 xvPlaneMeshVisualizer.SetVisualizer(true);
                 meshrenderText.text = "DisableRender";
             }
-          
+
         }
 
         public Transform arrow;
@@ -142,12 +146,12 @@ namespace XvXR.Foundation.SampleScenes
 
         private LineRenderer leftLineRenderer;
         private LineRenderer rightLineRenderer;
-        private int markType=-1;
+        private int markType = -1;
 
 
         public void btClick(GameObject bt)
         {
-         
+
             switch (bt.name)
             {
                 case "AddArrow":

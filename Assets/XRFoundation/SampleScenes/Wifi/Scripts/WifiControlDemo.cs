@@ -23,15 +23,16 @@ namespace XvXR.Foundation.SampleScenes
         public GameObject wifiOnBtn;
         public GameObject wifiOffBtn;
 
-        private bool isTest=false;
+        private bool isTest = false;
 
         private void Awake()
         {
             XvDeviceManager.Manager.OnWifiConnectState.AddListener(updateWifiStateInfo);
 
-            if (isTest) { 
-            AndroidConnection.startBackService();
-            
+            if (isTest)
+            {
+                AndroidConnection.startBackService();
+
             }
         }
         private void Start()
@@ -41,7 +42,7 @@ namespace XvXR.Foundation.SampleScenes
 
 
         /// <summary>
-        /// 打开wifi
+        /// Open Wi-Fi
         /// </summary>
 
         public void TurnOnWifi()
@@ -55,7 +56,7 @@ namespace XvXR.Foundation.SampleScenes
         }
 
         /// <summary>
-        /// 关闭wifi
+        /// Close Wi-Fi
         /// </summary>
         public void TurnOffWifi()
         {
@@ -68,7 +69,7 @@ namespace XvXR.Foundation.SampleScenes
         }
 
         /// <summary>
-        /// 获取当前wifi状态
+        /// Get current Wi-Fi status
         /// </summary>
         public void getWifiState()
         {
@@ -134,7 +135,7 @@ namespace XvXR.Foundation.SampleScenes
         }
 
         /// <summary>
-        /// 连接wifi
+        /// Connect to Wi-Fi
         /// </summary>
         public void ConnectWifi()
         {
@@ -143,16 +144,16 @@ namespace XvXR.Foundation.SampleScenes
 #endif
             if (pwd.text.Length < 8)
             {
-                wifiInfoState.text = "密码不正确";
+                wifiInfoState.text = "The password is incorrect";
             }
             else
             {
-                wifiInfoState.text = "连接中...";
+                wifiInfoState.text = "Connecting...";
                 MyDebugTool.Log("ConnectWifi start:" + wifi.text + "  " + pwd.text);
                 try
                 {
 
-                    bool isHasPwd=!string.IsNullOrEmpty(pwd.text);
+                    bool isHasPwd = !string.IsNullOrEmpty(pwd.text);
 
                     AndroidConnection.connectWifi(wifi.text, pwd.text, isHasPwd);
                     MyDebugTool.Log("ConnectWifi:" + wifi.text + "  " + pwd.text + "  " + isHasPwd);
@@ -163,12 +164,12 @@ namespace XvXR.Foundation.SampleScenes
 
                 }
 
-                
+
             }
         }
 
         /// <summary>
-        /// 当wifi连接状态改变的时候调用
+        /// Called when the Wi-Fi connection status changes 
         /// </summary>
         /// <param name="str"></param>
         private void updateWifiStateInfo(string str)
@@ -191,7 +192,7 @@ namespace XvXR.Foundation.SampleScenes
             Invoke("getSSID", 8);
             Invoke("getSSID", 10);
 
-           
+
         }
 
 
@@ -241,7 +242,7 @@ namespace XvXR.Foundation.SampleScenes
                 DestroyImmediate(wifiContain.transform.GetChild(0).gameObject);
             }
 
-           // int itemNum = 0;
+            // int itemNum = 0;
             for (int i = 0; i < wifiList.Count; i++)
             {
                 GameObject wifibtn = Instantiate(wifiBtn);
@@ -264,7 +265,7 @@ namespace XvXR.Foundation.SampleScenes
         }
 
         /// <summary>
-        /// 获取连接成功以后得IP地址
+        /// Obtain the IP address after a successful connection
         /// </summary>
         private void getIP()
         {
@@ -277,7 +278,7 @@ namespace XvXR.Foundation.SampleScenes
         }
 
         /// <summary>
-        /// 获取连接成功以后得IP地址
+        /// Obtain the IP address after a successful connection
         /// </summary>
         private void getSSID()
         {

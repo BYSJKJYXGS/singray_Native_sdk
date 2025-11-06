@@ -40,7 +40,7 @@ namespace XvXR.Foundation.SampleScenes
         private ParticleSystem featurePointParticle;
 
 
-        [SerializeField, Tooltip("是否显示特征点")]
+        [SerializeField, Tooltip("Whether to display feature points")]
         private bool showFeaturePoint;
 
         private TextMeshPro featurePointText;
@@ -56,7 +56,7 @@ namespace XvXR.Foundation.SampleScenes
         {
             similarityText = transform.Find("UI/Canvas/Similarity").GetComponent<Text>();
             logText = transform.Find("UI/Canvas/LogText").GetComponent<Text>();
-            featurePointText=transform.Find("UI/Canvas/FeaturePoint/IconAndText/TextMeshPro").GetComponent<TextMeshPro>();
+            featurePointText = transform.Find("UI/Canvas/FeaturePoint/IconAndText/TextMeshPro").GetComponent<TextMeshPro>();
 
             if (xvSpatialMapManager == null)
             {
@@ -88,50 +88,51 @@ namespace XvXR.Foundation.SampleScenes
         }
         private void Start()
         {
-          
 
-                try
+
+            try
+            {
+
+
+                string data = GetText(Application.persistentDataPath, "CslamMap.txt");
+
+                mapContentInfos = JsonConvert.DeserializeObject<List<MapContentInfo>>(data);
+                if (mapContentInfos != null)
                 {
-                  
+                    MyDebugTool.Log("cslam map data:" + data + "  " + mapContentInfos.Count);
 
-                    string data = GetText(Application.persistentDataPath, "CslamMap.txt");
-
-                    mapContentInfos = JsonConvert.DeserializeObject<List<MapContentInfo>>(data);
-                    if (mapContentInfos != null)
+                    for (int i = mapContentInfos.Count - 1; i >= 0; i--)
                     {
-                        MyDebugTool.Log("cslam map data:" + data + "  " + mapContentInfos.Count);
-                       
-                        for (int i= mapContentInfos.Count - 1; i >= 0; i--)
+
+                        FileInfo file_info = new FileInfo(mapContentInfos[i].mapPath);
+                        if (!file_info.Exists)
+                        {
+                            MyDebugTool.LogError("delete：" + mapContentInfos[i].mapPath);
+                            mapContentInfos.RemoveAt(i);
+                        }
+                        else
                         {
 
-                            FileInfo file_info = new FileInfo(mapContentInfos[i].mapPath);
-                            if (!file_info.Exists)
-                            {
-                                MyDebugTool.LogError("delete：" + mapContentInfos[i].mapPath);
-                                mapContentInfos.RemoveAt(i);
-                            }
-                            else
-                            {
-
-                            }
-
                         }
-                        RefrashUI();
-                    }
-                    else {
-                        MyDebugTool.LogError("mapContentInfos is null");
-                    }
 
-
+                    }
+                    RefrashUI();
                 }
-                catch (Exception e)
+                else
                 {
-
-                    MyDebugTool.LogError("MapContentInfo Exception:" + e.Message);
+                    MyDebugTool.LogError("mapContentInfos is null");
                 }
 
 
-           
+            }
+            catch (Exception e)
+            {
+
+                MyDebugTool.LogError("MapContentInfo Exception:" + e.Message);
+            }
+
+
+
 
 
         }
@@ -169,7 +170,7 @@ namespace XvXR.Foundation.SampleScenes
                 }
             }
 
-           
+
 
 
         }
@@ -178,7 +179,7 @@ namespace XvXR.Foundation.SampleScenes
         public void CreateMap()
         {
             xvSpatialMapManager.StartSlamMap();
-            Log ("Scan map");
+            Log("Scan map");
         }
 
         public void SaveMap()
@@ -188,8 +189,9 @@ namespace XvXR.Foundation.SampleScenes
             Log("Saving map");
         }
 
-        public void SwitchFeaturePointState() {
-          
+        public void SwitchFeaturePointState()
+        {
+
             xvSpatialMapManager.SwitchFeaturePointState();
 
             if (xvSpatialMapManager.ShowFeaturePoint)
@@ -198,14 +200,16 @@ namespace XvXR.Foundation.SampleScenes
                 featurePointParticle.gameObject.SetActive(true);
 
             }
-            else { 
+            else
+            {
                 featurePointText.text = "ShowFeaturePoint";
                 featurePointParticle.gameObject.SetActive(false);
 
 
             }
         }
-        private void Log(string msg) {
+        private void Log(string msg)
+        {
             logText.text = "Log:" + msg;
         }
         private void DrawPointCloud(List<Vector3> drawList)
@@ -219,7 +223,7 @@ namespace XvXR.Foundation.SampleScenes
             }
 
             var main = featurePointParticle.main;
-            main.startSpeed = 0.0f;                           // 设置粒子的初始速度为0
+            main.startSpeed = 0.0f;                           // Set the initial velocity of the particle to 0
             main.startLifetime = 1000000.0f;
 
             var pointCount = drawList.Count;
@@ -234,7 +238,7 @@ namespace XvXR.Foundation.SampleScenes
 
             }
 
-            featurePointParticle.SetParticles(allParticles, pointCount);      // 将点云载入粒子系统
+            featurePointParticle.SetParticles(allParticles, pointCount);      // Load the point cloud into the particle system
 
         }
 
@@ -248,7 +252,7 @@ namespace XvXR.Foundation.SampleScenes
             SaveGameobject();
 
             RefrashUI();
-          
+
         }
 
         private void onLoadComplete(int map_quality)

@@ -3,28 +3,30 @@ using UnityEngine;
 namespace XvXR.Foundation.SampleScenes
 {
     /// <summary>
-    /// 该类主要提供眼控追踪的演示
+    /// This class mainly provides a demonstration of eye-tracking control.
     /// </summary>
     public class XvEyeTrackingDemo : MonoBehaviour
     {
         //[SerializeField]
         private XvEyeTrackingManager xvEyeTrackingManager;
 
-        public List<Transform> transformList=new List<Transform>();
+        public List<Transform> transformList = new List<Transform>();
 
         private Transform lastGaze;
         private float initScale = 0.6f;
         public Transform point;
-       
-       // public TextMesh eyeDataText;
+
+        // public TextMesh eyeDataText;
 
         private void Awake()
         {
-            if (xvEyeTrackingManager==null) {
-                xvEyeTrackingManager=FindObjectOfType<XvEyeTrackingManager>();
+            if (xvEyeTrackingManager == null)
+            {
+                xvEyeTrackingManager = FindObjectOfType<XvEyeTrackingManager>();
 
-                if (xvEyeTrackingManager==null) {
-                    xvEyeTrackingManager=new GameObject("XvEyeTrackingManager").AddComponent<XvEyeTrackingManager>();
+                if (xvEyeTrackingManager == null)
+                {
+                    xvEyeTrackingManager = new GameObject("XvEyeTrackingManager").AddComponent<XvEyeTrackingManager>();
                 }
             }
         }
@@ -91,9 +93,9 @@ namespace XvXR.Foundation.SampleScenes
                 else
                 {
 
-                    MyDebugTool.Log(xvEyeTrackingManager.GazeOrigin+"     "+Camera.main.transform.position);
+                    MyDebugTool.Log(xvEyeTrackingManager.GazeOrigin + "     " + Camera.main.transform.position);
 #if UNITY_EDITOR
-                  
+
 #else
                  point.position = xvEyeTrackingManager.GazeOrigin + (xvEyeTrackingManager.GazeDirection.normalized) * 10;
 #endif
@@ -102,18 +104,21 @@ namespace XvXR.Foundation.SampleScenes
                 }
             }
 
-            transform.position=Camera.main.transform.position;
+            transform.position = Camera.main.transform.position;
             transform.rotation = Camera.main.transform.rotation;
         }
 
-        private void ScaleCube(Transform tran) {
+        private void ScaleCube(Transform tran)
+        {
             for (int i = 0; i < transformList.Count; i++)
             {
 
-                if (transformList[i]== tran) {
+                if (transformList[i] == tran)
+                {
 
 
-                    if (lastGaze!=null) {
+                    if (lastGaze != null)
+                    {
                         lastGaze.localScale = Vector3.one * initScale;
                     }
 

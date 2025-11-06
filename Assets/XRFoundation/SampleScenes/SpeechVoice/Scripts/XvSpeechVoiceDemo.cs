@@ -18,7 +18,7 @@ namespace XvXR.Foundation.SampleScenes
         public Text modeText;
 
         [SerializeField]
-        [Tooltip("是否使用语音唤醒")]
+        [Tooltip("Whether to use voice activation")]
 
         private bool isAvw = true;
 
@@ -28,7 +28,7 @@ namespace XvXR.Foundation.SampleScenes
             {
                 xvSpeechVoiceManager = GameObject.FindObjectOfType<XvSpeechVoiceManager>();
             }
-          
+
 
             StopCurrent.SetActive(isAvw);
         }
@@ -63,8 +63,9 @@ namespace XvXR.Foundation.SampleScenes
         private bool IsOn;
         public void StartSpeechRecognition()
         {
-            if (!IsOn) {
-                modeText.text = isAvw ? "开语音唤醒识别模式" : "开启命令词识别模式";
+            if (!IsOn)
+            {
+                modeText.text = isAvw ? "Enable voice wake-up recognition mode" : "Enable command recognition mode";
 
                 if (isAvw)
                 {
@@ -77,24 +78,25 @@ namespace XvXR.Foundation.SampleScenes
                 }
                 IsOn = true;
             }
-           
+
         }
 
         /// <summary>
-        /// 停止语音识别
+        /// Stop voice recognition
         /// </summary>
         public void StopSpeechRecognition()
         {
-            if (IsOn) {
-                modeText.text = isAvw ? "开关闭音唤醒识别模式" : "关闭命令词识别模式";
+            if (IsOn)
+            {
+                modeText.text = isAvw ? "Turn on/off mute wake-up recognition mode" : "Turn off command word recognition mode";
                 if (isAvw)
                 {
-                    //停止唤醒词和命令词识别
+                    //Stop wake word and command word recognition
                     xvSpeechVoiceManager.StopAVW();
                 }
                 else
                 {
-                    //停止命令词识别
+                    //Stop command recognition
                     xvSpeechVoiceManager.StopASR();
                 }
                 IsOn = false;
@@ -102,13 +104,13 @@ namespace XvXR.Foundation.SampleScenes
         }
 
         /// <summary>
-        /// 停止命令词的识别，如果是唤醒词识别模式，仅仅停止命令词的识别，不停止唤醒词识别。
+        /// Stop the recognition of command words. If it is in wake word recognition mode, only stop the recognition of command words without stopping the recognition of wake words.
         /// </summary>
         public void StopCurrentSpeechRecognition()
         {
             if (IsOn)
             {
-                modeText.text = isAvw ? "开关闭音唤醒识别模式" : "关闭命令词识别模式";
+                modeText.text = isAvw ? "Toggle mute wake-up recognition mode" : "Turn off command word recognition mode";
 
                 xvSpeechVoiceManager.StopASR();
                 IsOn = false;
@@ -125,7 +127,7 @@ namespace XvXR.Foundation.SampleScenes
         }
 
 
-      
+
         public void PlayVoiceEnd()
         {
             if (audioSource != null && voiceEnd != null)

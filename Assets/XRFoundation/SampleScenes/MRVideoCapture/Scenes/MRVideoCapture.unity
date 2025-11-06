@@ -621,9 +621,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2237220802400227980, guid: 20fec93dbfb50c94b9a217043ea486aa, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 267.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237220802400227980, guid: 20fec93dbfb50c94b9a217043ea486aa, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.000061035
+      objectReference: {fileID: 0}
     - target: {fileID: 2693217544732642692, guid: 20fec93dbfb50c94b9a217043ea486aa, type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3622468833687918208, guid: 20fec93dbfb50c94b9a217043ea486aa, type: 3}
+      propertyPath: m_Text
+      value: MR video
       objectReference: {fileID: 0}
     - target: {fileID: 5329886456451787341, guid: 20fec93dbfb50c94b9a217043ea486aa, type: 3}
       propertyPath: m_Mesh

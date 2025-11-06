@@ -10,7 +10,7 @@ namespace XvXR.Foundation.SampleScenes
         static string TAG = "CalibrationManager";
 
         bool isAdjustGlass = false;
-        [Header("瞳孔左右眼图标")]
+        [Header("Pupil left and right eye icon")]
         public GameObject leftEye;
         public GameObject rightEye;
 
@@ -55,7 +55,7 @@ namespace XvXR.Foundation.SampleScenes
         private void OnEnable()
         {
             xvEyeTrackingManager.StartGaze();
-           
+
         }
         private void OnDisable()
         {
@@ -67,7 +67,7 @@ namespace XvXR.Foundation.SampleScenes
         void Start()
         {
             cameraTran = Camera.main.transform;
-            //瞳距检测准备中
+            //Preparing for interpupillary distance measurement
             leftEyeCircle = leftEye.GetComponent<Image>();
             rightEyeCircle = rightEye.GetComponent<Image>();
             corner4 = corner.GetComponent<Image>();
@@ -79,7 +79,7 @@ namespace XvXR.Foundation.SampleScenes
 
             for (int i = 0; i < 5; i++)
             {
-                //校准点位坐标基于ETCS坐标系描述
+                //The calibration point coordinates are described based on the ETCS coordinate system.
                 caliPoints[i].x = GameObject.Find("5" + i.ToString()).transform.localPosition.x * 1000;
                 caliPoints[i].y = -GameObject.Find("5" + i.ToString()).transform.localPosition.y * 1000;
                 caliPoints[i].z = GameObject.Find("5" + i.ToString()).transform.localPosition.z * 1000;
@@ -103,14 +103,14 @@ namespace XvXR.Foundation.SampleScenes
         {
             transform.position = cameraTran.position;
             transform.rotation = cameraTran.rotation;
-            //校准第一步，调整设备观察是否正确检测到左右眼瞳孔
+            //The first step of calibration is to adjust the device to check whether it correctly detects the pupils of the left and right eyes.
             if (adjustPupil.activeSelf && xvEyeTrackingManager.Tracking)
             {
 
                 MyDebugTool.Log(string.Format($"{TAG} pupilCenter L:{xvEyeTrackingManager.EyeData.leftPupil.pupilCenter.x},{xvEyeTrackingManager.EyeData.leftPupil.pupilCenter.y}"));
                 MyDebugTool.Log(string.Format($"{TAG} pupilCenter R:{xvEyeTrackingManager.EyeData.rightPupil.pupilCenter.x},{xvEyeTrackingManager.EyeData.rightPupil.pupilCenter.y}"));
 
-                //pupilCenter.x和y的值的范围是（-1~1）
+                //The range of values for pupilCenter.x and y is (-1 to 1)
                 leftEye.transform.localPosition = new Vector3(-xvEyeTrackingManager.EyeData.leftPupil.pupilCenter.x * 50f, -xvEyeTrackingManager.EyeData.leftPupil.pupilCenter.y * 25f, 0f);
                 rightEye.transform.localPosition = new Vector3(-xvEyeTrackingManager.EyeData.rightPupil.pupilCenter.x * 50f, -xvEyeTrackingManager.EyeData.rightPupil.pupilCenter.y * 25f, 0f);
 
@@ -148,7 +148,7 @@ namespace XvXR.Foundation.SampleScenes
 
 
 
-            //校准第二步，校准5个点位
+            //Calibration step two: calibrate 5 points
             if (leftReady)
             {
                 leftPupilTime += Time.deltaTime;
@@ -173,7 +173,7 @@ namespace XvXR.Foundation.SampleScenes
                 PrepareCali();
             }
 
-            //逐步校准5个点位
+            //Gradually calibrate the five points
             if (everyCali)
             {
                 everyCali = false;
@@ -212,7 +212,7 @@ namespace XvXR.Foundation.SampleScenes
             StartCoroutine(StartFirstPoint());
         }
 
-        public  IEnumerator StartFirstPoint()
+        public IEnumerator StartFirstPoint()
         {
             Animation animPos = caliCube.GetComponent<Animation>();
 
@@ -246,12 +246,12 @@ namespace XvXR.Foundation.SampleScenes
             animPos.AddClip(calibrationManager.rotLoop, "rotLoop");
             animPos.clip = calibrationManager.rotLoop;
             animPos.Play();
-            //蓝色校准点移动到下一点位后等待0.7s后再开始collect，确保用户视线注视到目标点位
+            //After the blue calibration point moves to the next position, wait for 0.7 seconds before starting to collect, ensuring that the user's gaze is fixed on the target point.
             yield return new WaitForSeconds(0.7f);
 
-            //接口返回成功的次数
+            //Number of successful API responses
             int collectSuccess = 0;
-            //接口调用次数
+            //Number of API calls
             int calltimes = 0;
             while (collectSuccess < 5 && calltimes < 100)
             {
@@ -269,7 +269,7 @@ namespace XvXR.Foundation.SampleScenes
             everyCali = true;
         }
 
-        public  IEnumerator StartCaliPoint()
+        public IEnumerator StartCaliPoint()
         {
             MyDebugTool.Log($"{TAG} ##StartCaliPoint##");
             Animation animPos = caliCube.GetComponent<Animation>();
@@ -345,12 +345,12 @@ namespace XvXR.Foundation.SampleScenes
             animPos.clip = calibrationManager.rotLoop;
 
             animPos.Play();
-            //蓝色校准点移动到下一点位后等待0.7s后再开始collect，确保用户视线注视到目标点位
+            //After the blue calibration point moves to the next position, wait for 0.7 seconds before starting to collect, ensuring that the user's gaze is fixed on the target point.
             yield return new WaitForSeconds(0.7f);
 
-            //接口返回成功的次数
+            //Number of successful API responses
             int collectSuccess = 0;
-            //接口调用次数
+            //Number of API calls
             int calltimes = 0;
             while (collectSuccess < 5 && calltimes < 100)
             {
@@ -369,19 +369,19 @@ namespace XvXR.Foundation.SampleScenes
         }
 
         int retrieve = -1;
-        public  void FinishCali()
+        public void FinishCali()
         {
-            retrieve= xvEyeTrackingManager. CalibrationComplete();
+            retrieve = xvEyeTrackingManager.CalibrationComplete();
 
             calibrationManager.StartCoroutine(showFinishText());
 
             MyDebugTool.Log($"{TAG} xslam_gaze_calibration_retrieve:{retrieve}");
         }
 
-      
-      
 
-        public  IEnumerator showFinishText()
+
+
+        public IEnumerator showFinishText()
         {
             caliCube.SetActive(false);
 
@@ -404,7 +404,7 @@ namespace XvXR.Foundation.SampleScenes
         }
 
 
-        //重新校准
+        //Recalibrate
         public void RestartCalibration()
         {
             StopAllCoroutines();
@@ -425,8 +425,8 @@ namespace XvXR.Foundation.SampleScenes
 
             caliIndex = 0;
 
-          //  bool unset = xvEyeTrackingManager.UnsetGazeCallback();
-           // Debug.Log($"ResetCalibration unset {unset}");
+            //  bool unset = xvEyeTrackingManager.UnsetGazeCallback();
+            // Debug.Log($"ResetCalibration unset {unset}");
         }
 
 

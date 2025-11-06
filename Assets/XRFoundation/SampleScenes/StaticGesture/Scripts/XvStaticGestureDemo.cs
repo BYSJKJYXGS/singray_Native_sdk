@@ -32,7 +32,7 @@ namespace XvXR.Foundation.SampleScenes
         public Text leftGesture;
         public Text rightGesture;
 
-       
+
 
 
 
@@ -53,9 +53,9 @@ namespace XvXR.Foundation.SampleScenes
                     MyDebugTool.Log("Left GetKeyDown " + value);
                 }
 
-               
 
-                if (XvStaticGestureManager.GetKeyUp(value,HandType.Left))
+
+                if (XvStaticGestureManager.GetKeyUp(value, HandType.Left))
                 {
                     MyDebugTool.Log("Left GetKeyUp " + value);
                 }
@@ -65,7 +65,7 @@ namespace XvXR.Foundation.SampleScenes
                     MyDebugTool.Log("Right GetKeyDown " + value);
                 }
 
-               
+
 
                 if (XvStaticGestureManager.GetKeyUp(value, HandType.Right))
                 {
@@ -74,8 +74,8 @@ namespace XvXR.Foundation.SampleScenes
             }
 
 
-            
-            leftGesture.text= XvStaticGestureManager.GetCurrentStaticGesture(HandType.Left).ToString();
+
+            leftGesture.text = XvStaticGestureManager.GetCurrentStaticGesture(HandType.Left).ToString();
             rightGesture.text = XvStaticGestureManager.GetCurrentStaticGesture(HandType.Right).ToString();
 
         }

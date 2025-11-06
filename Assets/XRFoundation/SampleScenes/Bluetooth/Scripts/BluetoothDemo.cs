@@ -4,7 +4,7 @@ using XvXR.SystemEvents;
 
 namespace XvXR.Foundation.SampleScenes
 {
-   
+
 
     public partial class BluetoothDemo : SingletonMonoBehaviour<BluetoothDemo>
     {
@@ -21,7 +21,7 @@ namespace XvXR.Foundation.SampleScenes
         public GameObject blueTeechContent;
         public GameObject blueTeechBtn;
 
-      
+
 
         public BluetoothManager blueToothManager;
 
@@ -34,9 +34,11 @@ namespace XvXR.Foundation.SampleScenes
         void Start()
         {
 
-            if (blueToothManager==null) {
+            if (blueToothManager == null)
+            {
                 blueToothManager = GetComponent<BluetoothManager>();
-                if (blueToothManager==null) {
+                if (blueToothManager == null)
+                {
                     blueToothManager = new GameObject("BlueToothManager").AddComponent<BluetoothManager>();
                 }
             }
@@ -53,13 +55,13 @@ namespace XvXR.Foundation.SampleScenes
             if (AndroidConnection.IsTurnOnBluetooth())
             {
 
-                blueToothManager. StartBle();
+                blueToothManager.StartBle();
                 blueToothOpenBtn.SetActive(false);
                 blueToothCloseBtn.SetActive(true);
             }
             else
             {
-              
+
                 clearContain();
                 blueToothOpenBtn.SetActive(true);
                 blueToothCloseBtn.SetActive(false);
@@ -111,7 +113,7 @@ namespace XvXR.Foundation.SampleScenes
         }
 
 
-      
+
 
 
 
@@ -169,7 +171,7 @@ namespace XvXR.Foundation.SampleScenes
 
                     if (blueToothManager.Ble_Bond_Status == Ble_Bond_Status.STATE_ON)
                     {
-                        MyDebugTool.Log(" 刷新");
+                        MyDebugTool.Log(" Refresh");
                         blueToothManager.BluetoolthList.Clear();
                         clearContain();
                         blueToothManager.Scan();
@@ -198,19 +200,19 @@ namespace XvXR.Foundation.SampleScenes
                 switch (GetInstance().blueToothManager.BluetoolthList[i].status)
                 {
                     case Ble_Bond_Status.BOND_NONE:
-                        status = "未连接";
+                        status = "Not connected";
                         break;
                     case Ble_Bond_Status.BOND_BOND:
-                        status = "连接中";
+                        status = "Connecting";
                         break;
                     case Ble_Bond_Status.BOND_BOND_COMPLETE:
-                        status = "已配对";
+                        status = "Paired";
                         btn.transform.Find("UnPairing").gameObject.SetActive(true);
 
                         break;
 
                     case Ble_Bond_Status.BOND_BOND_CONNECTED:
-                        status = "已连接";
+                        status = "Connected";
                         btn.transform.Find("Disconnect").gameObject.SetActive(true);
                         break;
                     default:
@@ -269,19 +271,19 @@ namespace XvXR.Foundation.SampleScenes
                 switch (GetInstance().blueToothManager.BluetoolthList[i].status)
                 {
                     case Ble_Bond_Status.BOND_NONE:
-                        status = "未连接";
+                        status = "Not connected";
                         break;
                     case Ble_Bond_Status.BOND_BOND:
-                        status = "连接中";
+                        status = "Connecting";
                         break;
                     case Ble_Bond_Status.BOND_BOND_COMPLETE:
-                        status = "已配对";
+                        status = "Paired";
                         btn.transform.Find("UnPairing").gameObject.SetActive(true);
 
                         break;
 
                     case Ble_Bond_Status.BOND_BOND_CONNECTED:
-                        status = "已连接";
+                        status = "Connected";
                         btn.transform.Find("Disconnect").gameObject.SetActive(true);
                         break;
                     default:
@@ -331,19 +333,19 @@ namespace XvXR.Foundation.SampleScenes
                 switch (GetInstance().blueToothManager.BluetoolthList[i].status)
                 {
                     case Ble_Bond_Status.BOND_NONE:
-                        status = "未连接";
+                        status = "Not connected";
                         break;
                     case Ble_Bond_Status.BOND_BOND:
-                        status = "连接中";
+                        status = "Connecting";
                         break;
                     case Ble_Bond_Status.BOND_BOND_COMPLETE:
-                        status = "已配对";
+                        status = "Paired";
                         btn.transform.Find("UnPairing").gameObject.SetActive(true);
 
                         break;
 
                     case Ble_Bond_Status.BOND_BOND_CONNECTED:
-                        status = "已连接";
+                        status = "Connected";
                         btn.transform.Find("Disconnect").gameObject.SetActive(true);
                         break;
                     default:

@@ -144,27 +144,28 @@ namespace XvXR.Foundation.SampleScenes
         public Transform arrow;
         public Transform line;
 
-        private List<Transform> arrowList=new List<Transform>();
+        private List<Transform> arrowList = new List<Transform>();
         private List<Transform> lineList = new List<Transform>();
-        
+
         private LineRenderer leftLineRenderer;
         private LineRenderer rightLineRenderer;
-        private int markType=-1;
+        private int markType = -1;
 
 
-        public void  btClick(GameObject bt) {
-          
+        public void btClick(GameObject bt)
+        {
+
             switch (bt.name)
             {
                 case "AddArrow":
                     markType = 0;
                     break;
                 case "ClearArrow":
-                  
+
                     ClearArrow();
                     break;
                 case "AddLine":
-                    markType = 1;                 
+                    markType = 1;
                     break;
 
                 case "ClearLine":
@@ -177,21 +178,25 @@ namespace XvXR.Foundation.SampleScenes
         }
 
 
-        private void AddArrow() {
-            if (markType!=0) {
+        private void AddArrow()
+        {
+            if (markType != 0)
+            {
                 return;
             }
 
-            if (HandInputManager.Instance.GetKeyUp(UnityEngine.XR.XRNode.LeftHand)) {
+            if (HandInputManager.Instance.GetKeyUp(UnityEngine.XR.XRNode.LeftHand))
+            {
                 if (InputRayUtils.TryGetRay(InputSourceType.Hand, Handedness.Left, out Ray ray))
                 {
                     if (Physics.Raycast(ray, out RaycastHit hit, 10))
                     {
-                        if (hit.transform.GetComponentInParent<Canvas>()) {
+                        if (hit.transform.GetComponentInParent<Canvas>())
+                        {
                             return;
                         }
 
-                        Transform newArrow=  Instantiate(arrow);
+                        Transform newArrow = Instantiate(arrow);
                         newArrow.position = hit.point;
                         newArrow.rotation = Quaternion.LookRotation(ray.direction);
                         arrowList.Add(newArrow);
@@ -217,8 +222,9 @@ namespace XvXR.Foundation.SampleScenes
                 }
             }
         }
-        private void ClearArrow() { 
-        while (arrowList.Count > 0)
+        private void ClearArrow()
+        {
+            while (arrowList.Count > 0)
             {
 
                 Destroy(arrowList[0].gameObject);
@@ -237,7 +243,7 @@ namespace XvXR.Foundation.SampleScenes
             {
                 if (InputRayUtils.TryGetRay(InputSourceType.Hand, Handedness.Left, out Ray ray))
                 {
-                   
+
                     if (Physics.Raycast(ray, out RaycastHit hit, 10))
                     {
                         if (hit.transform.GetComponentInParent<Canvas>())
@@ -247,23 +253,25 @@ namespace XvXR.Foundation.SampleScenes
                         Transform newArrow = Instantiate(line);
                         leftLineRenderer = newArrow.GetComponent<LineRenderer>();
                         leftLineRenderer.positionCount = 1;
-                        leftLineRenderer.SetPosition(leftLineRenderer.positionCount - 1 , hit.point);
+                        leftLineRenderer.SetPosition(leftLineRenderer.positionCount - 1, hit.point);
                         lineList.Add(newArrow);
                     }
                 }
             }
-            else {
+            else
+            {
                 if (HandInputManager.Instance.GetKey(UnityEngine.XR.XRNode.LeftHand))
                 {
                     if (InputRayUtils.TryGetRay(InputSourceType.Hand, Handedness.Left, out Ray ray))
                     {
                         if (Physics.Raycast(ray, out RaycastHit hit, 10))
                         {
-                            if (leftLineRenderer!=null) {
+                            if (leftLineRenderer != null)
+                            {
                                 leftLineRenderer.positionCount += 1;
                                 leftLineRenderer.SetPosition(leftLineRenderer.positionCount - 1, hit.point);
                             }
-                           
+
                         }
                     }
                 }
@@ -274,7 +282,7 @@ namespace XvXR.Foundation.SampleScenes
                 }
             }
 
-           
+
 
             if (HandInputManager.Instance.GetKeyDown(UnityEngine.XR.XRNode.RightHand))
             {
@@ -304,12 +312,13 @@ namespace XvXR.Foundation.SampleScenes
                 {
                     if (Physics.Raycast(ray, out RaycastHit hit, 10))
                     {
-                        if (rightLineRenderer!=null) {
+                        if (rightLineRenderer != null)
+                        {
                             rightLineRenderer.positionCount += 1;
                             rightLineRenderer.SetPosition(rightLineRenderer.positionCount - 1, hit.point);
                         }
-                       
-                       
+
+
                     }
                 }
             }
@@ -320,8 +329,9 @@ namespace XvXR.Foundation.SampleScenes
             }
         }
 
-        private void ClearLine() {
-           while (lineList.Count > 0)
+        private void ClearLine()
+        {
+            while (lineList.Count > 0)
             {
                 Destroy(lineList[0].gameObject);
                 lineList.RemoveAt(0);

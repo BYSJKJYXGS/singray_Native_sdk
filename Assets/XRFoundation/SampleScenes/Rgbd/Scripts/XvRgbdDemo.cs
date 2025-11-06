@@ -50,7 +50,7 @@ public class XvRgbdDemo : MonoBehaviour
     }
 
     public RawImage rawImage;
-   
+
     private void OnEnable()
     {
         RgbdManager.StartRgbPose();
@@ -106,15 +106,15 @@ public class XvRgbdDemo : MonoBehaviour
 
         screenPoint.y = height - screenPoint.y;
 
-      
+
 
         if (Time.frameCount % 5 == 0)
         {
             if (RgbdManager.GetRgbPixel3DPose(screenPoint, ref pointerPose))
             {
-              
+
                 transform.position = pointerPose;
-               
+
             }
         }
     }

@@ -389,6 +389,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 21280409673272070, guid: 28647b19e5c8d3242ad3f2eb91db8b9a, type: 3}
+      propertyPath: m_Text
+      value: Real controller rot:0.55555,0.55555,0.55555
+      objectReference: {fileID: 0}
+    - target: {fileID: 398138242103262217, guid: 28647b19e5c8d3242ad3f2eb91db8b9a, type: 3}
+      propertyPath: m_Text
+      value: Disable gestures
+      objectReference: {fileID: 0}
+    - target: {fileID: 1317737607484118273, guid: 28647b19e5c8d3242ad3f2eb91db8b9a, type: 3}
+      propertyPath: m_Text
+      value: Real controller pos:0.55555,0.55555,0.55555
+      objectReference: {fileID: 0}
     - target: {fileID: 1321904144191469145, guid: 28647b19e5c8d3242ad3f2eb91db8b9a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -405,6 +417,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1886034253916118897, guid: 28647b19e5c8d3242ad3f2eb91db8b9a, type: 3}
+      propertyPath: m_Text
+      value: Reset Slam
+      objectReference: {fileID: 0}
     - target: {fileID: 2564735746875215358, guid: 28647b19e5c8d3242ad3f2eb91db8b9a, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -412,6 +428,22 @@ PrefabInstance:
     - target: {fileID: 2564735746875215358, guid: 28647b19e5c8d3242ad3f2eb91db8b9a, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2595161291568018216, guid: 28647b19e5c8d3242ad3f2eb91db8b9a, type: 3}
+      propertyPath: m_Text
+      value: Disable controller
+      objectReference: {fileID: 0}
+    - target: {fileID: 2595161291568018216, guid: 28647b19e5c8d3242ad3f2eb91db8b9a, type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 2879110273599462125, guid: 28647b19e5c8d3242ad3f2eb91db8b9a, type: 3}
+      propertyPath: m_Text
+      value: Real controller rot:0.55555,0.55555,0.55555
+      objectReference: {fileID: 0}
+    - target: {fileID: 3288977420071396567, guid: 28647b19e5c8d3242ad3f2eb91db8b9a, type: 3}
+      propertyPath: m_Text
+      value: Glasses rot:0.55555,0.55555,0.55555
       objectReference: {fileID: 0}
     - target: {fileID: 4077776600648192817, guid: 28647b19e5c8d3242ad3f2eb91db8b9a, type: 3}
       propertyPath: m_AnchorMax.y
@@ -505,6 +537,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: XvJoystickDemo
       objectReference: {fileID: 0}
+    - target: {fileID: 7904112419176767441, guid: 28647b19e5c8d3242ad3f2eb91db8b9a, type: 3}
+      propertyPath: m_Text
+      value: Glasses pos:0.55555,0.55555,0.55555
+      objectReference: {fileID: 0}
+    - target: {fileID: 8038212701674208808, guid: 28647b19e5c8d3242ad3f2eb91db8b9a, type: 3}
+      propertyPath: m_Text
+      value: Real controller pos:0.55555,0.55555,0.55555
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116986050248114613, guid: 28647b19e5c8d3242ad3f2eb91db8b9a, type: 3}
+      propertyPath: m_Text
+      value: Real controller rot:0.55555,0.55555,0.55555
+      objectReference: {fileID: 0}
+    - target: {fileID: 8191335697719140331, guid: 28647b19e5c8d3242ad3f2eb91db8b9a, type: 3}
+      propertyPath: m_Text
+      value: Real controller rot:0.55555,0.55555,0.55555
+      objectReference: {fileID: 0}
     - target: {fileID: 8198777997752971450, guid: 28647b19e5c8d3242ad3f2eb91db8b9a, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -512,6 +560,10 @@ PrefabInstance:
     - target: {fileID: 8198777997752971450, guid: 28647b19e5c8d3242ad3f2eb91db8b9a, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630313123352960629, guid: 28647b19e5c8d3242ad3f2eb91db8b9a, type: 3}
+      propertyPath: m_Text
+      value: Disable Aim Down Sights
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -528,7 +580,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4890012464652379300, guid: 60cdb9bc117b5f04798cadf13320b2bd, type: 3}
       propertyPath: m_Name
-      value: MixedRealityToolkit (Inactive)
+      value: MixedRealityToolkit
       objectReference: {fileID: 0}
     - target: {fileID: 4890012464652379302, guid: 60cdb9bc117b5f04798cadf13320b2bd, type: 3}
       propertyPath: m_LocalPosition.x

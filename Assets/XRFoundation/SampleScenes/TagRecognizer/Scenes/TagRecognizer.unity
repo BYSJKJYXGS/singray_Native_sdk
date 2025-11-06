@@ -959,6 +959,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 602046181438569356, guid: aa5896f181a2e9d43b349a77b54d44b9, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 202
+      objectReference: {fileID: 0}
     - target: {fileID: 1062616228288885209, guid: aa5896f181a2e9d43b349a77b54d44b9, type: 3}
       propertyPath: m_Name
       value: XvTagRecognizerDemo
@@ -967,6 +971,10 @@ PrefabInstance:
       propertyPath: tagManager
       value: 
       objectReference: {fileID: 513767220}
+    - target: {fileID: 5565639688954446158, guid: aa5896f181a2e9d43b349a77b54d44b9, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -12
+      objectReference: {fileID: 0}
     - target: {fileID: 8271811036665690643, guid: aa5896f181a2e9d43b349a77b54d44b9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1006,6 +1014,10 @@ PrefabInstance:
     - target: {fileID: 8271811036665690643, guid: aa5896f181a2e9d43b349a77b54d44b9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8529461486717320179, guid: aa5896f181a2e9d43b349a77b54d44b9, type: 3}
+      propertyPath: m_Text
+      value: 'Type:'
       objectReference: {fileID: 0}
     - target: {fileID: 9182353612857306472, guid: aa5896f181a2e9d43b349a77b54d44b9, type: 3}
       propertyPath: m_AnchoredPosition.x

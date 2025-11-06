@@ -662,9 +662,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 62163422046295347, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 617.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 62163422046295347, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -116
+      objectReference: {fileID: 0}
     - target: {fileID: 514563785413467189, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 571724016831002519, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 273.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 571724016831002519, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 797832061570737410, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
+      propertyPath: m_Text
+      value: Right fisheye
       objectReference: {fileID: 0}
     - target: {fileID: 955041377323433995, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
       propertyPath: m_Mesh
@@ -682,9 +702,21 @@ PrefabInstance:
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: XvXR.Foundation.XvCameraDemo, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 1280299550670724259, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
+      propertyPath: m_Text
+      value: MR video
+      objectReference: {fileID: 0}
     - target: {fileID: 1505295465747987495, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1560107092678498246, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 346.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1560107092678498246, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1799922922963458473, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
       propertyPath: m_Mesh
@@ -697,6 +729,18 @@ PrefabInstance:
     - target: {fileID: 2717130700015765842, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2771880607380587734, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
+      propertyPath: m_Text
+      value: Left fisheye
+      objectReference: {fileID: 0}
+    - target: {fileID: 3083395630088479696, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 186
+      objectReference: {fileID: 0}
+    - target: {fileID: 3083395630088479696, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.000030517578
       objectReference: {fileID: 0}
     - target: {fileID: 3493800491460026492, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
       propertyPath: m_Mesh
@@ -722,6 +766,10 @@ PrefabInstance:
       propertyPath: captureManager
       value: 
       objectReference: {fileID: 572690146}
+    - target: {fileID: 4145304245601671753, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5120089269036560338, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -733,6 +781,14 @@ PrefabInstance:
     - target: {fileID: 6828614489169306980, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: XvXR.Foundation.XvCameraDemo, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7127323646375230749, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
+      propertyPath: m_Text
+      value: AR glasses
+      objectReference: {fileID: 0}
+    - target: {fileID: 8086104089737572843, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
+      propertyPath: m_Text
+      value: Computing terminal
       objectReference: {fileID: 0}
     - target: {fileID: 8090996125191386755, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
       propertyPath: m_Mesh
@@ -782,9 +838,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8508123727557542357, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8549287509923531049, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8983449963624439494, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 425.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8983449963624439494, guid: aa972adcda7baf34e982e7360eacda65, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.000045776
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

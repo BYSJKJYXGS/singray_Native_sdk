@@ -233,7 +233,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4890012464652379300, guid: 60cdb9bc117b5f04798cadf13320b2bd, type: 3}
       propertyPath: m_Name
-      value: MixedRealityToolkit (Inactive)
+      value: MixedRealityToolkit
       objectReference: {fileID: 0}
     - target: {fileID: 4890012464652379302, guid: 60cdb9bc117b5f04798cadf13320b2bd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -439,6 +439,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4334449910752891097, guid: a1cb19c10e368ec449c978f0dcd5179a, type: 3}
+      propertyPath: hostTransform
+      value: 
+      objectReference: {fileID: 4459138038035442266}
+    - target: {fileID: 4334449910752891097, guid: a1cb19c10e368ec449c978f0dcd5179a, type: 3}
+      propertyPath: constraintsManager
+      value: 
+      objectReference: {fileID: 4459138038035442267}
     - target: {fileID: 7609193934842428971, guid: a1cb19c10e368ec449c978f0dcd5179a, type: 3}
       propertyPath: m_Name
       value: Env
@@ -448,6 +456,22 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1cb19c10e368ec449c978f0dcd5179a, type: 3}
+--- !u!4 &4459138038035442266 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4967353097517145875, guid: a1cb19c10e368ec449c978f0dcd5179a, type: 3}
+  m_PrefabInstance: {fileID: 4459138038035442265}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4459138038035442267 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6125201037642665215, guid: a1cb19c10e368ec449c978f0dcd5179a, type: 3}
+  m_PrefabInstance: {fileID: 4459138038035442265}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a98de877dee5fc341b4eb59dfdab266c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5870647297797015237
 GameObject:
   m_ObjectHideFlags: 0
@@ -485,6 +509,42 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 644095594453488243, guid: 7eca46bf6935b51489b4c498027256f8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -34
+      objectReference: {fileID: 0}
+    - target: {fileID: 644095594453488243, guid: 7eca46bf6935b51489b4c498027256f8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 955718772178367934, guid: 7eca46bf6935b51489b4c498027256f8, type: 3}
+      propertyPath: m_Text
+      value: 'Wear:'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1547310547551867568, guid: 7eca46bf6935b51489b4c498027256f8, type: 3}
+      propertyPath: m_Text
+      value: Brightness
+      objectReference: {fileID: 0}
+    - target: {fileID: 2062121626808070967, guid: 7eca46bf6935b51489b4c498027256f8, type: 3}
+      propertyPath: m_Text
+      value: 'Button:'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2264979105630606727, guid: 7eca46bf6935b51489b4c498027256f8, type: 3}
+      propertyPath: m_Text
+      value: 'Battery level:'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2417305312987179119, guid: 7eca46bf6935b51489b4c498027256f8, type: 3}
+      propertyPath: m_Text
+      value: 'Light:'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2564526654036033751, guid: 7eca46bf6935b51489b4c498027256f8, type: 3}
+      propertyPath: m_Text
+      value: Pupil distance
+      objectReference: {fileID: 0}
+    - target: {fileID: 2584124783815031192, guid: 7eca46bf6935b51489b4c498027256f8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -427
+      objectReference: {fileID: 0}
     - target: {fileID: 4934876970064757658, guid: 7eca46bf6935b51489b4c498027256f8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -525,9 +585,45 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5065240436202751312, guid: 7eca46bf6935b51489b4c498027256f8, type: 3}
+      propertyPath: m_Text
+      value: Volume
+      objectReference: {fileID: 0}
     - target: {fileID: 5472898851637469934, guid: 7eca46bf6935b51489b4c498027256f8, type: 3}
       propertyPath: m_Name
       value: XvSystemSettingDemo
+      objectReference: {fileID: 0}
+    - target: {fileID: 5510847477759688893, guid: 7eca46bf6935b51489b4c498027256f8, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 492
+      objectReference: {fileID: 0}
+    - target: {fileID: 5510847477759688893, guid: 7eca46bf6935b51489b4c498027256f8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -280
+      objectReference: {fileID: 0}
+    - target: {fileID: 5510847477759688893, guid: 7eca46bf6935b51489b4c498027256f8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6628882621137296993, guid: 7eca46bf6935b51489b4c498027256f8, type: 3}
+      propertyPath: m_Text
+      value: Light sensing
+      objectReference: {fileID: 0}
+    - target: {fileID: 7035732330447449049, guid: 7eca46bf6935b51489b4c498027256f8, type: 3}
+      propertyPath: m_Text
+      value: Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 7807754424303692685, guid: 7eca46bf6935b51489b4c498027256f8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -413
+      objectReference: {fileID: 0}
+    - target: {fileID: 7920774529178083189, guid: 7eca46bf6935b51489b4c498027256f8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -417
+      objectReference: {fileID: 0}
+    - target: {fileID: 8674920653213221953, guid: 7eca46bf6935b51489b4c498027256f8, type: 3}
+      propertyPath: m_Text
+      value: Button
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
