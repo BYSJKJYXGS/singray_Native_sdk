@@ -4,10 +4,7 @@ using UnityEngine;
 
 namespace XvXR.Foundation
 {
-    /// <summary>
-    /// 依赖于XvMediaRecorderManager类，
-    /// 该类主要实现通过菜单进行本地视频的录制和截图功能
-    /// </summary>
+  
     public class XvMediaRecorder : MonoBehaviour
     {
         [SerializeField]
@@ -105,7 +102,6 @@ namespace XvXR.Foundation
         private void OnEnable()
         {
 
-            ///录制之前需要打开MR视频捕捉功能,
             XvMediaRecorderManager.StartCapture();
            
         }
@@ -119,33 +115,26 @@ namespace XvXR.Foundation
             if (Time.frameCount%5==0) {
                 if (XvCameraManager.IsOn(XvCameraStreamType.ARCameraStream))
                 {
-                    cameraText.text = "关闭相机";
                 }
                 else
                 {
-                    cameraText.text = "打开相机";
                 }
                 if (XvRTSPStreamerManager.IsStreeaming)
                 {
-                    RtspStreamingText.text = "停止推流";
                 }
                 else
                 {
-                    RtspStreamingText.text = "开始推流";
                 }
 
                 if (xvMediaRecorderManager.IsVideoRecording())
                 {
-                    VideoRecordingText.text = "停止录屏";
                 }
                 else
                 {
-                    VideoRecordingText.text = "开始录屏";
                 }
 
                 if (XvMediaRecorderManager.IsTakingScreenshots() || isScreenshot)
                 {
-                    MyDebugTool.LogError("当前正在拍照中...");
 
                     return;
                 }
@@ -170,11 +159,9 @@ namespace XvXR.Foundation
             {
                 cameraTips.gameObject.SetActive(false);
                 XvCameraManager.StopCapture(XvCameraStreamType.ARCameraStream);
-                cameraText.text = "打开相机";
             }
             else {
                 cameraTips.gameObject.SetActive(true);
-                cameraText.text = "关闭相机";
 
                 XvCameraManager.StartCapture(XvCameraStreamType.ARCameraStream);
             }
@@ -185,21 +172,16 @@ namespace XvXR.Foundation
             {
                 RtspTips.gameObject.SetActive(false);
                 XvRTSPStreamerManager.StopRtspStreaming();
-                RtspStreamingText.text = "开始推流";
             }
             else {
                 RtspTips.gameObject.SetActive(true);
                 XvRTSPStreamerManager.StartRtspStreaming();
-                RtspStreamingText.text = "停止推流";
             }
             
         }
        
       
 
-        /// <summary>
-        /// 开始录制本地视频
-        /// </summary>
         public void VideoRecording()
         {
             if (xvMediaRecorderManager.IsVideoRecording())
@@ -208,51 +190,26 @@ namespace XvXR.Foundation
 
                 xvMediaRecorderManager.StopRecording((filePath) =>
                 {
-                    tips.ShowTips("存储路径：" + filePath, 2);
                    
                 });
 
-                VideoRecordingText.text = "开始录屏";
             }
             else {
                 
                 VideoRecordTips.gameObject.SetActive(true);
                 XvMediaRecorderManager.StartRecording();
-                VideoRecordingText.text = "停止录屏";
             }
 
 
         }
-        //private IEnumerator RelayRecording()
-        //{
-
-        //    tips.ShowTips("准备录制");
-
-        //    yield return new WaitForSeconds(1);
-
-        //    for (int i = 3; i >= 0; i--)
-        //    {
-        //        tips.ShowTips(i.ToString());
-        //        yield return new WaitForSeconds(0.5f);
-        //    }
-
-
-        //    tips.ShowTips("录制中",1);
-        // XvMediaRecorderManager.StartRecording();
-
-
-        //}
-
+       
         private bool isScreenshot;
-        /// <summary>
-        /// 截图保存
-        /// </summary>
+    
         public void SaveScreenshot()
         {
           
             if (XvMediaRecorderManager.IsTakingScreenshots()||isScreenshot)
             {
-                MyDebugTool.LogError("当前正在拍照中...");
                
                 return;
             }
@@ -275,7 +232,6 @@ namespace XvXR.Foundation
             }
             tips.HideTips();
             XvMediaRecorderManager.SaveScreenshot((filePath) => {
-                tips.ShowTips("存储路径：" + filePath,1);
                 ScreenshotTips.gameObject.SetActive(false);
                 isScreenshot = false;
             });

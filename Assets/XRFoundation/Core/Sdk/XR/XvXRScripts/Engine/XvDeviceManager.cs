@@ -37,15 +37,12 @@ namespace XvXR.Engine
 
         private static XvDeviceManager manager = null;
 
-        [Tooltip("是否开启手势")]
 
         public bool needStartGesture = false;
 
-        [Tooltip("是否输出Debug信息")]
 
         public bool logEnable = false;
       
-        [Tooltip("是否允许Back或Home按键退出应用")]
         public bool backHome=true;//
         private bool isStartGesture = false;
         private int skeletonId = -1;
@@ -330,11 +327,11 @@ namespace XvXR.Engine
             FileInfo file_info = new FileInfo(file_path + "//" + file_name);
             if (!file_info.Exists)
             {
-                sw = file_info.CreateText();//创建一个用于写入 UTF-8 编码的文本  
-                MyDebugTool.Log("File created successfully！");
+                sw = file_info.CreateText(); 
+                MyDebugTool.Log("File created successfully!");
                 sw.Write(str_info);
                 sw.Close();
-                sw.Dispose();//文件流释放  
+                sw.Dispose();
             }
 
             string result = string.Empty;

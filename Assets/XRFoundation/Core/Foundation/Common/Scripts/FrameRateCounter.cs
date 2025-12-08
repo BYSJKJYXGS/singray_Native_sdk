@@ -37,10 +37,10 @@ public class FrameRateCounter : MonoBehaviour
 
             if (displayMode == DisplayMode.FPS)
             {
-                display.text = string.Format("FPS\n最好:{0:0}\n平均:{1:0}\n最差:{2:0}", 1f / bestDuration, frames / duration, 1f / worstDuration);
+                display.text = string.Format("FPS\n MAX:{0:0}\nAVG:{1:0}\nMIN:{2:0}", 1f / bestDuration, frames / duration, 1f / worstDuration);
             }
             else { 
-                display.text = string.Format("MS\n最好:{0:F2}\n平均:{1:F2}\n最差:{2:F2}", 1000 * bestDuration, 1000* duration /frames , 1000* worstDuration);
+                display.text = string.Format("MS\n MAX:{0:F2}\nAVG:{1:F2}\nMIN:{2:F2}", 1000 * bestDuration, 1000* duration /frames , 1000* worstDuration);
             }
             frames = 0;
             duration = 0;

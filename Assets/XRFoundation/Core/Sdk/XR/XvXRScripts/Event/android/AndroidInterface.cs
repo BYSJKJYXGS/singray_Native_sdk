@@ -97,11 +97,7 @@ namespace XvXR.SystemEvents
 		}
 
 
-		/// <summary>
-		/// 调用java库获取显示屏的一些参数类似分辨率:physicalWidth,physicalHeight, pixelWidth,pixelHeight，
-		/// java库会获取android显示DisplayMetrics参数
-		/// </summary>
-		/// <returns></returns>
+
 		public float [] GetUnityXvXRConfigInfo()
 		{
 			float[] result=new float[4];
@@ -121,10 +117,7 @@ namespace XvXR.SystemEvents
 			}
 		}
 
-		/// <summary>
-		/// 在java sdk里,onDeviceAttach里会调用，设置vrmode是否使能
-		/// </summary>
-		/// <param name="isVrMode"></param>
+
 		public void onSdkSwitchVrMode(string isVrMode)
 		{
 			if ("true".Equals(isVrMode))
@@ -150,28 +143,19 @@ namespace XvXR.SystemEvents
 			XvXRManager.SDK.onSdkConfigParamterChange();
 		}
 
-		/// <summary>
-		/// 获取wifi连接状态的改变
-		/// </summary>
-		/// <param name="state"></param>
+
 		public void onWifiConnectState(string state)
 		{
 			XvDeviceManager.Manager.onWifiConnectState(state);
 		}
 		
-		/// <summary>
-		/// 获取IP 相关信息
-		/// </summary>
-		/// <param name="ipInfo"></param>
+
 		public void onIpInfo(string ipInfo)
 		{
 			//SetStaticIpControl.getIpInfo(ipInfo);
 		}
 
-		/// <summary>
-		/// app 安装 删除 的状态回调
-		/// </summary>
-		/// <param name="state"></param>		
+		
 		public void onPkgChangeState(string state)
 		{
 			XvDeviceManager.Manager.onAppInstallState(state);

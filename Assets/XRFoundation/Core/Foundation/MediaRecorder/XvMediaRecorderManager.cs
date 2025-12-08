@@ -1,11 +1,11 @@
-using NatSuite.Examples;
+锘縰sing NatSuite.Examples;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace XvXR.Foundation
 {
     /// <summary>
-    /// 该类主要负责本地视频的录制和截图
+    /// This class is mainly responsible for local video recording and screenshot capture. 录This class is mainly responsible for local video recording and screenshot capture. 
     /// </summary>
     [RequireComponent(typeof(ReplayCam))]
     [RequireComponent(typeof(JPG))]
@@ -64,23 +64,22 @@ namespace XvXR.Foundation
 
 
         /// <summary>
-        /// 开启捕捉虚实结合视频流
+        /// StartCapture
         /// </summary>
         public void StartCapture() {
             XvMRVideoCaptureManager.StartCapture();
         }
         /// <summary>
-        /// 停止捕捉虚实结合视频流
-        /// 注意：相机是公用的，关闭的时候需要评估其他模块是否需要用到相机，如果其他模块使用相机，最好closeCamera==false
+        /// StopCapturecloseCamera==false
         /// </summary>
-        /// <param name="closeCamera">true:关闭相机   false:不关闭相机</param>
+        /// <param name="closeCamera">true:false</param>
         public void StopCapture(bool closeCamera=false)
         {
             XvMRVideoCaptureManager.StopCapture(closeCamera);
         }
 
         /// <summary>
-        /// 开始录像，再开始录制前，需要确保StartCapture方法已经调用，混合现实视频流已经开启。
+        /// StartCapture
         /// </summary>
 
         public void StartRecording()
@@ -90,7 +89,7 @@ namespace XvXR.Foundation
         }
 
         /// <summary>
-        /// 停止录像
+        ///StopRecording
         /// </summary>
         /// <param name="callback"></param>
         public void StopRecording(UnityAction<string> callback)
@@ -104,7 +103,7 @@ namespace XvXR.Foundation
         }
 
         /// <summary>
-        /// 保存截图，截图前需要确保StartCapture方法已经调用，混合现实视频流已经开启。
+        /// SaveScreenshot
         /// </summary>
         /// <param name="callback"></param>
         public void SaveScreenshot(UnityAction<string> callback)

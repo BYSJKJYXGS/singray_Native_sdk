@@ -121,13 +121,13 @@ namespace XvXR.Foundation.SampleScenes
         [MonoPInvokeCallback(typeof(device_stream_callback))]
         public static void OnDevice_stream_callback(XvEvent xvEvent)
         {
-            //key = 2 ,state = 0 State of wearing no glasses
-            //key = 2 ,state = 1 Wearing glasses state
+            //key = 2  state = 0 State of wearing no glasses
+            //key = 2  state = 1 Wearing glasses state
 
-            //key = 6 ,state = 0 Light sensing
+            //key = 6  state = 0 Light sensing
 
-            //key = 14 、1 、13、 3 ,state = 254 Suppress 255 Lift up 
-            //key = 17 、18 ,state = 101 Rotate + 99 Rotate-
+            //key = 14  1 13   3 state = 254 Suppress 255 Lift up 
+            //key = 17   18  state = 101 Rotate + 99 Rotate-
             switch (xvEvent.type)
             {
                 case 14:

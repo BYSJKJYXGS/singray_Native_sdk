@@ -5,13 +5,9 @@ using UnityEngine.UI;
 
 public class ShowFPS : MonoBehaviour
 {
-    //更新的时间间隔
     public float UpdateInterval = 0.5F;
-    //最后的时间间隔
     private float _lastInterval;
-    //帧[中间变量 辅助]
     private int _frames = 0;
-    //当前的帧率
     private float _fps;
 
     private TextMesh _text;
@@ -57,7 +53,6 @@ public class ShowFPS : MonoBehaviour
         }
     }
 
-    //得到三角面和顶点数
     void GetAllVertsAndTris(GameObject obj)
     {
         Component[] filters;

@@ -9,12 +9,12 @@ namespace XvXR.Foundation
 
     public enum TofStreamType { 
         Unknown = 0,
-        DeapthStream,//深度图像
-        IRStream,//IR图像
+        DeapthStream,
+        IRStream,
     
     }
     /// <summary>
-    /// 深度图像
+    /// Depth Frame
     /// </summary>
     public class XvTofDepth
     {
@@ -75,7 +75,7 @@ namespace XvXR.Foundation
 
     }
     /// <summary>
-    /// IR图像
+    /// IR Raw Iamge
     /// </summary>
     public class XvTofIR {
 
@@ -264,7 +264,7 @@ namespace XvXR.Foundation
         }
 
         /// <summary>
-        /// 开启tof深度相机流
+        /// Enable the TOF depth camera stream.
         /// </summary>
         public void StartTofStream(XvTofCameraParameter xvTofIRCameraParameter)
         {
@@ -274,7 +274,7 @@ namespace XvXR.Foundation
         }
 
         /// <summary>
-        /// 开启tof IR相机流
+        /// Enable the TOF IR depth camera stream.
         /// </summary>
         public void StartTofIRStream(XvTofCameraParameter xvTofIRCameraParameter)
         {
@@ -285,10 +285,10 @@ namespace XvXR.Foundation
         }
 
         /// <summary>
-        /// 设置当前tof 数据流模式
+        ///  SetTof the TOF IR depth camera stream.
         /// </summary>
         /// <param name="mode"></param>
-      public void SetTofStreamMode(int mode) {
+        public void SetTofStreamMode(int mode) {
 
             if (!modelSet)
             {
@@ -298,7 +298,7 @@ namespace XvXR.Foundation
             modelSet = true;
         }
         /// <summary>
-        /// 停止tof相机流
+        /// Disable the TOF IR depth camera stream.
         /// </summary>
 
         public void StopTofStream()

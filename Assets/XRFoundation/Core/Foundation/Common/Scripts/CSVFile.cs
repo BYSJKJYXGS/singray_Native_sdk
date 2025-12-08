@@ -7,9 +7,7 @@ public class CSVFile
 {
     List<string[]> _data = new List<string[]>();
 
-    /// <summary>
-    /// 数据
-    /// </summary>
+
     public string[][] Data
     {
         get { return _data.ToArray(); }
@@ -17,9 +15,6 @@ public class CSVFile
 
     int _rowCount = 0;
 
-    /// <summary>
-    /// 行数
-    /// </summary>
     public int RowCount
     {
         get { return _rowCount; }
@@ -27,18 +22,13 @@ public class CSVFile
 
     int _colCount = 0;
 
-    /// <summary>
-    /// 列数
-    /// </summary>
+ 
     public int ColCount
     {
         get { return _colCount; }
     }
 
-    /// <summary>
-    /// 通过数据生成
-    /// </summary>
-    /// <param name="data"></param>
+  
     public CSVFile(byte[] data, Encoding encoding)
     {
         var content = encoding.GetString(data);
@@ -82,11 +72,7 @@ public class CSVFile
         }
     }
 
-    /// <summary>
-    /// 得到表格的值
-    /// </summary>
-    /// <param name="row"></param>
-    /// <param name="col"></param>
+  
     public string GetValue(int row, int col)
     {
         return _data[row][col];
@@ -104,20 +90,13 @@ public class CSVFile
         return tmpStr;
     }
 
-    /// <summary>
-    /// 分割一行字符串中的列
-    /// </summary>
-    /// <param name="rowContent"></param>
-    /// <returns></returns>
+  
     List<string> GetCols(string rowContent)
     {
-        //引号
         const char QUOTATION_MARKS = '"';
-        //逗号
         const char COMMA = ',';
 
         List<string> cols = new List<string>();
-        //分割标记(同时也是一列字符串的第一个字符的索引)
         int splitMark = 0;
         int charIdx = 0;
         bool isSpecial = false;
@@ -137,7 +116,6 @@ public class CSVFile
                     isSpecial = false;
                     if (nextIdx == rowContent.Length)
                     {
-                        //结束符
                         string colContent = rowContent.Substring(splitMark);
                         cols.Add(colContent);
                         break;
@@ -148,16 +126,13 @@ public class CSVFile
             {
                 if (isSpecial)
                 {
-                    //处理含有特殊字符串的内容
                     if (c == QUOTATION_MARKS)
                     {
                         if (nextIdx == rowContent.Length)
                         {
-                            //结束符
                             string colContent = rowContent.Substring(splitMark + 1, charIdx - splitMark - 1);
                             colContent = colContent.Replace("\"\"", "\"");
                             cols.Add(colContent);
-                            //跳过下一个引号
                             charIdx++;
                         }
                         else
@@ -165,12 +140,10 @@ public class CSVFile
                             char nextC = rowContent[nextIdx];
                             if (nextC == QUOTATION_MARKS)
                             {
-                                //跳过双引号
                                 charIdx++;
                             }
                             else if (nextC == COMMA)
                             {
-                                //分割符
                                 string colContent = rowContent.Substring(splitMark + 1, charIdx - splitMark - 1);
                                 colContent = colContent.Replace("\"\"", "\"");
                                 cols.Add(colContent);
@@ -182,10 +155,8 @@ public class CSVFile
                 }
                 else
                 {
-                    //处理普通字符串的内容
                     if (c == COMMA)
                     {
-                        //分割符
                         string colContent = rowContent.Substring(splitMark, charIdx - splitMark);
                         cols.Add(colContent);
                         splitMark = charIdx + 1;
@@ -193,7 +164,6 @@ public class CSVFile
 
                     if (nextIdx == rowContent.Length)
                     {
-                        //结束符
                         string colContent = rowContent.Substring(splitMark);
                         cols.Add(colContent);
                         break;
@@ -221,7 +191,6 @@ public class CSVFile
         BinaryReader r = new BinaryReader(fs, System.Text.Encoding.Default);
         byte[] ss = r.ReadBytes(3);
         r.Close();
-        //编码类型 Coding=编码类型.ASCII;   
         if (ss[0] >= 0xEF)
         {
             if (ss[0] == 0xEF && ss[1] == 0xBB && ss[2] == 0xBF)

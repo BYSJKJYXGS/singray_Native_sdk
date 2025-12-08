@@ -40,26 +40,8 @@ namespace XvXR.Foundation.SampleScenes
         {
             FilterVec.Clear();
 
-            /*for (int i = 0; i < Mathf.FloorToInt(vs.Length); i++)
-            {
-                //int random = UnityEngine.Random.Range(i*10, i*10 + 99);
+         
 
-                #region tof点云坐标转换
-                ////tof点云坐标转换（tof点云相对于tof相机 --> tof点云相对于世界中心）
-                //P_tofpoint_tofcam.SetTRS(new Vector3(vs[i].x, -vs[i].y, vs[i].z), new Quaternion(0, 0, 0, 1), Vector3.one);
-                //P_tofcam_glassImu.SetTRS(TofCloudManager.tofpos, TofCloudManager.tofQua, Vector3.one);
-                //P_glassImu_world.SetTRS(XvXRManager.SDK.HeadPose.Position, XvXRManager.SDK.HeadPose.Orientation, Vector3.one);
-
-                //P_tofpoint_world = P_glassImu_world * P_tofcam_glassImu * P_tofpoint_tofcam;
-
-                //FilterVec.Add(P_tofpoint_world.GetColumn(3));
-                #endregion
-
-                //直接使用接口传过来的点云数据
-                //FilterVec.Add(vs[i]);
-            }*/
-
-            //过滤
             for (int i = 0; i < vs.Length; i++)
             {
                 int randomIndex = UnityEngine.Random.Range(0, 30);
@@ -70,34 +52,13 @@ namespace XvXR.Foundation.SampleScenes
             }
 
 
-            //for (int i = 0; i < vs.Length; i++)
-            //{
-            //    if (i % 100 == 0)
-            //    {
-
-            //        //tof点云坐标转换（tof点云相对于tof相机 --> tof点云相对于世界中心）
-            //        P_tofpoint_tofcam.SetTRS(new Vector3(vs[i].x, -vs[i].y, vs[i].z), new Quaternion(0, 0, 0, 1), Vector3.one);
-            //        P_tofcam_glassImu.SetTRS(TofCloudManager.tofpos, TofCloudManager.tofQua, Vector3.one);
-            //        P_glassImu_world.SetTRS(XvXRManager.SDK.HeadPose.Position, XvXRManager.SDK.HeadPose.Orientation, Vector3.one);
-
-            //        P_tofpoint_world = P_glassImu_world * P_tofcam_glassImu * P_tofpoint_tofcam;
-
-            //        FilterVec.Add(P_tofpoint_world.GetColumn(3));
-            //    }
-            //}
-            ////Debug.Log($"XVTof FilterVec.Length:{FilterVec.Count}");
-
-            //设置centerCube位置
-            //centerCube.position = FilterVec[Mathf.FloorToInt(FilterVec.Count / 2)];
-            ////Debug.Log($"XVTof centerCube pos:{centerCube.position}");
-
+          
             var main = ps.main;
 
             var pointCount = FilterVec.Count;
             allParticles = new ParticleSystem.Particle[pointCount];
             main.maxParticles = pointCount;
             //ps.maxParticles = pointCount;
-            ////Debug.Log("绘制点count " + main.maxParticles);
             ps.Emit(pointCount);
             ps.GetParticles(allParticles);
             for (int i = 0; i < pointCount; i++)
@@ -109,17 +70,7 @@ namespace XvXR.Foundation.SampleScenes
 
 
             ps.SetParticles(allParticles, pointCount);      // Load the point cloud into the particle system
-            /*
-            //Draw mesh
-            if (isCreateMesh)
-            {
-                CreateMesh(FilterVec);
-                isCreateMesh = false;
-            }
-
-            */
-
-            //Debug.Log($"XVTof finish");
+        
         }
 
         void CreateMesh(List<Vector3> FilterVec)

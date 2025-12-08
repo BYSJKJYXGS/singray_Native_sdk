@@ -4,13 +4,7 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 namespace XvXR.Foundation
 {
-    /// <summary>
-    //key = 2 ,state = 0 眼镜摘掉状态
-    //key = 2 ,state = 1 眼镜戴上状态
-    //key = 6 ,state = 0 光感
-    //key = 14 1 13 3 ,state = 254 压下 255 抬起 
-    //key = 17 18 ,state = 101 旋转+ 99 旋转-
-    /// </summary>
+    /// <summary>/// Key = 2:/// - State = 0: Glasses removed state/// - State = 1: Glasses worn state/// Key = 6:/// - State = 0: Light sensor (triggered)/// Keys = 14, 1, 13, 3:/// - State = 254: Pressed down/// - State = 255: Released/// Keys = 17, 18:/// - State = 101: Rotate clockwise (+)/// - State = 99: Rotate counterclockwise (-)/// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct XvEvent
     {
@@ -22,11 +16,11 @@ namespace XvXR.Foundation
     public class XvSystemSetting 
     {
         /// <summary>
-        /// 设置眼镜亮度
+        /// xslam_display_set_brightnesslevel
         /// </summary>
-        /// <param name="level">0~9个等级</param>
+        /// <param name="level">0~9 level</param>
         [DllImport("xslam-unity-wrapper")]
-        public static extern void xslam_display_set_brightnesslevel(int level); //level为亮度等级
+        public static extern void xslam_display_set_brightnesslevel(int level); 
 
         [DllImport("xslam-unity-wrapper")]
         public static extern int xslam_start_event_stream(device_stream_callback cb);

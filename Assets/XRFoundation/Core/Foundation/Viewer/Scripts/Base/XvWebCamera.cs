@@ -30,7 +30,7 @@ namespace XvXR.Foundation
             }
             else
             {
-                Debug.LogError("没有找到材质球MyShader/RgbImage");
+                Debug.LogError("not find  MyShader/RgbImage");
             }
         }
 
@@ -49,7 +49,7 @@ namespace XvXR.Foundation
             }
             else
             {
-                MyDebugTool.Log("Detected number of cameras：" + webCamDevices.Length);
+                MyDebugTool.Log("Detected number of cameras:" + webCamDevices.Length);
             }
             webCamTexture = new WebCamTexture(webCamDevices[0].name, cameraParameter.width, cameraParameter.height);
             webCamTexture.Play();

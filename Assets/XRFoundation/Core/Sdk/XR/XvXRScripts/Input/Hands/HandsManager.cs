@@ -118,7 +118,7 @@ namespace XvXR
             // }
         }
 
-        private void CaculatePinchState(HandState handState)//捏状态
+        private void CaculatePinchState(HandState handState)
         {
          //   handState.pinchStrength = HandStateUtility.GetIndexFingerPinchStrength(handState);
           //  handState.isPinching = handState.pinchStrength > float.Epsilon;

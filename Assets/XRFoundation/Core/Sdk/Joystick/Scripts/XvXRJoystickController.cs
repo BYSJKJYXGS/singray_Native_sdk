@@ -230,7 +230,6 @@ namespace XvXR.MixedReality.Toolkit.XvXR.Input
                         // if (Interactions[i].Changed)
                        
                         bool isPinching = XvJoystickManager.Instance.GetKey(JoystickButton.Button_Trigger, TrackerType.Right);
-                        //临时用B键 代替
                         //bool isPinching = data.keyBack == 0 ? true : false;
 
                         bool changed = Interactions[i].BoolData != isPinching ? true : false;

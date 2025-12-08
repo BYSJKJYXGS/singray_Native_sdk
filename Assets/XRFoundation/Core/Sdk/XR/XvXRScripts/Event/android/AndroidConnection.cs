@@ -44,7 +44,6 @@ namespace XvXR.SystemEvents
 
         }
 
-        //蓝牙是否打开了
         internal static bool IsTurnOnBluetooth()
         {
             if (activityObject == null)
@@ -81,7 +80,6 @@ namespace XvXR.SystemEvents
         }
 
    
-        //设置wifi连接走service
         internal static void startBackService()
         {
             if (activityObject == null)
@@ -94,7 +92,6 @@ namespace XvXR.SystemEvents
         }
 
 
-        //wifi是否打开
         internal static bool getWifiState()
         {
             if (activityObject == null)
@@ -107,7 +104,6 @@ namespace XvXR.SystemEvents
 
         }
 
-        //是否支持wifi
         internal static bool isWifiSupported()
         {
             if (activityObject == null)
@@ -119,7 +115,6 @@ namespace XvXR.SystemEvents
             return result;
         }
 
-        //获取 wifi List
         internal static string getWifiList()
         {
             if (activityObject == null)
@@ -132,7 +127,6 @@ namespace XvXR.SystemEvents
 
         }
 
-        // 连接wifi
         internal static void connectWifi(String SSID, String pwd, bool isHasPwd)
         {
             if (activityObject == null)
@@ -184,10 +178,7 @@ namespace XvXR.SystemEvents
             return result;
         }
 
-        /// <summary>
-        /// 当本地设备开启热点功能的时候，通过该接口获取到连接当前热点的设备IP
-        /// </summary>
-        /// <returns>格式如："{name=192.168.1.45, address=16:5F:3A:8C:9D:F1}{name=192.168.1.187, address=38:2A:7E:54:BF:D2}"</returns>
+    
         public static string getConnectedApInfo()
         {
             if (activityObject == null)
@@ -274,7 +265,6 @@ namespace XvXR.SystemEvents
 
         }
 
-        //获取当前音量
         internal static int getVolumeCurr()
         {
             if (activityObject == null)
@@ -287,7 +277,6 @@ namespace XvXR.SystemEvents
 
         }
 
-        //获取最大音量
         internal static int getVolumeMax()
         {
             if (activityObject == null)
@@ -310,12 +299,7 @@ namespace XvXR.SystemEvents
             return result;
         }
 
-        //获取wifi信号强度
-        //得到的值是一个0到-100的区间值，是一个int型数据，
-        //其中0到-50表示信号最好，
-        //-50到-70表示信号偏差，
-        //小于-70表示最差，有可能连接不上或者掉线。
-        //这个函数是返回5个级别！！！！！！
+     
         internal static int GetWIFISignalStrength()
         {
             if (activityObject == null)
@@ -328,7 +312,6 @@ namespace XvXR.SystemEvents
 
         }
 
-        //sim卡信号强度
         internal static int GetTeleSignalStrength()
         {
             if (activityObject == null)
@@ -341,7 +324,6 @@ namespace XvXR.SystemEvents
 
         }
 
-        /** 获得手机系统总内存 */
         internal static String getTotalMemory()
         {
             if (activityObject == null)
@@ -353,7 +335,6 @@ namespace XvXR.SystemEvents
             return result;
         }
 
-        /** 获取android当前可用内存大小 */
         internal static String getAvailMemory()
         {
             if (activityObject == null)
@@ -365,7 +346,6 @@ namespace XvXR.SystemEvents
             return result;
         }
 
-        /*获取cpu 信息 占用率|温度|内存占用*/
         internal static String getCpuInfo()
         {
             if (activityObject == null)
@@ -377,7 +357,6 @@ namespace XvXR.SystemEvents
             return result;
         }
 
-        /*获取系统版本号*/
         internal static String getVersion()
         {
             if (activityObject == null)
@@ -389,7 +368,6 @@ namespace XvXR.SystemEvents
             return result;
         }
 
-        /*获取产品名称*/
         internal static String getProductName()
         {
             if (activityObject == null)
@@ -401,7 +379,6 @@ namespace XvXR.SystemEvents
             return result;
         }
 
-        //一次次的从xml文件时区 ;分割
         internal static String getTimeZonesdata(int timeZone)
         {
             if (activityObject == null)
@@ -414,7 +391,6 @@ namespace XvXR.SystemEvents
         }
 
 
-        //获取系统当前的时区 0是中文 1是英文
         internal static String getDefaultTimeZone(int lang)
         {
             if (activityObject == null)
@@ -426,7 +402,6 @@ namespace XvXR.SystemEvents
             return result;
         }
 
-        //设置系统时区
         internal static void setTimeZone(String timeZone)
         {
             if (activityObject == null)
@@ -436,7 +411,6 @@ namespace XvXR.SystemEvents
             AndroidHelper.CallObjectMethod(activityObject, "setTimeZone", new object[] { timeZone });
         }
 
-        //设置系统时间
         internal static void setSysTime(int hour, int minute)
         {
             if (activityObject == null)
@@ -446,7 +420,6 @@ namespace XvXR.SystemEvents
             AndroidHelper.CallObjectMethod(activityObject, "setSysTime", new object[] { hour, minute });
         }
 
-        //设置系统日期
         internal static void setSysDate(int year, int month, int day)
         {
             if (activityObject == null)
@@ -456,7 +429,6 @@ namespace XvXR.SystemEvents
             AndroidHelper.CallObjectMethod(activityObject, "setSysDate", new object[] { year, month, day });
         }
 
-        //设置系统的时间是否需要自动获取
         internal static void setAutoDateTime(int checkednum)
         {
             if (activityObject == null)
@@ -466,7 +438,6 @@ namespace XvXR.SystemEvents
             AndroidHelper.CallObjectMethod(activityObject, "setAutoDateTime", new object[] { checkednum });
         }
 
-        //判断系统的时间是否自动获取的
         internal static bool isDateTimeAuto()
         {
             if (activityObject == null)
@@ -478,7 +449,6 @@ namespace XvXR.SystemEvents
             return result;
         }
 
-        //设置系统的时区是否自动获取
         internal static void setAutoTimeZone(int checkednum)
         {
             if (activityObject == null)
@@ -488,7 +458,6 @@ namespace XvXR.SystemEvents
             AndroidHelper.CallObjectMethod(activityObject, "setAutoTimeZone", new object[] { checkednum });
         }
 
-        //判断系统的时区是否是自动获取的
         internal static bool isTimeZoneAuto()
         {
             if (activityObject == null)
@@ -500,7 +469,6 @@ namespace XvXR.SystemEvents
             return result;
         }
 
-        //设置时间格式12 / 24小时制
         internal static void setHourFormat(int hour)
         {
             if (activityObject == null)
@@ -510,7 +478,6 @@ namespace XvXR.SystemEvents
             AndroidHelper.CallObjectMethod(activityObject, "setHourFormat", new object[] { hour });
         }
 
-        //判断是否插入眼镜后自启动app
         internal static bool isAutoEntryLauncher()
         {
             if (activityObject == null)
@@ -555,7 +522,6 @@ namespace XvXR.SystemEvents
 
 
 
-        //是否是24小时制
         internal static bool is24Hour()
         {
             if (activityObject == null)
@@ -603,7 +569,6 @@ namespace XvXR.SystemEvents
                 }
                 catch (Exception e)
                 {
-                    // Debug.LogError(e, this);
 
                 }
 
@@ -620,11 +585,7 @@ namespace XvXR.SystemEvents
             AndroidHelper.CallObjectMethod(activityObject, "vrShowRecenter", new object[] { });
         }
 
-        /// <summary>
-        /// apk安装
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
+     
         internal static bool installApkPackage(String path)
         {
             if (activityObject == null)
@@ -676,10 +637,7 @@ namespace XvXR.SystemEvents
             AndroidHelper.CallObjectMethod(activityObject, "shutdownDevice", new object[] { });
         }
 
-        /// <summary>
-        /// wifi 投屏 开关
-        /// </summary>
-        /// <param name="isOpen"></param>
+
         internal static void startWifiDisplay(bool isOpen)
         {
             if (activityObject == null)
@@ -702,10 +660,6 @@ namespace XvXR.SystemEvents
 
 
 
-        /// <summary>
-        /// 连接电视
-        /// </summary>
-        /// <param name="displayName"></param>
         internal static void connectWifiDisplay(String displayName)
         {
             if (activityObject == null)
@@ -715,14 +669,7 @@ namespace XvXR.SystemEvents
             AndroidHelper.CallObjectMethod(activityObject, "connectWifiDisplay", new object[] { displayName });
         }
 
-        /// <summary>
-        /// 连接电视 状态
-        /// 0 1 不可用
-        /// 2   已关闭
-        /// 3   已打开
-        /// 
-        /// </summary>
-        /// <param name="displayName"></param>
+
         internal static int getWifiDisplayStatus()
         {
             if (activityObject == null)
@@ -735,9 +682,7 @@ namespace XvXR.SystemEvents
         }
 
 
-        /// <summary>
-        /// 打开热点
-        /// </summary>
+
         internal static void startTether()
         {
             if (activityObject == null)
@@ -747,14 +692,7 @@ namespace XvXR.SystemEvents
             AndroidHelper.CallObjectMethod(activityObject, "startTether", new object[] { });
         }
 
-        /// <summary>
-        //已关闭 11
-        //关闭中 10
-        //已打开 13
-        //打开中 12
-        //打开失败 14
-        /// </summary>
-        /// <returns></returns>
+    
         internal static string getWifiApStatus()
         {
             if (activityObject == null)
@@ -768,9 +706,7 @@ namespace XvXR.SystemEvents
             return result;
         }
 
-        /// <summary>
-        /// 关闭热点
-        /// </summary>
+     
         internal static void stopTether()
         {
             if (activityObject == null)
@@ -780,12 +716,7 @@ namespace XvXR.SystemEvents
             AndroidHelper.CallObjectMethod(activityObject, "stopTether", new object[] { });
         }
 
-        /// <summary>
-        /// 设置热点
-        /// </summary>
-        /// <param name="type">默认 1</param>
-        /// <param name="ssid"></param>
-        /// <param name="passwd"></param>
+      
         internal static void onTetherConfigUpdated(int type, String ssid, String passwd)
         {
             if (activityObject == null)
@@ -796,12 +727,7 @@ namespace XvXR.SystemEvents
         }
 
 
-        /// <summary>
-        /// /// <summary>
-        /// 设置GPU CPU频率为系统自动调节模式，必须使用系统签名
-        /// </summary>
-        /// 
-        /// </summary>
+     
         internal static void setNormalPerformance()
         {
             if (activityObject == null)
@@ -811,10 +737,7 @@ namespace XvXR.SystemEvents
             AndroidHelper.CallObjectMethod(activityObject, "setNormalPerformance");
         }
 
-        /// <summary>
-        /// 设置GPU CPU频率，必须使用系统签名
-        /// </summary>
-        /// <param name="level">3 2 1  3最大 1最小</param>
+     
         internal static void setHighPerformance(int level)
         {
             if (activityObject == null)
@@ -827,10 +750,7 @@ namespace XvXR.SystemEvents
 
        
 
-        /// <summary>
-        /// 设置应用是否可以通过Back和Home返回主界面
-        /// </summary>
-        /// <param name="enable">true 返回： false 不返回</param>
+      
         internal static void setHomeKeyEnable(bool enable)
         {
 
@@ -845,10 +765,7 @@ namespace XvXR.SystemEvents
         }
 
 
-        /// <summary>
-        /// 获取当前设备名称，判断G2还是3588平台
-        /// </summary>
-        /// <returns>包含Kalama:G2    包含SeerPad:3588</returns>
+     
         internal static string getBoxName()
         {
             if (activityObject == null)

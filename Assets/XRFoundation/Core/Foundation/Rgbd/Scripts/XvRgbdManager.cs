@@ -6,7 +6,8 @@ namespace XvXR.Foundation
 {
 
     /// <summary>
-    /// 该类主要实现rgbd功能，通过该类可以启用或者关闭rgbd功能，可以根据rgb像素坐标获取到三维空间坐标
+    /// This class mainly implements RGBD functionality. Through this class, you can enable or disable the RGBD feature, 
+    /// and obtain 3D spatial coordinates based on RGB pixel coordinates.
     /// </summary>
     public sealed class XvRgbdManager : MonoBehaviour
     {
@@ -41,7 +42,7 @@ namespace XvXR.Foundation
 
 
         /// <summary>
-        /// 开启RGBD功能
+        /// Start RGB
         /// </summary>
         public void StartRgbPose() {
            
@@ -63,7 +64,7 @@ namespace XvXR.Foundation
             //XvCameraManager.onARCameraStreamFrameArrived.AddListener(onFrameArrived);
         }
         /// <summary>
-        /// 关闭RGBD功能
+        /// StopRgbPose
         /// </summary>
         public void StopRgbPose() {
 #if  UNITY_EDITOR
@@ -78,11 +79,9 @@ namespace XvXR.Foundation
         }
 
 
-        /// <summary>
-        /// 通过rgb像素坐标获取控件三维坐标
-        /// </summary>
-        /// <param name="rgbPoint">rgb 像素坐标</param>
-        /// <param name="spacePoint">空间三维坐标</param>
+        /// <summary>/// Gets the 3D coordinate of the control via the RGB pixel coordinate.
+        /// /// </summary>/// <param name="rgbPoint">RGB pixel coordinate</param>/// 
+        /// <param name="spacePoint">Spatial 3D coordinate</param>///
         /// <returns></returns>
         public bool GetRgbPixel3DPose(Vector2 rgbPoint,ref Vector3 spacePoint)
         {
@@ -106,7 +105,7 @@ namespace XvXR.Foundation
             return false;
         }
         /// <summary>
-        /// 根据rgb像素坐标列表，获取三维空间中坐标列表
+        /// Gets the 3D spatial coordinate list based on the RGB pixel coordinate list.
         /// </summary>
         /// <param name="rgbPoint"></param>
         /// <param name="spacePose"></param>

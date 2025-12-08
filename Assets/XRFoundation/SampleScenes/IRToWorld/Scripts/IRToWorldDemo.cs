@@ -121,7 +121,6 @@ namespace XvXR.Foundation.SampleScenes
 
             if (index >= vecGroup.Length)
             {
-                MyDebugTool.LogError("Ë÷ÒýÔ½½ç" + index + "  " + vecGroup.Length);
 
                 return vecGroup[0];
 

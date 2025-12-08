@@ -1,5 +1,4 @@
-
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System;
 using System.Collections.Generic;
@@ -101,11 +100,7 @@ public class XvXRManager : MonoBehaviour {
       
         ZeroQuaternion = Quaternion.identity;
 	}
-		/// <summary>
-		/// 获取glass端的optical参数更新到device的mParameter，通过调用的是java sdk里的GetXvXROpticalParameter()
-		/// android的activity也就是 xv-->onDeviceAttach()--->cpp::setXvXROpticalParameterChange() --> UNITY---->onSdkConfigParamterChange
-		/// --->updateopticalparameter()---->updatescreendata()
-		/// </summary>
+
 		internal void onSdkConfigParamterChange()
         {
 			//get the params from java sdk
@@ -139,7 +134,6 @@ public class XvXRManager : MonoBehaviour {
 				parameter.blue_coff[1] = configParams[13];
 				parameter.green_coff[0] = configParams[12];
 				parameter.green_coff[1] = configParams[13];
-				//更新到device的mParameter
 				UpdateOpticalParameter(parameter, false);
 
 
@@ -508,7 +502,6 @@ public class XvXRManager : MonoBehaviour {
 			XvXRLog.InternalXvXRLog("UpdateOpticalParameter");
 			if (param.red_coff != null && param.blue_coff != null && param.green_coff != null && param.red_coff.Length == 16 && param.green_coff.Length == 16 && param.blue_coff.Length == 16)
 			{
-				//更新device相关参数:mParameter,isUseDefaultScreen,userDefined
 				device.SetOpticalParameter(param, isUseDefaultScreen);
 				device.UpdateScreenData();
 

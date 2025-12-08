@@ -34,7 +34,6 @@ public class JPG : SingletonMonoBehaviour<JPG>
        
         if (isRecording)
         {
-            MyDebugTool.LogError("正在截图中....");
             return;
         }
         this.callback = callback;
@@ -79,7 +78,6 @@ try {
         string path2 = "/storage/emulated/0/DCIM/Screenshots/" + getDate() + ".jpg";; 
         File.Copy(path+"/1.jpg", path2);
         callback?.Invoke(path2);
-         MyDebugTool.LogError("保存完成");
          }catch ( Exception e ) { 
          MyDebugTool.LogError("Save Exception:"+e.Message);
         }

@@ -27,18 +27,12 @@ namespace XvXR.Engine
 
 
         public abstract void  ReadConfigInfo();
-        /// <summary>
-        /// 更新参数并计算投影矩阵设置到android java库
-        /// </summary>
+ 
         public override void UpdateScreenData()
         {
             XvXRLog.InternalXvXRLog("mobile test UpdateScreenData");
-            //读取device mParameter参数到XvXRConfigInfo.parmeter,device mParameter是在deviceAattach时从glass获取的
             ReadConfigInfo();
-            //计算出双眼的投影矩阵,这里是计算出默认的投影矩阵,赋值给leftEyeProjection,rightEyeProjection,recommendedTextureSize
-            //这里要看XvXRAndroidDevice.cs里的重载定义
             ComputeEyesFromProfile();
-            //设置Info.parameter和上面计算好的投影矩阵到glass，并发送changeRenderDataEventId事件到glass
             ChangeRenderData();
 
 
@@ -61,7 +55,6 @@ namespace XvXR.Engine
             {
                 if (lastLeftId != (int)XvXRManager.SDK.StereoScreen[0].GetNativeTexturePtr() || lastRightId != (int)XvXRManager.SDK.StereoScreen[1].GetNativeTexturePtr())
                 {
-                    //XvXRLog.InternalXvXRLog(" CheckTextureId:lastleft:" + lastLeftId + ",lastright:" + lastRightId + ",stereoscreenleftid:" + (int)XvXRManager.SDK.StereoScreen[0].GetNativeTexturePtr() + ",steroscreenrightid:" + (int)XvXRManager.SDK.StereoScreen[1].GetNativeTexturePtr());
                     SetStereoScreen(XvXRManager.SDK.StereoScreen[0], XvXRManager.SDK.StereoScreen[1]);
                 }
             }
@@ -80,9 +73,7 @@ namespace XvXR.Engine
         public void ChangeRenderData()
         {
             XvXRLog.InternalXvXRLog("ChangeRenderData");
-            //设置Info.parameter到glass
             SetRenderDataMobile();
-            //发送事件到glass
             GL.IssuePluginEvent(RenderEventFunc(), changeRenderDataEventId);
 
         }

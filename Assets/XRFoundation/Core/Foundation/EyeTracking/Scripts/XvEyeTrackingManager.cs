@@ -10,10 +10,7 @@ namespace XvXR.Foundation
 {
     using static XvEyeTracking;
 
-    /// <summary>
-    /// 该类主要负责眼控的开关以及眼控数据的获取
-    /// </summary>
-
+  
     public sealed class XvEyeTrackingManager : MonoBehaviour
     {
 
@@ -21,11 +18,8 @@ namespace XvXR.Foundation
         private static string config_path = "/data/misc/xr/";
       
 
-        //眼镜头部6dof矩阵
         Matrix4x4 MatrixHead = Matrix4x4.identity;
-        //双眼中心相对于IMU的pose矩阵
         Matrix4x4 MatrixMiddleOfEyes = Matrix4x4.identity;
-        //双眼中心转换到世界坐标系下的变换矩阵
         private Matrix4x4 middleOfEyeToHeadMatrix;
 
         public Matrix4x4 MiddleOfEyeToHeadMatrix
@@ -33,9 +27,7 @@ namespace XvXR.Foundation
             get { return middleOfEyeToHeadMatrix; }
         }
 
-        /// <summary>
-        /// 是否正在追踪眼球
-        /// </summary>
+     
         private static bool tracking;
         public bool Tracking
         {
@@ -53,9 +45,7 @@ namespace XvXR.Foundation
             }
         }
 
-        /// <summary>
-        /// 双眼原点
-        /// </summary>
+      
         public Vector3 GazeOrigin
         {
             get
@@ -65,10 +55,7 @@ namespace XvXR.Foundation
             }
         }
 
-        /// <summary>
-        /// 双眼注视点方向
-        /// </summary>
-
+       
         public Vector3 GazeDirection
         {
             get
@@ -79,9 +66,7 @@ namespace XvXR.Foundation
 
 
 
-        /// <summary>
-        /// 左眼注视点原点
-        /// </summary>
+       
         public Vector3 LeftGazeOrigin
         {
             get
@@ -90,9 +75,7 @@ namespace XvXR.Foundation
             }
         }
 
-        /// <summary>
-        /// 左眼注视点方向
-        /// </summary>
+   
         public Vector3 LeftGazeDirection
         {
             get
@@ -102,7 +85,7 @@ namespace XvXR.Foundation
         }
 
 
-        //右眼原点
+
         public Vector3 RightGazeOrigin
         {
             get
@@ -112,9 +95,7 @@ namespace XvXR.Foundation
             }
         }
 
-        /// <summary>
-        /// 右眼注视点方向
-        /// </summary>
+
         public Vector3 RightGazeDirection
         {
             get
@@ -135,9 +116,6 @@ namespace XvXR.Foundation
 
 
 
-        /// <summary>
-        /// 开启眼动追踪
-        /// </summary>
         public void StartGaze()
         {
 
@@ -146,9 +124,7 @@ namespace XvXR.Foundation
 #endif
             if (!tracking)
             {
-                 //设置显示分辨率
-               //xslam_set_gaze_configs(1920, 1080);
-                //设置配置文件路径
+                 
                 xslam_gaze_set_config_path(config_path);
                 MyDebugTool.Log($"XVETinit config_path:{config_path}");
 
@@ -175,9 +151,7 @@ namespace XvXR.Foundation
         }
 
 
-        /// <summary>
-        /// 停止眼动追踪
-        /// </summary>
+    
         public void StopGaze()
         {
 #if UNITY_EDITOR
@@ -249,7 +223,6 @@ namespace XvXR.Foundation
             Matrix_gazeOrigin.SetTRS(gazeOrigin, Quaternion.identity, Vector3.one);
             Matrix_XVgazeOrigin = middleOfEyeToHeadMatrix * Matrix_gazeOrigin;
 
-            ///获取位置
             gazeOrigin = Matrix_XVgazeOrigin.GetColumn(3);
 
             return gazeOrigin;
@@ -265,7 +238,6 @@ namespace XvXR.Foundation
             Matrix_target.SetTRS(gazeDirection, Quaternion.identity, Vector3.one);
 
             Matrix_XVtarget = middleOfEyeToHeadMatrix * Matrix_target;
-            //获取新的方向向量
             gazeDirection = (Vector3)Matrix_XVtarget.GetColumn(3) - GetGazePoint(oGazeOrigin);
 
             return gazeDirection;
@@ -274,7 +246,6 @@ namespace XvXR.Foundation
 
       
 
-        //旋转矩阵转换成四元数
         private Quaternion RotationMatrixToQuaternion(double[] rm)
         {
             double w, x, y, z;
@@ -296,40 +267,26 @@ namespace XvXR.Foundation
 
 
 
-        #region 眼控校准
+        #region GazeCalibration
 
-        /// <summary>
-        /// 进入校准模式
-        /// </summary>
+
         public void GazeCalibrationEnter()
         {
             XvEyeTracking.xslam_gaze_calibration_enter();
         }
 
-        /// <summary>
-        /// 采集校准点位
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="z"></param>
-        /// <param name="index"></param>
-        /// <returns></returns>
+       
         public int GazeCalibrationCollect(Vector3 point, int index)
         {
             return XvEyeTracking.xslam_gaze_calibration_collect(point.x, point.y, point.z, index);
         }
 
-        /// <summary>
-        /// 重置校准数据
-        /// </summary>
-        /// <returns></returns>
+        
         public bool UnsetGazeCallback()
         {
             return XvEyeTracking.xslam_unset_gaze_callback();
         }
-        /// <summary>
-        /// 校准完成
-        /// </summary>
+       
         public int CalibrationComplete()
         {
             int setup = xslam_gaze_calibration_setup();
@@ -341,8 +298,7 @@ namespace XvXR.Foundation
             int leave = xslam_gaze_calibration_leave();
             MyDebugTool.Log($" xslam_gaze_calibration_leave:{leave}");
 
-            string path = "/data/misc/xr/XVETcaliData_" + XvXR.SystemEvents.AndroidConnection.getLoginUser() + ".dat";//眼动校准完成，校准文件保存的路径
-                                                                                                                      //string path = "/sdcard/XVETcaliData.dat";
+            string path = "/data/misc/xr/XVETcaliData_" + XvXR.SystemEvents.AndroidConnection.getLoginUser() + ".dat";
 
             if (File.Exists(path))
             {
@@ -352,7 +308,6 @@ namespace XvXR.Foundation
             int retrieve = xslam_gaze_calibration_retrieve(path);
             MyDebugTool.Log($" xslam_gaze_calibration_retrieve:{retrieve}");
 
-            //设置保存的校准文件权限为可读，确保第三方应用可以读取并使用
             sys_chmod(path, _0755);
             return retrieve;
 
@@ -378,7 +333,7 @@ namespace XvXR.Foundation
         private static extern int sys_chmod(string path, int mode);
         #endregion
 
-        #region 获取眼控图像
+        #region 1
 
         private Texture2D lefttex = null;
         private Texture2D righttex = null;
@@ -401,12 +356,6 @@ namespace XvXR.Foundation
             public int texHeight;
             public Texture leftTex;
             public Texture rightTex;
-
-
-
-            //相机姿态
-
-
             public CameraParameter parameter;
 
         }
@@ -468,12 +417,8 @@ namespace XvXR.Foundation
                         }
 
                         DebugUtilities.Log($"xv_eyetracking_get_rgba");
-                        //左眼图像
                         lefttex.SetPixels32(pixel32_Left);
                         lefttex.Apply();
-
-
-                        //右眼图像
                         righttex.SetPixels32(pixel32_Right);
                         righttex.Apply();
 
@@ -528,7 +473,6 @@ namespace XvXR.Foundation
 
         private void OnApplicationPause(bool isPause)
         {
-            //退回到桌面时触发
             if (isPause)
             {
 

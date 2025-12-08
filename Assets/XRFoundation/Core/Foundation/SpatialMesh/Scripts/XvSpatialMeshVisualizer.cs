@@ -8,14 +8,14 @@ using UnityEngine;
 namespace XvXR.Foundation
 {
     /// <summary>
-    /// 空间网格可视化处理类
+    /// Spatial Mesh Visualization Processing Class
     /// </summary>
     public sealed class XvSpatialMeshVisualizer : WorkQueue
     {
         private XvSpatialMeshVisualizer() { }
 
         /// <summary>
-        /// 所有创建的mesh
+        /// Created mesh dic
         /// </summary>
         private Dictionary<string, GameObject> meshDic = new Dictionary<string, GameObject>();
         public Dictionary<string, GameObject> MeshDic { 
@@ -131,7 +131,6 @@ namespace XvXR.Foundation
                 vn[i] = new Vector3(data.vList1_t[i].x, -data.vList1_t[i].y, data.vList1_t[i].z);// data.vList0_t[i];
             }
 
-            //绘制三角行顺序：顺时针顶点绘制(顺时针绘制，从正面可以看到，逆时针绘制从背面可以看到
             //int[] i3 = { 2, 1, 0 };
             int[] i3 = new int[data.vListt_t.Count * 3];
             for (int i = 0; i < data.vListt_t.Count; i++)
@@ -150,14 +149,12 @@ namespace XvXR.Foundation
             mesh.uv = uv;
             //mesh.indexFormat
 
-            c.GetComponent<MeshRenderer>().material = meshMat; //mList[0];//多人协助 不需要的时候可以删除注释
+            c.GetComponent<MeshRenderer>().material = meshMat; 
             c.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             c.GetComponent<MeshRenderer>().receiveShadows = false;
             c.isStatic = true;
             c.name = "tPolygon";
 
-            //CombineMesh(meshMother);//合并 相同  mapid 的 mesh
-            //添加碰撞
             c.GetComponent<MeshRenderer>().enabled = enableRender;
             Collider collider = c.AddComponent<MeshCollider>();
             collider.enabled = enableCollider;

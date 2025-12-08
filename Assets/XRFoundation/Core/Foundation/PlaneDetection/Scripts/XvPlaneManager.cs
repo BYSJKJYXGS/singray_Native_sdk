@@ -5,9 +5,6 @@ using UnityEngine;
 
 namespace XvXR.Foundation
 {
-    /// <summary>
-    /// 该类主要负责空面里面平面和垂面的识别
-    /// </summary>
 
     public sealed class XvPlaneManager : MonoBehaviour
     {
@@ -65,10 +62,8 @@ namespace XvXR.Foundation
 
                 // CameraManager.StopCapture(XvCameraStreamType.TofDepthCameraStream);
 
-                MyDebugTool.Log("开启平面检测1");
                 API.xslam_tof_set_framerate(5);
                 API.xslam_start_detect_plane_from_tof_nosurface();
-                MyDebugTool.Log("开启平面检测2");
 
             }
 
@@ -82,10 +77,8 @@ namespace XvXR.Foundation
 #if !PLATFORM_ANDROID || UNITY_EDITOR
                 return;
 #endif          
-                MyDebugTool.Log("关闭平面检测1");
 
                 API.xslam_stop_detect_plane_from_tof();
-                MyDebugTool.Log("关闭平面检测2");
 
             }
         }
@@ -129,12 +122,7 @@ namespace XvXR.Foundation
             else
                 return null;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="rdata">平面数据</param>
-        /// <param name="len">数据总长度</param>
-        /// <returns></returns>
+
         private plane[] ParsePlane(byte[] rdata, int len)
         {
             plane[] planes = new plane[0];
@@ -197,9 +185,9 @@ namespace XvXR.Foundation
 
     public class plane
     {
-        public List<Vector3D> points;//平面顶点坐标
-        public Vector3D normal;//平面法线
+        public List<Vector3D> points;
+        public Vector3D normal;
         public double d;
-        public string id;//平面ID
+        public string id;
     };
 }

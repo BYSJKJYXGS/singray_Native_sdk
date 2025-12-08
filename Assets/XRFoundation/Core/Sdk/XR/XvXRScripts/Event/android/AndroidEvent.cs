@@ -46,10 +46,7 @@ namespace XvXR.SystemEvents
 			return Interface.GetUnityXvXRConfigInfo ();
 		}
 
-		/// <summary>
-		/// 调用java库getXvXROpticalParameter()
-		/// </summary>
-		/// <returns></returns>
+	
 		internal static float[] GetXvXROpticalParameter()
         {
 			return Interface.GetXvXROpticalParameter();

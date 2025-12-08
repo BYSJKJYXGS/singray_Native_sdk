@@ -5,7 +5,7 @@ using System.IO;
 
 public class SDKLayerSetup : AssetPostprocessor
 {
-    // 定义需要创建的Layer名称
+   
     private const string TARGET_LAYER = "BGVideo";
 
     static void OnPostprocessAllAssets(
@@ -14,7 +14,7 @@ public class SDKLayerSetup : AssetPostprocessor
         string[] movedAssets,
         string[] movedFromAssetPaths)
     {
-        // 检查是否有SDK关键文件被导入
+
         bool sdkImported = false;
         foreach (string asset in importedAssets)
         {
@@ -41,7 +41,7 @@ public class SDKLayerSetup : AssetPostprocessor
             AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/TagManager.asset")[0]);
         SerializedProperty layers = tagManager.FindProperty("layers");
 
-        // 检查Layer是否已存在
+
         bool layerExists = false;
         for (int i = 6; i < layers.arraySize; i++) 
         {

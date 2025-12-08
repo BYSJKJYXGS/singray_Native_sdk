@@ -53,6 +53,7 @@ namespace XvXR.Foundation.SampleScenes
 
             AndroidConnection.openWifi();
             Invoke("getWifiState", 1f);
+            Debug.Log("open wifi");
         }
 
         /// <summary>
@@ -66,6 +67,8 @@ namespace XvXR.Foundation.SampleScenes
 
             AndroidConnection.closeWifi();
             Invoke("getWifiState", 0.2f);
+            Debug.Log("close wifi");
+
         }
 
         /// <summary>
@@ -197,7 +200,7 @@ namespace XvXR.Foundation.SampleScenes
 
 
         /// <summary>
-        /// 获取wifi列表
+        /// getWifiList
         /// </summary>
         private void getWifiList()
         {

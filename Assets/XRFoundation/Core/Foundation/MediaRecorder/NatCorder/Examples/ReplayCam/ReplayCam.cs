@@ -116,7 +116,6 @@ namespace NatSuite.Examples {
             MyDebugTool.Log($"Saved recording to: {path}");
            // var prefix = Application.platform == RuntimePlatform.IPhonePlayer ? "file://" : "";
             //infoTxt.text = path;
-            // 移动端，录频完后，播放录制的视频
             //Handheld.PlayFullScreenMovie($"{prefix}{path}");
 
 
@@ -154,11 +153,7 @@ namespace NatSuite.Examples {
 
         public void RemoveRecording()
         {
-           // if (File.Exists(m_resultPath))
-            {
-
-               // File.Delete(m_resultPath);
-            }
+       
         }
 
         private static string getDate()

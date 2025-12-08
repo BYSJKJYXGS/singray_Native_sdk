@@ -132,8 +132,6 @@ public class UvcPluginWrapper : MonoBehaviour, ICustomInputField
    
     public void startThird2DApp()
     {
-        MyDebugTool.Log("startThird2DApp:call 启动抖音");
-      //  AndroidHelper.CallObjectMethod(InitActivityObject(), "startThird2DApp", new object[] { "com.xv.hwar", "com.xv.hwar.ui.login.LoginActivity" });
         AndroidHelper.CallObjectMethod(InitActivityObject(), "startThird2DApp", new object[] { "com.ss.android.ugc.aweme", "com.ss.android.ugc.aweme.splash.SplashActivity" });
 
         MyDebugTool.Log("startThird2DApp:call complete");
@@ -144,13 +142,10 @@ public class UvcPluginWrapper : MonoBehaviour, ICustomInputField
     {
         try
         {
-            MyDebugTool.Log("stopThird2DApp:call 关闭抖音");
-        //    AndroidHelper.CallObjectMethod(InitActivityObject(), "stopThird2DApp", new object[] { "com.xv.hwar" });
              AndroidHelper.CallObjectMethod(InitActivityObject(), "stopThird2DApp", new object[] { "com.ss.android.ugc.aweme" });
         }
         catch (Exception ex)
         {
-            MyDebugTool.LogError("stopThird2DApp:call 关闭抖音出现异常" + ex.Message);
         }
     }
 
@@ -169,7 +164,6 @@ public class UvcPluginWrapper : MonoBehaviour, ICustomInputField
         }
         catch (Exception ex)
         {
-            MyDebugTool.LogError("stopThird2DApp:call 关闭抖音出现异常" + ex.Message);
         }
     }
     public string getThirdInputText()
@@ -184,7 +178,6 @@ public class UvcPluginWrapper : MonoBehaviour, ICustomInputField
         }
         catch (Exception ex)
         {
-            MyDebugTool.LogError("stopThird2DApp:call 关闭抖音出现异常" + ex.Message);
         }
 
         return str;
@@ -199,7 +192,6 @@ public class UvcPluginWrapper : MonoBehaviour, ICustomInputField
         }
         catch (Exception ex)
         {
-            MyDebugTool.LogError("stopThird2DApp:call 关闭抖音出现异常" + ex.Message);
         }
     }
 
@@ -255,14 +247,14 @@ public class UvcPluginWrapper : MonoBehaviour, ICustomInputField
     }
 
 
-    #region 键盘输入相关接口
+    #region KeyBoard Input Event
 
     public void sendKeyCode(string content)
     {
       
         if (Application.platform == RuntimePlatform.Android)
         {
-            MyDebugTool.Log("输入框内容sendContent:" + content);
+            MyDebugTool.Log(" intput key content sendContent:" + content);
 
             AndroidHelper.CallObjectMethod(InitActivityObject(), "sendThirdAppKeyCode", new object[] { content });
         }
@@ -271,7 +263,7 @@ public class UvcPluginWrapper : MonoBehaviour, ICustomInputField
   
     public void onSoftInputMethodStatus(string showStatus)
     {
-        MyDebugTool.Log("showStatus：" + showStatus);
+        MyDebugTool.Log("showStatus:" + showStatus);
 
         if (showStatus == "true")
         {
@@ -312,7 +304,7 @@ public class UvcPluginWrapper : MonoBehaviour, ICustomInputField
         {
             string str = getThirdInputText();
 
-            MyDebugTool.Log("输入框内容:"+ str);
+            MyDebugTool.Log("inputText:"+ str);
 
             return str;
         }

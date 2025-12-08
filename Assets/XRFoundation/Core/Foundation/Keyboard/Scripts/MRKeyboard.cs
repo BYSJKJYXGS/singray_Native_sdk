@@ -41,7 +41,7 @@ namespace XvXR.UI.Keyboard
        
 
         private MRKeyboard() { }
-        internal UnityAction OKEvent;//OK键监听
+        internal UnityAction OKEvent;
 
         internal KeyboardIputType keyboardIputType= KeyboardIputType.None;
         //private GameObject LetterPanel;
@@ -170,12 +170,12 @@ namespace XvXR.UI.Keyboard
                     case KeyboardIputType.Letter:
                         // LetterPanel.gameObject.SetActive(true);
                         HanZiPanel.gameObject.SetActive(true);
-                        currentLanguage.text = "英文";
-                        otherLanguage.text = "中文";
+                        currentLanguage.text = "EN";
+                        otherLanguage.text = "CH";
                         break;
                     case KeyboardIputType.HanZi:
-                        currentLanguage.text = "中文";
-                        otherLanguage.text = "英文";
+                        currentLanguage.text = "CH";
+                        otherLanguage.text = "EN";
                         HanZiPanel.gameObject.SetActive(true);
                         break;
                     case KeyboardIputType.Number:
@@ -194,7 +194,7 @@ namespace XvXR.UI.Keyboard
 
         private void OnButtonClick(Button bt)
         {
-            MyDebugTool.Log("OnButtonClick：" + bt.name);
+            MyDebugTool.Log("OnButtonClick:" + bt.name);
            
 
             switch (bt.name)
@@ -218,15 +218,15 @@ namespace XvXR.UI.Keyboard
                     break;
                 case "ABC":
                     bt.name = "CN";
-                    currentLanguage.text = "英文";
-                    otherLanguage.text = "中文";
+                    currentLanguage.text = "EN";
+                    otherLanguage.text = "CH";
                     SwitchInputType(KeyboardIputType.Letter);
 
                     break;
                 case "HanZi":
                     bt.name = "CN";
-                    currentLanguage.text = "英文";
-                    otherLanguage.text = "中文";
+                    currentLanguage.text = "EN";
+                    otherLanguage.text = "CH";
                     SwitchInputType(KeyboardIputType.Letter);
 
                     break;
@@ -234,15 +234,15 @@ namespace XvXR.UI.Keyboard
 
                 case "CN":
                     bt.name = "EN";
-                    currentLanguage.text = "英文";
-                    otherLanguage.text = "中文";
+                    currentLanguage.text = "EN";
+                    otherLanguage.text = "CH";
 
                     SwitchInputType(KeyboardIputType.Letter);
                     break;
                 case "EN":
                     bt.name = "CN";
-                    currentLanguage.text = "中文";
-                    otherLanguage.text = "英文";
+                    currentLanguage.text = "CH";
+                    otherLanguage.text = "EN";
                     SwitchInputType(KeyboardIputType.HanZi);
 
 
@@ -308,9 +308,7 @@ namespace XvXR.UI.Keyboard
 
 
 
-        /// <summary>
-        /// 大小写切换
-        /// </summary>
+ 
         private void LetterSwitch()
         {
             Text[] texts = GetComponentsInChildren<Text>();
@@ -324,14 +322,12 @@ namespace XvXR.UI.Keyboard
                 int ascll = (int)(item.text[0]);
                 if (ascll >= 65 && ascll <= 90)
                 {
-                    //小写，转换成大写
                     newLetter = (char)(97 + (ascll - 65));
                 }
                 else
                 {
                     if (ascll >= 97 && ascll <= 122)
                     {
-                        //小写，转换成大写
                         newLetter = (char)(65 + (ascll - 97));
                     }
 

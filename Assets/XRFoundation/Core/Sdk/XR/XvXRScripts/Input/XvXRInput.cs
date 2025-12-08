@@ -18,7 +18,7 @@ namespace XvXR
 
         static Vector3 defultPoint = new Vector3(0,0,100);
 
-        public const int PRE_COUNT = 26;//每组数据25个
+        public const int PRE_COUNT = 26;
 
         static int[] LRstaticGes = new int[2];
         
@@ -38,7 +38,6 @@ namespace XvXR
 
             LRstaticGes[0] = xvSkeleton.status[0];
             LRstaticGes[1] = xvSkeleton.status[1];
-            //打印静态手势码
            // Debug.Log($"LRstaticGes[0]:{LRstaticGes[0]},LRstaticGes[1]:{LRstaticGes[1]},xvSkeleton.status[0]:{xvSkeleton.status[0]},xvSkeleton.status[1]:{xvSkeleton.status[1]}");
 
             //Debug.Log($"XvXRInput timestamp0:{skeleton.timestamp0},timestamp[1]:{skeleton.timestamp1};fisheye_timestamp:{skeleton.fisheye_timestamp};left interval:{skeleton.timestamp0- xvSkeleton.fisheye_timestamp},right interval:{skeleton.timestamp1 - xvSkeleton.fisheye_timestamp}");

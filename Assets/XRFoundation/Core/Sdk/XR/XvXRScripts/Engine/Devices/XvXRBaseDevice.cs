@@ -294,10 +294,7 @@ namespace XvXR.Engine
 
 
 
-		// Helper functions.
-		/// <summary>
-		/// 计算出双眼的投影矩阵,赋值给leftEyeProjection,rightEyeProjection,recommendedTextureSize
-		/// </summary>
+	
 		protected virtual void ComputeEyesFromProfile() {
 
             GameObject obj = GameObject.Find("XvXRCamera");
@@ -425,11 +422,7 @@ namespace XvXR.Engine
 			return null;
         }
 
-		/// <summary>
-		/// 更新device相关参数:mParameter,isUseDefaultScreen,userDefined
-		/// </summary>
-		/// <param name="param"></param>
-		/// <param name="isUseDefaultScreen"></param>
+	
 		internal void SetOpticalParameter(XvXROpticalParameter_t param, bool isUseDefaultScreen)
 		{
 			

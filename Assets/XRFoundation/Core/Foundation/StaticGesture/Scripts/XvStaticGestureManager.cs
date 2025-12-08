@@ -34,9 +34,9 @@ namespace XvXR.Foundation
         //}
 
         /// <summary>
-        /// 获取当前手势
+        /// GetCurrentStaticGesture
         /// </summary>
-        /// <param name="handType">左手或右手</param>
+        /// <param name="handType">left or right</param>
         /// <returns></returns>
         public StaticGestureStatus GetCurrentStaticGesture(HandType handType)
         {

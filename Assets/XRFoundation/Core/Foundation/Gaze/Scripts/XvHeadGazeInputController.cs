@@ -60,7 +60,6 @@ namespace XvXR.UI.Input
                     pointer.localScale = Vector3.one * CustomEventData.hover3DRaycastHit.distance * scaleFactor;
                     pointer.localPosition = targetPosition;
 
-                    //MyDebugTool.Log("选中3D物体"+ CustomEventData.hover3DRaycastHit.transform?.gameObject);
                 }
                 else
                 {
@@ -70,14 +69,12 @@ namespace XvXR.UI.Input
 
                         pointer.localScale = Vector3.one * CustomEventData.pointerCurrentRaycast.distance * scaleFactor;
                         pointer.localPosition = targetPosition;
-                       // MyDebugTool.Log("选中UI物体");
 
                     }
                     else
                     {
                         pointer.localScale = Vector3.one * 3 * scaleFactor;
                         pointer.transform.localPosition = Vector3.forward * 3;
-                       // MyDebugTool.Log("没有选中物体");
 
                     }
                 }

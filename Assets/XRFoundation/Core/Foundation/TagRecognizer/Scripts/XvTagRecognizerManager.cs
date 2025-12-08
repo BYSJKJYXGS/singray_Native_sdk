@@ -8,9 +8,7 @@ using static API;
 namespace XvXR.Foundation
 {
 
-    /// <summary>
-    /// 该类提供Apriltag、QRCode等识别功能
-    /// </summary>
+ 
     public sealed class XvTagRecognizerManager : MonoBehaviour
     {
         private XvTagRecognizerManager() { }
@@ -36,12 +34,7 @@ namespace XvXR.Foundation
                 return xvCameraManager;
             }
         }
-       
-
-        /// <summary>
-        /// 使用识别码名称 apritag="36h11"   qrcode="qr-code"
-        /// </summary>
-        //[SerializeField]
+      
 
         private string tagGroupName = "36h11";
 
@@ -60,7 +53,7 @@ namespace XvXR.Foundation
 
 
         [SerializeField]
-        [Tooltip("识别码的物理尺寸")]
+        [Tooltip("size")]
         private double size = 0.16f;
 
         public double Size
@@ -79,7 +72,7 @@ namespace XvXR.Foundation
 
 
         [SerializeField]
-        [Tooltip("置信度阈值")]
+        [Tooltip("confidence")]
         private float confidence = 0;
         public float Confidence
         {
@@ -156,7 +149,7 @@ namespace XvXR.Foundation
                     OnDetectedAprilTagEvent?.Invoke(tagDetection);
                     break;
                 case RecognizerMode.FishEye_Apriltag:
-                    tagDetection = XvAprilTag.StartFishEyeDetector(TagGroupName, size);//鱼眼 模式
+                    tagDetection = XvAprilTag.StartFishEyeDetector(TagGroupName, size);
                     break;
                 default:
                     break;
@@ -189,16 +182,11 @@ namespace XvXR.Foundation
             }
             catch (Exception e)
             {
-                //处理异常
                 MyDebugTool.Log("tagDetection is Null!!!" + e.ToString());
             }
         }
 
 
-        /// <summary>
-        /// 切换检测状态
-        /// </summary>
-        /// <param name="isDetect"></param>
         public void SetDetectStatus(bool isDetect)
         {
             
@@ -315,8 +303,8 @@ namespace XvXR.Foundation
     
     public enum CameraType
     {
-        Rgb = 0,//rgb相机
-        FishEye = 1,//鱼眼相机
+        Rgb = 0,
+        FishEye = 1,
     }
 
     public enum RecognizerMode

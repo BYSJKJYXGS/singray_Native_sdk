@@ -53,7 +53,7 @@ namespace XvXR.Foundation
 
 
 
-        public bool enableGamma;//IRÍ¼Ïñ¿ÉÓÃ
+        public bool enableGamma;
     }
     public class XvTofCamera : XvCameraBase
     {

@@ -1,7 +1,7 @@
 
 namespace XvXR.Foundation
 {
-    #region WebCamera  3588ºĞ×ÓºóÖÃÉãÏñÍ·
+    #region WebCamera  
 
     public sealed class XvWebCameraManager
     {

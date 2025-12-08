@@ -42,7 +42,7 @@ namespace XvXR.Foundation
 
         public int leftEyeMove;//!<0-Eye movement type is no-eye detected. 1-Eye movement type is blink. 2-Eye movement type is noraml.
         public int rightEyeMove;//!<0-Eye movement type is no-eye detected. 1-Eye movement type is blink. 2-Eye movement type is noraml.
-        public float ipd; //瞳距数据，在眼动校准后数据才会有效
+        public float ipd; 
     };
     [StructLayout(LayoutKind.Sequential)]
     public struct XV_ET_GAZE_POINT
@@ -104,7 +104,6 @@ namespace XvXR.Foundation
 
 
 
-        //眼动接口
         [DllImport("xslam-unity-wrapper")]
         public static extern void pub_set_usr_eye_ready();
 
@@ -115,7 +114,7 @@ namespace XvXR.Foundation
     public static extern void xslam_gaze_set_config_path(string coe_path);
 
     [DllImport("xslam-unity-wrapper", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-    public static extern int xslam_gaze_calibration_apply(string file);//用于复用之前已生成的指定校准文件
+    public static extern int xslam_gaze_calibration_apply(string file);
 
     [DllImport("xslam-unity-wrapper")]
     public static extern bool xslam_start_gaze();
@@ -133,7 +132,7 @@ namespace XvXR.Foundation
 
 
 
-    //眼控相关接口
+
     [StructLayout(LayoutKind.Sequential)]
     public struct GazeCalibStatus
     {
@@ -157,34 +156,33 @@ namespace XvXR.Foundation
     };
 
     [DllImport("xslam-unity-wrapper")]
-    public static extern void xslam_gaze_calibration_enter();//进入校准模式
+    public static extern void xslam_gaze_calibration_enter();
 
     [DllImport("xslam-unity-wrapper")]
-    public static extern int xslam_gaze_calibration_leave();//离开校准模式，校准流程完成时调用
+    public static extern int xslam_gaze_calibration_leave();
 
     [DllImport("xslam-unity-wrapper")]
-    public static extern int xslam_gaze_calibration_collect(float x, float y, float z, int index);//校准5个校准点位
+    public static extern int xslam_gaze_calibration_collect(float x, float y, float z, int index);
 
     [DllImport("xslam-unity-wrapper", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-    public static extern int xslam_gaze_calibration_retrieve(string file);//获取校准结果数据并存储成自定义文件
+    public static extern int xslam_gaze_calibration_retrieve(string file);
 
 
 
     [DllImport("xslam-unity-wrapper")]
-    public static extern int xslam_gaze_calibration_reset();//清除所有采集到的校准点，重新设置校准参数
+    public static extern int xslam_gaze_calibration_reset();
 
     [DllImport("xslam-unity-wrapper")]
-    public static extern int xslam_gaze_calibration_compute_apply();//计算校准参数并应用于设备
+    public static extern int xslam_gaze_calibration_compute_apply();
 
     [DllImport("xslam-unity-wrapper")]
-    public static extern int xslam_gaze_calibration_setup();//校准流程设置
+    public static extern int xslam_gaze_calibration_setup();
 
     [DllImport("xslam-unity-wrapper")]
-    public static extern int xslam_gaze_calibration_query_status(ref GazeCalibStatus status);//查询校准例程内部状态
+    public static extern int xslam_gaze_calibration_query_status(ref GazeCalibStatus status);
 
 
 
-        //获取眼动图像接口
         [DllImport("xslam-unity-wrapper")]
         public static extern bool xv_eyetracking_start();
 

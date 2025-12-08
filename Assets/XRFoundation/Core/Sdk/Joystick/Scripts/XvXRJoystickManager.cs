@@ -82,7 +82,6 @@ namespace XvXR.MixedReality.Toolkit.XvXR.Input
                     var leftInputSource = CoreServices.InputSystem?.RequestNewGenericInputSource("XvXR Joystick Controller", leftPointers, InputSourceType.Controller);
                     var leftHand = new XvXRJoystickController(TrackingState.Tracked, Handedness.Left, leftInputSource);
                    
-                    //临时用右手位姿驱动
                     leftHand.SetTrackerType(TrackerType.Right);
                     //Set pinch thresholds
                     leftHand.HandDefinition.EnterPinchDistance = enterPinchDistance;

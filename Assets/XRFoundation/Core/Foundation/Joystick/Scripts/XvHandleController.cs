@@ -12,12 +12,10 @@ namespace XvXR.Foundation
             get;
         }
 
-        //手柄在Unity中的坐标原点
         private Vector3 originPosition = Vector3.zero;
         private Quaternion originRotation = Quaternion.identity;
 
 
-        //手柄当前在Unity中的坐标
         private Vector3 currentPosition = Vector3.zero;
         private Quaternion currentRotation = Quaternion.identity;
 
@@ -77,14 +75,10 @@ namespace XvXR.Foundation
         {
             JoystickData joystickData = GetJoystickData();
 
-            //真实手柄的坐标原点Quaternion
             Quaternion realOringinQua = GetQuaternionByMatrix(realOrigin);
 
-            //真实手柄Quaternion
             Quaternion realCurrentQua = Quaternion.Euler(joystickData.rotation);
 
-
-            //Unity坐标原点的Quaternion
             Quaternion virOringinQua = GetQuaternionByMatrix(virOrigin);
 
 
@@ -143,11 +137,9 @@ namespace XvXR.Foundation
             JoystickData joystickData = GetJoystickData();
 
 
-            //真实手柄坐标原点矩阵
             realOrigin = Matrix4x4.TRS(joystickData.position, Quaternion.Euler(joystickData.rotation), Vector3.one);
 
 
-            //虚拟手柄坐标原点矩阵
             virOrigin = Matrix4x4.TRS(originPosition, originRotation, Vector3.one);
         }
 

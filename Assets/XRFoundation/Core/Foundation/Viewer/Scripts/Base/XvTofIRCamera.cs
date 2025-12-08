@@ -3,19 +3,7 @@ using System.Runtime.InteropServices;
 using System;
 namespace XvXR.Foundation
 {
-    //public class XvTofIRCameraParameter : XvCameraParameterSetting
-    //{
-    //    public int width;
-    //    public int height;
-    //    public int fps;
-    //    public TofStreamType tofStreamType;
 
-
-    //    //public TofFramerate tofFramerate;
-    //    //public SonyTofLibMode sonyTofLibMode;
-    //    //public TofResolution tofResolution;
-
-    //}
     public class XvTofIRCamera : XvCameraBase
 {
     public XvTofIRCamera(XvTofCameraParameter cameraParameter, FrameArrived frameArrived) : base(cameraParameter, frameArrived)
@@ -140,7 +128,6 @@ namespace XvXR.Foundation
             {
                 _T = new double[3] { pdm_Calibration.extrinsic.translation[0], -pdm_Calibration.extrinsic.translation[1], pdm_Calibration.extrinsic.translation[2] };
 
-                //左眼标定的旋转矩阵→欧拉角
                 _R = new double[9] { pdm_Calibration.extrinsic.rotation[0], -pdm_Calibration.extrinsic.rotation[1], pdm_Calibration.extrinsic.rotation[2], -pdm_Calibration.extrinsic.rotation[3], pdm_Calibration.extrinsic.rotation[4],
                             -pdm_Calibration.extrinsic.rotation[5],pdm_Calibration.extrinsic.rotation[6],-pdm_Calibration.extrinsic.rotation[7],pdm_Calibration.extrinsic.rotation[8]};
                 XvXR.Engine.XvXREye.RotationMatrixToEulerAngles(ref _EulerAngles, _R);

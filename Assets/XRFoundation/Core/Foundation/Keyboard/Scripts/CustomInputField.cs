@@ -48,7 +48,6 @@ namespace XvXR.UI.Keyboard
             }
             var pattern = "\\w";
             Regex reg = new Regex(pattern);
-            //// 你的字符串
 
 
             switch (contentType)

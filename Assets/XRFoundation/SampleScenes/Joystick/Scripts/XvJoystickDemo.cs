@@ -85,12 +85,12 @@ namespace XvXR.Foundation.SampleScenes
 
                     if (joystickRayShow)
                     {
-                        btn.transform.GetComponentInChildren<Text>().text = "禁用手柄";
+                        btn.transform.GetComponentInChildren<Text>().text = "Disable the controller";
                         PointerUtils.SetMotionControllerRayPointerBehavior(PointerBehavior.AlwaysOn);
                     }
                     else { 
                         PointerUtils.SetMotionControllerRayPointerBehavior(PointerBehavior.AlwaysOff);
-                        btn.transform.GetComponentInChildren<Text>().text = "启用手柄";
+                        btn.transform.GetComponentInChildren<Text>().text = "Enable the controller";
                     }
 
                     MixedRealityControllerVisualizer[] mixedRealityControllerVisualizers = GameObject.FindObjectsOfType<MixedRealityControllerVisualizer>(true);
@@ -108,11 +108,11 @@ namespace XvXR.Foundation.SampleScenes
 
                         if (gazeShow)
                         {
-                            btn.transform.GetComponentInChildren<Text>().text = "禁用头瞄";
+                            btn.transform.GetComponentInChildren<Text>().text = "Disable the gaze";
 
                         }
                         else { 
-                            btn.transform.GetComponentInChildren<Text>().text = "启用头瞄";
+                            btn.transform.GetComponentInChildren<Text>().text = "Enable the gaze";
 
                         }
 
@@ -126,11 +126,11 @@ namespace XvXR.Foundation.SampleScenes
 
                     if (handRayShow)
                     {
-                        btn.transform.GetComponentInChildren<Text>().text="禁用手势";
+                        btn.transform.GetComponentInChildren<Text>().text= "Disable the hand";
                         PointerUtils.SetHandRayPointerBehavior(PointerBehavior.AlwaysOn);
                     }
                     else {
-                        btn.transform.GetComponentInChildren<Text>().text = "启用手势";
+                        btn.transform.GetComponentInChildren<Text>().text = "Enable the hand";
 
                         PointerUtils.SetHandRayPointerBehavior(PointerBehavior.AlwaysOff);
                     }
@@ -189,38 +189,18 @@ namespace XvXR.Foundation.SampleScenes
                 if (serialNumber== bleInfoList[i].serialNumber) {
                     if (bleInfoList[i].status == 0)
                     {
-                        MyDebugTool.Log("自动连接：" + serialNumber);
+                        MyDebugTool.Log("AutoConnect:" + serialNumber);
                         XvJoystickManager.Instance.ConnectXvBle(TrackerType.Right, bleInfoList[i].id, bleInfoList[i].mac);
                     }
                 }
 
                 if (bleInfoList[i].status == 1)
                 {
-                    btn.transform.Find("mac").GetComponent<Text>().text = "<color=red>已连接此手柄</color>";
+                    btn.transform.Find("mac").GetComponent<Text>().text = "<color=red>Connected</color>";
                     btn.GetComponent<BlueTeethControl>().state = 1;
                 }
                 index++;
             }
-
-            //for (int i = 0; i < bleInfoList.Count; i++)
-            //{
-
-            //    GameObject btn = blueTeechContent.transform.GetChild(index).gameObject;
-            //    btn.SetActive(true);
-            //    btn.transform.Find("id").GetComponent<Text>().text = bleInfoList[i].id;
-            //    btn.transform.Find("mac").GetComponent<Text>().text = bleInfoList[i].mac;
-            //    btn.GetComponent<BlueTeethControl>().id = bleInfoList[i].id;
-            //    btn.GetComponent<BlueTeethControl>().mac = bleInfoList[i].mac;
-            //    btn.name = "Bt_" + i;
-
-            //    if (bleInfoList[i].status == 1)
-            //    {
-            //        btn.transform.Find("mac").GetComponent<Text>().text = "<color=red>已连接此手柄</color>";
-            //        btn.GetComponent<BlueTeethControl>().state = 1;
-            //    }
-            //    index++;
-            //}
-
         }
 
         public void blueTeechConnect(GameObject btn)
@@ -250,11 +230,11 @@ namespace XvXR.Foundation.SampleScenes
 
             if (headsixdof != null)
             {
-                headsixdof.text = $"眼镜pos: {Math.Round(XvXRManager.SDK.HeadPose.Position.x, 5)} , {Math.Round(XvXRManager.SDK.HeadPose.Position.y, 5)} , {Math.Round(XvXRManager.SDK.HeadPose.Position.z, 5)}";
+                headsixdof.text = $"Head pos: {Math.Round(XvXRManager.SDK.HeadPose.Position.x, 5)} , {Math.Round(XvXRManager.SDK.HeadPose.Position.y, 5)} , {Math.Round(XvXRManager.SDK.HeadPose.Position.z, 5)}";
             }
             if (headsixdof_rot != null)
             {
-                headsixdof_rot.text = $"眼镜rot: {XvXRManager.SDK.HeadPose.Orientation.eulerAngles}";
+                headsixdof_rot.text = $"Head rot: {XvXRManager.SDK.HeadPose.Orientation.eulerAngles}";
             }
 
             Vector3 pos = XvJoystickManager.Instance.GetPosition(TrackerType.Right);
@@ -263,11 +243,11 @@ namespace XvXR.Foundation.SampleScenes
 
             if (realhandle != null)
             {
-                realhandle.text = $"真实手柄pos: {Math.Round(pos.x, 5)} , {Math.Round(pos.y, 5)} , {Math.Round(pos.z, 5)}";
+                realhandle.text = $"realhandle pos: {Math.Round(pos.x, 5)} , {Math.Round(pos.y, 5)} , {Math.Round(pos.z, 5)}";
             }
             if (realhandle_rot != null)
             {
-                realhandle_rot.text = $"真实手柄rot: {rot}";
+                realhandle_rot.text = $"realhandle rot: {rot}";
             }
 
 

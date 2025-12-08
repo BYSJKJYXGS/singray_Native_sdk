@@ -191,7 +191,7 @@ namespace XvXR.Foundation.SampleScenes
 
         IEnumerator showTipText()
         {
-            //瞳距检测开始
+
             caliTipText.SetActive(true);
             caliCube.SetActive(true);
             caliCube.transform.localPosition = new Vector3(0, 0, caliCube.transform.localPosition.z);
@@ -208,7 +208,6 @@ namespace XvXR.Foundation.SampleScenes
             MyDebugTool.Log($"{TAG} xslam_gaze_calibration_enter");
             xvEyeTrackingManager.GazeCalibrationEnter();
 
-            //开始使用蓝色cube校准
             StartCoroutine(StartFirstPoint());
         }
 
@@ -292,7 +291,7 @@ namespace XvXR.Foundation.SampleScenes
 
             if (caliIndex == 5)
             {
-                #region 校准完最后一个点位后回到初始点位
+                #region Return to the initial position after calibrating the last point.
                 caliCube.transform.localEulerAngles = Vector3.zero;
                 AnimationCurve scaleMoveEnd = AnimationCurve.Linear(0f, 1.7f, 1f, 1f);
 
@@ -391,12 +390,12 @@ namespace XvXR.Foundation.SampleScenes
 
             if (calibrationManager.retrieve == 0 && xvEyeTrackingManager.EyeData.ipd > 50 && xvEyeTrackingManager.EyeData.ipd < 80)
             {
-                calibrationManager.finishTipText.GetComponent<Text>().text = $"校准成功\nipd:{xvEyeTrackingManager.EyeData.ipd}";
+                calibrationManager.finishTipText.GetComponent<Text>().text = $"Calibration successful.\nipd:{xvEyeTrackingManager.EyeData.ipd}";
 
             }
             else
             {
-                calibrationManager.finishTipText.GetComponent<Text>().text = $"校准失败，请重新校准";
+                calibrationManager.finishTipText.GetComponent<Text>().text = "Calibration fail,Please recalibrate";
             }
             calibrationManager.finishTipText.SetActive(true);
 

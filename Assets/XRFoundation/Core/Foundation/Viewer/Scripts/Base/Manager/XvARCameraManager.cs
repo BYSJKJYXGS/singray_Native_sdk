@@ -1,7 +1,7 @@
 
 namespace XvXR.Foundation
 {
-    #region ARÑÛ¾µÏà»ú
+    #region AR Glass RGB Camera
 
     public sealed class XvARCameraManager
     {

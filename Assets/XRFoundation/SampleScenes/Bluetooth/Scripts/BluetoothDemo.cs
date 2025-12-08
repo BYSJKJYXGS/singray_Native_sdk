@@ -374,7 +374,7 @@ namespace XvXR.Foundation.SampleScenes
 
 
 
-        //#region 蓝牙接口
+        //#region blue
         //public class bleInfo
         //{
         //    public string info;
@@ -390,12 +390,7 @@ namespace XvXR.Foundation.SampleScenes
         //    public BlePoseListener() : base("top.xv.xrlib.common.ble.IPoseListener") { }
 
 
-        //    /// <summary>
-        //    /// 扫描到设备回调
-        //    /// </summary>
-        //    /// <param name="bleInfo"></param>
-        //    /// <param name="status"></param>
-        //    /// <param name="isconnected"></param>
+     
         //    public void onScan(string bleInfo, int status, bool isconnected)
         //    {
         //        WorkQueue.Instance.InvokeOnAppThread(() =>
@@ -422,18 +417,15 @@ namespace XvXR.Foundation.SampleScenes
 
         //            if (status == 10)
         //            {
-        //                //未连接
         //                info.status = Ble_Bond_Status.BOND_NONE;
         //            }
         //            else if (status == 11)
         //            {
-        //                //连接中
         //                info.status = Ble_Bond_Status.BOND_BOND;
 
         //            }
         //            else if (status == 12)
         //            {
-        //                //已配对
         //                info.status = Ble_Bond_Status.BOND_BOND_COMPLETE;
 
         //            }
@@ -456,10 +448,7 @@ namespace XvXR.Foundation.SampleScenes
         //    }
 
 
-        //    /// <summary>
-        //    /// 连接状态改变回调
-        //    /// </summary>
-        //    /// <param name="status"></param>
+      
         //    void onStateChange(int status)
         //    {
 
@@ -486,14 +475,10 @@ namespace XvXR.Foundation.SampleScenes
         //            GetInstance().getBloothTeechState();
         //        }
         //            );
-        //        MyDebugTool.Log("  onStateChange ： " + status + "    ");
         //    }
         //}
 
 
-        ///// <summary>
-        ///// 开启蓝牙
-        ///// </summary>
         //private void openBluetooth()
         //{
         //    MyDebugTool.Log(" openBluetooth");
@@ -512,21 +497,15 @@ namespace XvXR.Foundation.SampleScenes
 
         //}
 
-        ///// <summary>
-        ///// 关闭蓝牙
-        ///// </summary>
+    
         //private void closeBluetooth()
         //{
-        //    //关闭蓝牙
         //    MyDebugTool.Log(" closeBluetooth");
 
         //    mAndroidBle.Call<bool>("closeBluetooth");
         //}
 
-        ///// <summary>
-        ///// 蓝牙连接
-        ///// </summary>
-        ///// <param name="bleInfo"></param>
+    
         //private void connectBle(string bleInfo)
         //{
 
@@ -534,20 +513,14 @@ namespace XvXR.Foundation.SampleScenes
         //    mAndroidBle.Call<bool>("connect", bleInfo);
         //}
 
-        ///// <summary>
-        ///// 断开蓝牙连接
-        ///// </summary>
-        ///// <param name="bleInfo"></param>
+       
         //private void disconnect(string bleInfo)
         //{
         //    MyDebugTool.Log("disconnect:" + bleInfo);
         //    mAndroidBle.Call<bool>("disconnect", bleInfo);
         //}
 
-        ///// <summary>
-        ///// 取消蓝牙配对
-        ///// </summary>
-        ///// <param name="bleInfo"></param>
+    
         //private void unpairDevice(string bleInfo)
         //{
 
@@ -556,9 +529,7 @@ namespace XvXR.Foundation.SampleScenes
         //}
 
 
-        ///// <summary>
-        ///// 刷新蓝牙列表
-        ///// </summary>
+     
         //private void Scan()
         //{
         //    MyDebugTool.Log("Scan:");
@@ -568,8 +539,7 @@ namespace XvXR.Foundation.SampleScenes
 
 
 
-        //// BLE send HID command
-        ////����Ĳ�������HIDָ����� �ֱ�slam��λ��cmd���� 021a9601
+    
         //public void writeHid(string cmd)
         //{
         //    MyDebugTool.Log("writeHid:" + cmd);

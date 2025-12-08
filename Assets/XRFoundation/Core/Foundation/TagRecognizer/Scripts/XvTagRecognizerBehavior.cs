@@ -3,17 +3,13 @@ using UnityEngine.Events;
 namespace XvXR.Foundation
 {
 
-    /// <summary>
-    /// 该类提供识别成功以后回调方法
-    /// </summary>
-
     public class XvTagRecognizerBehavior : MonoBehaviour
     {
 
         [Tooltip("Apriltag ID")]
 
         public int id=-1;
-        [Tooltip("QRCode 文本作为ID")]
+        [Tooltip("QRCode == ID")]
         public string qrcodeID ;
 
         public UnityEvent OnFoundEvent = new UnityEvent();
@@ -86,10 +82,9 @@ namespace XvXR.Foundation
             }
             else
             {
-                //识别成功
                 for (int i = 0; i < tagDetections.Length; i++)
                 {
-                    MyDebugTool.Log("detected：" + tagDetections[i].id + "   " + tagDetections[i].confidence + "  " + aprilTagManager.Confidence);
+                    MyDebugTool.Log("detected:" + tagDetections[i].id + "   " + tagDetections[i].confidence + "  " + aprilTagManager.Confidence);
 
                     if (tagDetections[i].confidence >= aprilTagManager.Confidence)
                     {
@@ -111,7 +106,7 @@ namespace XvXR.Foundation
                            
                             string qrText = System.Text.Encoding.UTF8.GetString(tagDetections[i].qrcode).Trim();
 
-                            MyDebugTool.Log("二维码内容："+ tagDetections[i].qrcode+"  "+ qrText);
+                            MyDebugTool.Log("QRCode :"+ tagDetections[i].qrcode+"  "+ qrText);
                           
                             if (qrText .Contains(qrcodeID) )
                             {
@@ -141,7 +136,6 @@ namespace XvXR.Foundation
             }
             else
             {
-                //Debug.Log("丢失");
 
                 OnLostEvent?.Invoke();
 

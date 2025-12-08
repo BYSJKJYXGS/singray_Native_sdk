@@ -9,18 +9,16 @@ namespace XvXR.Foundation
     public enum Ble_Bond_Status
     {
 
-        //扫描到的其他蓝牙设备状态
-        BOND_NONE,//未连接
-        BOND_BOND,//配对中
-        BOND_BOND_COMPLETE,//已配对
-        BOND_BOND_CONNECTED,//已连接
+        BOND_NONE,
+        BOND_BOND,
+        BOND_BOND_COMPLETE,
+        BOND_BOND_CONNECTED,
 
 
-        //当前设备蓝牙状态
-        STATE_OFF,//关闭
-        STATE_TURNING_ON,//启动中
-        STATE_ON,//已开启
-        STATE_TURNING_OFF,//关闭中
+        STATE_OFF,
+        STATE_TURNING_ON,
+        STATE_ON,
+        STATE_TURNING_OFF,
     }
     public class BluetoothManager : MonoBehaviour
     {
@@ -72,9 +70,7 @@ namespace XvXR.Foundation
         }
 
 
-        /// <summary>
-        /// 开启蓝牙设备监听
-        /// </summary>
+     
         public void StartBle()
         {
 
@@ -99,9 +95,7 @@ namespace XvXR.Foundation
 
 
 
-        /// <summary>
-        /// 开启蓝牙
-        /// </summary>
+      
         public void openBluetooth()
         {
 #if UNITY_EDITOR
@@ -123,24 +117,18 @@ namespace XvXR.Foundation
 
         }
 
-        /// <summary>
-        /// 关闭蓝牙
-        /// </summary>
+   
         public void closeBluetooth()
         {
 #if UNITY_EDITOR
             return;
 #endif
-            //关闭蓝牙
             MyDebugTool.Log(" closeBluetooth");
 
             mAndroidBle.Call<bool>("closeBluetooth");
         }
 
-        /// <summary>
-        /// 蓝牙连接
-        /// </summary>
-        /// <param name="bleInfo"></param>
+       
         public void connectBle(string bleInfo)
         {
 #if UNITY_EDITOR
@@ -150,10 +138,7 @@ namespace XvXR.Foundation
             mAndroidBle.Call<bool>("connect", bleInfo);
         }
 
-        /// <summary>
-        /// 断开蓝牙连接
-        /// </summary>
-        /// <param name="bleInfo"></param>
+       
         public void disconnect(string bleInfo)
         {
 #if UNITY_EDITOR
@@ -163,10 +148,7 @@ namespace XvXR.Foundation
             mAndroidBle.Call<bool>("disconnect", bleInfo);
         }
 
-        /// <summary>
-        /// 取消蓝牙配对
-        /// </summary>
-        /// <param name="bleInfo"></param>
+     
         public void unpairDevice(string bleInfo)
         {
 #if UNITY_EDITOR
@@ -176,30 +158,23 @@ namespace XvXR.Foundation
             mAndroidBle.Call<bool>("unpairDevice", bleInfo);
         }
 
-
-        /// <summary>
-        /// 刷新蓝牙列表
-        /// </summary>
         public void Scan()
         {
 #if UNITY_EDITOR
             return;
 #endif
-            MyDebugTool.Log("Scan:");
 
             mAndroidBle.Call("scan");
         }
 
 
 
-        // BLE send HID command
-        //����Ĳ�������HIDָ����� �ֱ�slam��λ��cmd���� 021a9601
+        
         public void writeHid(string cmd)
         {
 #if UNITY_EDITOR
             return;
 #endif
-            MyDebugTool.Log("writeHid:" + cmd);
             mAndroidBle.Call<bool>("write", cmd);
         }
 
@@ -219,12 +194,7 @@ namespace XvXR.Foundation
             }
             private BluetoothManager toothManager;
 
-            /// <summary>
-            /// 扫描到设备回调
-            /// </summary>
-            /// <param name="bleInfo"></param>
-            /// <param name="status"></param>
-            /// <param name="isconnected"></param>
+          
             public void onScan(string bleInfo, int status, bool isconnected)
             {
                 WorkQueue.Instance.InvokeOnAppThread(() =>
@@ -251,18 +221,15 @@ namespace XvXR.Foundation
 
                     if (status == 10)
                     {
-                        //未连接
                         info.status = Ble_Bond_Status.BOND_NONE;
                     }
                     else if (status == 11)
                     {
-                        //连接中
                         info.status = Ble_Bond_Status.BOND_BOND;
 
                     }
                     else if (status == 12)
                     {
-                        //已配对
                         info.status = Ble_Bond_Status.BOND_BOND_COMPLETE;
 
                     }
@@ -285,10 +252,7 @@ namespace XvXR.Foundation
             }
 
 
-            /// <summary>
-            /// 连接状态改变回调
-            /// </summary>
-            /// <param name="status"></param>
+      
             void onStateChange(int status)
             {
 
@@ -316,7 +280,6 @@ namespace XvXR.Foundation
 
                 }
                     );
-                MyDebugTool.Log("  onStateChange ： " + status + "    ");
             }
         }
 

@@ -32,20 +32,17 @@ namespace XvXR.UI.Input
 
                 if (CustomEventData.hover3DRaycastHit.transform?.gameObject != null)
                 {
-                    // Debug.LogError("选中3D物体"+ CustomEventData.hover3DRaycastHit.transform.name);
                     lineRenderer.SetPosition(1, CustomEventData.hover3DRaycastHit.point);
                 }
                 else
                 {
                     if (CustomEventData.pointerCurrentRaycast.gameObject != null)
                     {
-                        // Debug.LogError("选中UI");
 
                         lineRenderer.SetPosition(1, CustomEventData.pointerCurrentRaycast.worldPosition);
                     }
                     else
                     {
-                         //Debug.LogError("没有选中任何可交互物体");
                         lineRenderer.SetPosition(1, transform.position + transform.forward * 1000);
                     }
                 }

@@ -8,13 +8,11 @@ using XvXR.utils;
 namespace XvXR.Foundation
 {
     public class result {
-        public  string word;//命令词
-        public int id;// id
-        public int sc;//置信度
+        public  string word;
+        public int id;
+        public int sc;
     }
-   /// <summary>
-   /// 提供语音识别的配置方法以及识别接口
-   /// </summary>
+
     public sealed class XvSpeechVoiceManager : MonoBehaviour
     {
         private AndroidJavaObject interfaceObject;
@@ -47,35 +45,26 @@ namespace XvXR.Foundation
         private const string LOCAL_GRAMMAR = "word";
 
         private const string LOCAL_THRESHOLD = "60";
-        private UnityAction<RecognizedStatus,string> OnRecognizedStatus;//所有的语音状态
+        private UnityAction<RecognizedStatus,string> OnRecognizedStatus;
 
         private result result1 = new result();
 
-        /// <summary>
-        /// 识别到的语音词命令 id  word
-        /// </summary>
+     
         [SerializeField]
         private List<AitalkWord> aitalkWords = new List<AitalkWord>();
 
-        /// <summary>
-        /// 命令词识别结果回调
-        /// </summary>
+      
 
         public UnityEvent<result> OnCommandRecognized;
-        /// <summary>
-        /// 唤醒词唤醒回调
-        /// </summary>
+     
         public UnityEvent OnSpeechRecognizeWake;
 
-        /// <summary>
-        /// 命令词静默超时回调
-        /// </summary>
         public UnityEvent OnSpeechRecognizeEnd;
 
 
        
 
-        [Tooltip("置信度阈值")]
+        [Tooltip("sc")]
         [Range(0,100)]
         [SerializeField]
         private int sc=20;
@@ -115,9 +104,7 @@ namespace XvXR.Foundation
         }
 
 
-        /// <summary>
-        /// 开启命令词监听，非唤醒词模式下调用
-        /// </summary>
+     
         public void StartASR(int local_VAD_BOS = 5000, int LOCAL_VAD_EOS = 500)
         {
             MyDebugTool.Log("StartASR");
@@ -148,9 +135,7 @@ namespace XvXR.Foundation
         }
 
 
-        /// <summary>
-        /// 关闭命令词监听
-        /// </summary>
+    
         public void StopASR() { 
             MyDebugTool.Log("StopASR");
 
@@ -158,9 +143,7 @@ namespace XvXR.Foundation
 
         }
 
-        /// <summary>
-        /// 开启唤醒词+命令词识别
-        /// </summary>
+       
         public void StartAVW(int local_VAD_BOS=5000,int LOCAL_VAD_EOS=500)
         {
             MyDebugTool.Log("StartAVW");
@@ -173,19 +156,14 @@ namespace XvXR.Foundation
             AndroidHelper.CallObjectMethod(InterfaceObject, "startAvw", new object[] { false });//
         }
 
-        /// <summary>
-        /// 停止唤醒词+命令词识别
-        /// </summary>
+      
         public void StopAVW() {
             MyDebugTool.Log("StopAVW");
             AndroidHelper.CallObjectMethod(InterfaceObject, "stopAvw", new object[] {  });//
 
         }
 
-        /// <summary>
-        /// 唤醒词回调
-        /// </summary>
-        /// <param name="result"></param>
+      
         public void onAvwResult(string result)
         {
             MyDebugTool.Log("aitak_log:unity:LogInfo:onAvwResult:" + result);
@@ -196,10 +174,7 @@ namespace XvXR.Foundation
             OnSpeechRecognizeWake?.Invoke();
         }
 
-        /// <summary>
-        /// 自动监听回调命令词停止回调
-        /// </summary>
-        /// <param name="msg"></param>
+      
         public void onSpeechRecognizeEnd(string msg)
         {
             MyDebugTool.Log("aitak_log:unity:LogInfo:onSpeechRecognizeEnd:" + msg);
@@ -215,10 +190,7 @@ namespace XvXR.Foundation
             //statusText.text = text;
         }
 
-        /// <summary>
-        /// 语音初始化完成回到
-        /// </summary>
-        /// <param name="result"></param>
+  
         public void onInit(string result)
         {
             OnRecognizedStatus?.Invoke(RecognizedStatus.Init, result);
@@ -227,10 +199,7 @@ namespace XvXR.Foundation
             UpdateText("init" + result);
         }
 
-        /// <summary>
-        /// 语法构建完成回调
-        /// </summary>
-        /// <param name="result"></param>
+     
         public void onBuildFinish(string result)
         {
 
@@ -252,34 +221,23 @@ namespace XvXR.Foundation
 
         }
 
-        /// <summary>
-        /// 开始监听语音输入回调
-        /// </summary>
-        /// <param name="nullstr"></param>
+      
         public void onBeginOfSpeech(string nullstr)
         {
             MyDebugTool.Log("aitak_log:unity:LogInfo:onBeginOfSpeech.....");
-            UpdateText("说话中....");
 
             OnRecognizedStatus?.Invoke(RecognizedStatus.BeginOfSpeech,nullstr);
         }
 
-        /// <summary>
-        /// 语音输入结束回调
-        /// </summary>
-        /// <param name="nullstr"></param>
+      
         public void onEndOfSpeech(string nullstr)
         {
             MyDebugTool.Log("aitak_log:unity:LogInfo:onEndOfSpeech.....");
-            UpdateText("说话结束");
             OnRecognizedStatus?.Invoke(RecognizedStatus.EndOfSpeech,nullstr);
 
         }
 
-        /// <summary>
-        /// 错误回调
-        /// </summary>
-        /// <param name="error"></param>
+
         public void onError(string error)
         {
             OnRecognizedStatus?.Invoke(RecognizedStatus.Error, error);
@@ -289,10 +247,7 @@ namespace XvXR.Foundation
         }
 
 
-        /// <summary>
-        /// 命令词识别回调
-        /// </summary>
-        /// <param name="result"></param>
+
         public void onResult(string result)
         {
             OnRecognizedStatus?.Invoke(RecognizedStatus.Result, result);
@@ -326,7 +281,6 @@ namespace XvXR.Foundation
                                     }
                                 }
                             }
-                            //UpdateText("识别结果:true，可信度:" + data.sc + ",内容:" + data.ws[0].cw[0].w + ",id:" + data.ws[0].cw[0].id);
                         }
                     }
                     catch (Exception e)
@@ -348,7 +302,6 @@ namespace XvXR.Foundation
         }
         private class JsonSerializerStrategy : SimpleJson.PocoJsonSerializerStrategy
         {
-            // convert string to int
             public override object DeserializeObject(object value, Type type)
             {
                 if (type == typeof(Int32) && value.GetType() == typeof(string))
@@ -374,13 +327,13 @@ namespace XvXR.Foundation
     public enum RecognizedStatus
     {
         None,
-        Init,//初始化完成
-        BuildSuccess,//构建成功
-        BuildFail,//构建失败
-        BeginOfSpeech,//开始说话
-        EndOfSpeech,//结束输入
-        Error,//
-        Result,//
+        Init,
+        BuildSuccess,
+        BuildFail,
+        BeginOfSpeech,
+        EndOfSpeech,
+        Error,
+        Result,
 
     }
 }

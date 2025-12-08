@@ -107,7 +107,7 @@ namespace XvXR.Foundation.SampleScenes
                         FileInfo file_info = new FileInfo(mapContentInfos[i].mapPath);
                         if (!file_info.Exists)
                         {
-                            MyDebugTool.LogError("delete£º" + mapContentInfos[i].mapPath);
+                            MyDebugTool.LogError("delete:" + mapContentInfos[i].mapPath);
                             mapContentInfos.RemoveAt(i);
                         }
                         else
@@ -266,7 +266,7 @@ namespace XvXR.Foundation.SampleScenes
         private void onMapSimilarity(float similarity)
         {
 
-            similarityText.text = "similarity£º" + similarity;
+            similarityText.text = "similarity:" + similarity;
 
 
         }
@@ -454,7 +454,6 @@ namespace XvXR.Foundation.SampleScenes
 
                     if (File.Exists(mapContentInfos[i].mapPath))
                     {
-                        MyDebugTool.Log("RefrashUI" + mapContentInfos.Count);
                         Button button = Instantiate(mapItem.gameObject, mapItem.transform.parent).GetComponent<Button>();
                         string map = mapContentInfos[i].mapPath;
                         button.onClick.AddListener(() =>
@@ -462,14 +461,12 @@ namespace XvXR.Foundation.SampleScenes
 
                             map_Path = map;
                             xvSpatialMapManager.LoadSlamMap(map_Path);
-                            Log("loading map£º" + map_Path);
 
 
                         });
                         button.transform.GetComponentInChildren<Text>().text = mapContentInfos[i].mapPath;
                         button.gameObject.SetActive(true);
                         mapItemList.Add(button);
-                        MyDebugTool.Log("RefrashUI" + mapContentInfos.Count);
                     }
 
                 }

@@ -6,11 +6,11 @@ namespace XvXR.UI.Input
     using UnityEngine.EventSystems;
     public class CustomEventData : PointerEventData
     {
-        #region  避免不必要的麻烦最好不要直接访问
+        #region  ss
 
-        public bool pressPrecessed;//标记按下抬起
+        public bool pressPrecessed;
 
-        public float screenPositionDeltadelta;//移动位置增量
+        public float screenPositionDeltadelta;
 
         private XvInputControllerBase inputControllerBase;
 
@@ -25,7 +25,7 @@ namespace XvXR.UI.Input
 
 
 
-        public RaycastHit hover3DRaycastHit;//选中的3D物体
+        public RaycastHit hover3DRaycastHit;
         public static Vector3 ScreenCenterPoint { get { return new Vector2(Screen.width * 0.5f, Screen.height * 0.5f); } }
 
         internal bool GetKeyPress()
@@ -61,8 +61,6 @@ namespace XvXR.UI.Input
         }
 
 
-
-        //是否是3D空间射线输入
         internal bool Is3DInput
         {
             get
@@ -71,18 +69,14 @@ namespace XvXR.UI.Input
             }
         }
 
-        /// <summary>
-        /// 获取当前用户自定的屏幕上的点
-        /// </summary>
+  
         internal Vector3 screenPosition
         {
             get;
             private set;
         }
 
-        /// <summary>
-        /// 获取两帧之前的移动位置
-        /// </summary>
+     
         internal Vector3 PositionDeltadelta
         {
             get
@@ -100,10 +94,7 @@ namespace XvXR.UI.Input
         private Vector3 positionDeltadelta;
 
 
-        /// <summary>
-        /// 获取屏幕输入的坐标
-        /// </summary>
-        /// <returns></returns>
+      
         public virtual Vector3 GetInputPosition()
         {
 
@@ -138,9 +129,7 @@ namespace XvXR.UI.Input
             UpdateInputPosition();
         }
 
-        /// <summary>
-        /// 初始化自定义输入模块
-        /// </summary>
+
         private void Initialized()
         {
             screenPosition = new Vector2(Screen.width / 2, Screen.height / 2);
@@ -148,15 +137,11 @@ namespace XvXR.UI.Input
             customRaycaster = GetComponent<XvRaycaster>();
             if (EventSystem.current.gameObject.GetComponent<XvXRInputModule>() == null)
             {
-                Debug.LogError("执行次数");
                 Destroy(EventSystem.current.gameObject.GetComponent<StandaloneInputModule>());
                 EventSystem.current.gameObject.AddComponent<XvXRInputModule>();
             }
         }
 
-        /// <summary>
-        /// 更新输入坐标点
-        /// </summary>
         private void UpdateInputPosition()
         {
             if (Is3DInput)

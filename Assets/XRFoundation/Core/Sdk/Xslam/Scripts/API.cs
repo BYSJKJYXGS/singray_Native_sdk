@@ -99,8 +99,8 @@ public class API : MonoBehaviour
         public double[] K;
         /**
           Projection and raytrace formula can be found here:
-          1.  C. Geyer and K. Daniilidis, “A unifying theory for central panoramic systems and practical applications,” in Proc. 6th Eur. Conf. Comput. Vis.
-        II (ECCV’00), Jul. 26, 2000, pp. 445–461
+          1.C. Geyer and K. Daniilidis, "A unifying theory for central panoramic systems and practical applications", in Proc. 6th Eur. Conf. Comput. Vis.
+      
           or
           2. "J.P. Barreto. General central projection systems, modeling, calibration and visual
         servoing. Ph.D., University of Coimbra, 2003". Section 2.2.2.
@@ -515,7 +515,7 @@ public class API : MonoBehaviour
     public static extern bool xslam_get_cloud_data([In, Out] Vector3[] data);
 
     [DllImport("xslam-unity-wrapper")]
-    public static extern bool xslam_get_cloud_data_ex([In, Out] Vector3[] data);//已经过转换的数据，接口数据可以直接用
+    public static extern bool xslam_get_cloud_data_ex([In, Out] Vector3[] data);
 
     // Start TOF stream.
     [DllImport("xslam-unity-wrapper")]
@@ -534,7 +534,6 @@ public class API : MonoBehaviour
     [DllImport("xslam-unity-wrapper")]
     public static extern bool xslam_stop_tof_stream();
     
-    //设置tof模式，0:DepthOnly,1:CloudOnly,2:DepthAndCloud,3:None,4:CloudOnLeftHandSlam
     [DllImport("xslam-unity-wrapper")]
     public static extern bool xslam_tof_set_steam_mode(int cmd);
 
@@ -716,7 +715,7 @@ public class API : MonoBehaviour
     [DllImport("xslam-unity-wrapper")]
     public static extern bool xslam_get_dynamic_gesture(ref GestureData gesture);
 
-    //手势
+
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
     public struct Point
     {
@@ -743,12 +742,12 @@ public class API : MonoBehaviour
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 52, ArraySubType = UnmanagedType.Struct)]
         public RotatePoint[] rotateData;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2, ArraySubType = UnmanagedType.Struct)]
-        public float[] scale;//微调虚拟手模大小的尺寸值
+        public float[] scale;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2, ArraySubType = UnmanagedType.Struct)]
-        public int[] status;//静态手势
+        public int[] status;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2, ArraySubType = UnmanagedType.Struct)]
         public double[] timestamp;
-        public double fisheye_timestamp;//当前鱼眼的时间戳
+        public double fisheye_timestamp;
 
         public long dataFetchTimeMs;
         public long dataTimeStampMs;
@@ -765,7 +764,7 @@ public class API : MonoBehaviour
     [DllImport("xslam-unity-wrapper")]
     public static extern void xslam_set_gesture_platform(int platform);
     [DllImport("xslam-unity-wrapper")]
-    public static extern void xslam_set_gesture_ego( bool ego);//设置手势平台,ego:true->第一人称，false->第三人称
+    public static extern void xslam_set_gesture_ego( bool ego);
 
     [DllImport("xslam-unity-wrapper")]
     public static extern void xslam_set_gesture_filter(int level);
@@ -785,7 +784,7 @@ public class API : MonoBehaviour
     public static extern int xslam_start_surface_callback(bool enableSuface, bool enableTexturing, xslam_surface_callback cb);
 
     [DllImport("xslam-unity-wrapper")]
-    public static extern void xslam_enable_surface_reconstruction(bool enable);//mesh开关功能
+    public static extern void xslam_enable_surface_reconstruction(bool enable);
 
     [DllImport("xslam-unity-wrapper")]
     public static extern bool xslam_stop_skeleton_with_cb(int type, int id);
@@ -880,12 +879,7 @@ public class API : MonoBehaviour
         public int[] status;
     }
 
-    /// <summary>
-    /// mode 0 1 2 
-    /// isroot rk true ;bb false
-    /// </summary>
-    /// <param name="mode"></param>
-    /// <param name="isroot"></param>
+
     [DllImport("xslam-unity-wrapper")]
     public static extern void xslam_set_start_mode(int mode, bool isroot);
 	
@@ -914,72 +908,38 @@ public class API : MonoBehaviour
 
 
     [DllImport("xslam-unity-wrapper")]
-    public static extern void xslam_display_set_brightnesslevel(int level); //level为亮度等级
+    public static extern void xslam_display_set_brightnesslevel(int level); 
 
 
-    /// <summary>
-    /// 开启slam接口
-    /// </summary>
-    /// <returns></returns>
+
     [DllImport("xslam-unity-wrapper")]
     public static extern bool xslam_start_map();
-    /// <summary>
-    /// 关闭slam接口
-    /// </summary>
-    /// <returns></returns>
+
     [DllImport("xslam-unity-wrapper")]
     public static extern bool xslam_stop_map();
-    /// <summary>
-    /// 保存地图接口
-    /// </summary>
-    /// <param name="mapStream"></param> 保存地图到本地设备的存储地址
-    /// <param name="cslamSavedCallback"></param>  保存地图成功后的回调函数
-    /// <param name="cslamLocalizedCallBack"></param>  获取地图匹配度的回调函数
-    /// <returns></returns>
+
     [DllImport("xslam-unity-wrapper")]
     public static extern bool xslam_save_map_and_switch_to_cslam(string mapStream, detectCslamSaved_callback cslamSavedCallback, detectLocalized_callback cslamLocalizedCallBack);//size 0.16 rate 4
 
-    /// <summary>
-    /// 加载地图接口
-    /// </summary>
-    /// <param name="mapStream"></param> 加载地图的路径地址
-    /// <param name="cslamSwitchedCallback"></param> 加载地图的地图地址路径
-    /// <param name="cslamLocalizedCallBack"></param> 获取地图匹配度的回调函数
-    /// <returns></returns>
+
     [DllImport("xslam-unity-wrapper")]
     public static extern bool xslam_load_map_and_switch_to_cslam(string mapStream, detectSwitched_callback cslamSwitchedCallback, detectLocalized_callback cslamLocalizedCallBack);//size 0.16 rate 4
-    /// <summary>
-    /// jiazai 地图的回调函数
-    /// </summary>
-    /// <param name="map_quality"></param>
+
     public delegate void detectSwitched_callback(int map_quality);
 
-    /// <summary>
-    /// 保存slam特征点数据
-    /// </summary>
+
     [StructLayout(LayoutKind.Sequential)]
     public struct SlamMap
     {
         public Vector3 vertices;
     };
-    /// <summary>
-    /// 保存地图的回调函数
-    /// </summary>
-    /// <param name="status_of_saved_map"></param>
-    /// <param name="map_quality"></param>
+
     public delegate void detectCslamSaved_callback(int status_of_saved_map, int map_quality);
 
-    /// <summary>
-    /// 获取地图匹配度的回调函数
-    /// </summary>
-    /// <param name="percent"></param>
+
     public delegate void detectLocalized_callback(float percent);
 
-    /// <summary>
-    /// 获取场景特征点的接口
-    /// </summary>
-    /// <param name="count"></param>
-    /// <returns></returns>
+
     [DllImport("xslam-unity-wrapper")]
     public static extern IntPtr xslam_get_slam_map(ref int count);
 

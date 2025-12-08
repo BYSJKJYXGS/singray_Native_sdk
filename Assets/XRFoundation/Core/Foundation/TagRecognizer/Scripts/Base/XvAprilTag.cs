@@ -4,44 +4,33 @@ using static API;
 
 namespace XvXR.Foundation
 {
-    /// <summary>
-    /// 识别结果
-    /// </summary>
+
     public class TagDetection
     {
         public int id;//ID
 
-        public Vector3 translation;//位置
+        public Vector3 translation;
 
         public Vector3 rotation;
 
-        public Vector4 quaternion;//旋转
+        public Vector4 quaternion;
 
-        public float confidence;//识别率，范围0-1
+        public float confidence;
        
-        public byte[] qrcode; //二维码信息
+        public byte[] qrcode; 
     }
 
     public class XvAprilTag
     {
 
         public delegate void TagArrayCallback(IntPtr tagData,int count);
-        /// <summary>
-        /// 开启Apritag的鱼眼检测模式
-        /// </summary>
-        /// <param name="tagFamily">
-        /// AprilTag检测tagFamily传参36h11
-        /// QRCode检测tagFamily传参qr-code</param>
-        /// <param name="size">识别码的物理尺寸，单位米</param>
-        /// <returns></returns>
+
         public static TagDetection[] StartFishEyeDetector(string tagFamily, double size)
         {
             if (!API.xslam_ready())
             {
-                Debug.LogError("xslam没有准备好");
                 return null;
             }
-            Debug.LogError("wayland =2= fisheye");
 
             API.TagData tags = default(API.TagData);
             //int len = API.xslam_start_detect_tags(tagFamily, size, ref tags, 64);
@@ -50,7 +39,6 @@ namespace XvXR.Foundation
             {
                 return null;
             }
-            Debug.LogError("wayland =3= fisheye");
 
             TagDetection[] result = new TagDetection[len];
             MyDebugTool.Log("AprilTag##StartDetector tags size:" + len);
@@ -78,35 +66,22 @@ namespace XvXR.Foundation
         }
 
 
-        /// <summary>
-        /// 关闭Apritag的鱼眼检测模式
-        /// </summary>
         public static void StopFishEyeDetector()
         {
             if (!API.xslam_ready())
             {
-                Debug.LogError("xslam没有准备好");
                 return;
             }
-            MyDebugTool.Log("StopFishEyeDetector");
 
             API.xslam_stop_detect_tags();
         }
 
 
-        /// <summary>
-        /// 开启Apritag的RGB相机检测模式
-        /// </summary>
-        /// <param name="tagFamily">
-        /// AprilTag检测tagFamily传参36h11
-        /// QRCode检测tagFamily传参qr-code</param>
-        /// <param name="size">识别码的物理尺寸，单位米</param>
-        /// <returns></returns>
+     
         public static  void StartRgbDetector(string tagFamily, double size, TagArrayCallback tagArrayCallback)
         {
             if (!API.xslam_ready())
             {
-                Debug.LogError("xslam没有准备好");
                 return ;
             }
 
@@ -123,7 +98,6 @@ namespace XvXR.Foundation
         {
             if (!API.xslam_ready())
             {
-                Debug.LogError("xslam没有准备好");
                 return null;
             }
 
@@ -183,14 +157,11 @@ namespace XvXR.Foundation
         }
 
 
-        /// <summary>
-        /// 关闭RGB相机检测模式
-        /// </summary>
+
         public static void StopRgbDetector()
         {
             if (!API.xslam_ready())
             {
-                Debug.LogError("xslam没有准备好");
                 return;
             }
 

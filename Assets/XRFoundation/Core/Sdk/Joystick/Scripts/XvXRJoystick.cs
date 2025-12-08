@@ -193,9 +193,7 @@ namespace XvXR.MixedReality.Toolkit.XvXR.Input
 #endif
         }
 
-        /// <summary>
-        /// 初始化蓝牙 java环境
-        /// </summary>
+
         void StartBle()
         {
             AndroidJavaObject unityActivity = GetUnityActivity();
@@ -207,12 +205,7 @@ namespace XvXR.MixedReality.Toolkit.XvXR.Input
             mAndroidBle.Call<bool>("start", (int)mHandleMode, mBlePoseListener);
         }
 
-        /// <summary>
-        /// 获取蓝牙信息列表状态
-        /// </summary>
-        /// <param name="blName"></param>
-        /// <param name="blMac"></param>
-        /// <param name="state"></param>
+
         [MonoPInvokeCallback(typeof(API.WirelessStateCallback))]
         static void OnWirelessStateCallback(IntPtr blName, IntPtr blMac, int state)
         {
@@ -229,10 +222,7 @@ namespace XvXR.MixedReality.Toolkit.XvXR.Input
         }
 
 
-        /// <summary>
-        /// 获取蓝牙手柄数据
-        /// </summary>
-        /// <param name="data"></param>
+
         [MonoPInvokeCallback(typeof(API.WirelessPoseCallback))]
         static void OnWirelessPoseCallback(ref API.WirelessPos data)
         {
@@ -252,11 +242,7 @@ namespace XvXR.MixedReality.Toolkit.XvXR.Input
             GetInstance().SetReady(true);
         }
 
-        /// <summary>
-        /// 获取蓝牙列表信息
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="mac"></param>
+
         [MonoPInvokeCallback(typeof(API.wirelessScanCallback))]
         static void OnWirelessScanCallback(IntPtr name, IntPtr mac)
         {
@@ -272,31 +258,19 @@ namespace XvXR.MixedReality.Toolkit.XvXR.Input
             }
         }
 
-        /// <summary>
-        /// 连接对应蓝牙设备
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="mac"></param>
+
         public void ConnectXvBle(string name, string mac)
         {
             Utility.Log(TAG, "wirelessConnect name:" + name + " mac:" + mac);
             API.xv_wireless_connect(name, mac);
         }
 
-        /// <summary>
-        /// 断开对应的蓝牙设备
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="mac"></param>
         public void DisConnectXvBle(string name, string mac)
         {
             Utility.Log(TAG, "wirelessDisConnect name:" + name + " mac:" + mac);
             API.xv_wireless_disconnect(name, mac);
         }
 
-        /// <summary>
-        /// 注册蓝牙相关回调
-        /// </summary>
         void StartXvBle()
         {
             if (mXvBleInit)
@@ -304,10 +278,10 @@ namespace XvXR.MixedReality.Toolkit.XvXR.Input
                 return;
             }
 
-            API.xv_wireless_start();//开启接受信息
-            API.xv_wireless_scan(OnWirelessScanCallback);//获取蓝牙列表
-            API.xv_wireless_register(OnWirelessPoseCallback);//手柄状态 pose
-            API.xv_wireless_register_state(OnWirelessStateCallback);//蓝牙连接状态
+            API.xv_wireless_start();
+            API.xv_wireless_scan(OnWirelessScanCallback);
+            API.xv_wireless_register(OnWirelessPoseCallback);
+            API.xv_wireless_register_state(OnWirelessStateCallback);
            
             Utility.Log(TAG, "StartXvBle");
             mXvBleInit = true;

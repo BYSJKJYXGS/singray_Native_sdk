@@ -117,7 +117,6 @@ namespace XvXR.UI.Keyboard
                 InputLetterText.text = tmpInputSb.ToString();
                 key = InputLetterText.text.ToLower();
 
-                //将输入的字符进行拼写
                 string hanzi = PinYin.Instance.GetHanZi(key);
                 if (hanzi != null)
                 {
@@ -136,7 +135,6 @@ namespace XvXR.UI.Keyboard
                 SplitCharacter(tmpInputSb.ToString());
                 finalInputSb.Append(letter);
 
-                //如果不是汉字，直接将输入内容更新到输入框中
                 UpdateFinalText();
             }
 

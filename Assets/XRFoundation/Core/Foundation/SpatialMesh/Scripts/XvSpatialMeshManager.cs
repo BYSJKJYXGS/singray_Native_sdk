@@ -5,9 +5,7 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 namespace XvXR.Foundation
 {
-    /// <summary>
-    /// 该类主要进行空间网格扫描
-    /// </summary>
+
     public sealed class XvSpatialMeshManager : MonoBehaviour
     {
         private XvSpatialMeshManager() { }
@@ -48,9 +46,7 @@ namespace XvXR.Foundation
         }
 
 
-        /// <summary>
-        /// 开启空间网格扫描功能
-        /// </summary>
+   
         public void StartMeshDetection()
         {
             if (!isDetecting)
@@ -78,7 +74,7 @@ namespace XvXR.Foundation
                 else
                 {
                     // CameraManager.StartCapture(XvCameraStreamType.TofDepthCameraStream);
-                    meshSurfaceId = API.xslam_start_surface_callback(true, false, OnStartSurfaceCallback);//调用 Creat Mesh API
+                    meshSurfaceId = API.xslam_start_surface_callback(true, false, OnStartSurfaceCallback);
                     Debug.Log($"xslam_start_surface_callback return id:{meshSurfaceId}");
                     // API.xslam_reset_slam();
                     isCreatMesh = true;
@@ -88,9 +84,7 @@ namespace XvXR.Foundation
            
         }
 
-        /// <summary>
-        /// 关闭空间网格扫描功能
-        /// </summary>
+  
         public void StopMeshDetection()
         {
             if (isDetecting)
@@ -102,11 +96,7 @@ namespace XvXR.Foundation
 
        
 
-        /// <summary>
-        /// 识别到网格以后得回调函数
-        /// </summary>
-        /// <param name="surfaces"></param>
-        /// <param name="size"></param>
+      
         [MonoPInvokeCallback(typeof(API.xslam_surface_callback))]
         public static void OnStartSurfaceCallback(IntPtr surfaces, int size)
         {
@@ -149,7 +139,6 @@ namespace XvXR.Foundation
                 List<Vector3uint> trianglesList = new List<Vector3uint>();
 
 
-                //每个检测到的物体的所有的点
                 for (int n = 0; n < objdata[i].verticesSize; n++)
                 {
                     IntPtr ptr_vi = (IntPtr)((a + n * Marshal.SizeOf(typeof(Vector3))));
@@ -170,7 +159,6 @@ namespace XvXR.Foundation
 
                 for (int n = 0; n < objdata[i].trianglesSize; n++)
                 {
-                    //调试
                     IntPtr ptr_vi_t = (IntPtr)((a_t + n * Marshal.SizeOf(typeof(Vector3uint))));
                     if (ptr_vi_t == IntPtr.Zero)
                     {
@@ -183,7 +171,6 @@ namespace XvXR.Foundation
                 }
 
 
-              //  MyDebugTool.Log($"mesh回调");
                
                 getCreatMeshData(viList, vi_nList, trianglesList, objdata[i].mapId.ToString());
                 Marshal.DestroyStructure(ptr, typeof(XslamSurface));
@@ -193,12 +180,7 @@ namespace XvXR.Foundation
 
         private static void getCreatMeshData(List<Vector3> vList0, List<Vector3> vList1, List<Vector3uint> tList1, string mapID)
         {
-           // MyDebugTool.Log($"getCreatMeshData{vList0.Count}   {vList1.Count}   {tList1.Count}   {mapID}");
-
-            //for (int i = 0; i < tList1.Count; i++)
-            //{
-            //    Debug.Log($"tList1[{i}]:{tList1[i].x},{tList1[i].y},{tList1[i].z}");
-            //}
+        
 
             if (mapID == "")
             {
@@ -212,8 +194,7 @@ namespace XvXR.Foundation
 
             meshChanged?.Invoke(surface);
            
-            //infoTxt.text += mapID + " | ";
-            //infoTxt.text = nowSurfaceList.Count + "";
+       
         }
 
         
@@ -231,9 +212,9 @@ namespace XvXR.Foundation
 
     public class NowXslamSurface
     {
-        public List<Vector3> vList0_t;//顶点坐标
-        public List<Vector3> vList1_t;//法线
-        public List<Vector3uint> vListt_t;//三角形索引
+        public List<Vector3> vList0_t;
+        public List<Vector3> vList1_t;
+        public List<Vector3uint> vListt_t;
         public string mapID;
     }
     public struct Vector3uint
@@ -262,7 +243,6 @@ namespace XvXR.Foundation
         public IntPtr textureCoordinates;
         public uint textureWidth;
         public uint textureHeight;
-        //[MarshalAs(UnmanagedType.LPArray)] 
-        //public byte[] textureRgba;
+
     };
 }

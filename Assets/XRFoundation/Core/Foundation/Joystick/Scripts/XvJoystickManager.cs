@@ -47,12 +47,6 @@ namespace XvXR.Foundation
        
 
 
-
-        /// <summary>
-        /// 获取当前手柄原始数据
-        /// </summary>
-        /// <param name="trackerType"></param>
-        /// <returns></returns>
         public JoystickData GetJoystickData(TrackerType trackerType)
         {
 
@@ -73,12 +67,7 @@ namespace XvXR.Foundation
             return null;
 
         }
-        /// <summary>
-        /// 手柄按键按下事件
-        /// </summary>
-        /// <param name="button"></param>
-        /// <param name="trackerType"></param>
-        /// <returns></returns>
+    
         public bool GetKeyDown(JoystickButton button, TrackerType trackerType)
         {
 
@@ -97,12 +86,7 @@ namespace XvXR.Foundation
             return false;
 
         }
-        /// <summary>
-        /// 手柄按键抬起事件
-        /// </summary>
-        /// <param name="button"></param>
-        /// <param name="trackerType"></param>
-        /// <returns></returns>
+    
         public bool GetKeyUp(JoystickButton button, TrackerType trackerType)
         {
             switch (trackerType)
@@ -120,12 +104,7 @@ namespace XvXR.Foundation
             return false;
 
         }
-        /// <summary>
-        /// 手柄按键长按
-        /// </summary>
-        /// <param name="button"></param>
-        /// <param name="trackerType"></param>
-        /// <returns></returns>
+    
         public bool GetKey(JoystickButton button, TrackerType trackerType)
         {
 
@@ -145,12 +124,7 @@ namespace XvXR.Foundation
 
 
         }
-        /// <summary>
-        /// 手柄按键双击
-        /// </summary>
-        /// <param name="button"></param>
-        /// <param name="trackerType"></param>
-        /// <returns></returns>
+     
         public bool GetDoubleClick(JoystickButton button, TrackerType trackerType)
         {
             switch (trackerType)
@@ -172,11 +146,7 @@ namespace XvXR.Foundation
 
 
 
-        /// <summary>
-        /// 获取手柄摇杆输入
-        /// </summary>
-        /// <param name="trackerType"></param>
-        /// <returns></returns>
+     
         public Vector2 GetRockerVector2(TrackerType trackerType)
         {
 
@@ -204,11 +174,7 @@ namespace XvXR.Foundation
             return Vector2.zero;
         }
 
-        /// <summary>
-        /// 获取当前手柄位置
-        /// </summary>
-        /// <param name="trackerType"></param>
-        /// <returns></returns>
+    
         public Vector3 GetPosition(TrackerType trackerType)
         {
             switch (trackerType)
@@ -228,11 +194,7 @@ namespace XvXR.Foundation
             return Vector3.zero;
         }
 
-        /// <summary>
-        /// 获取手柄当前旋转
-        /// </summary>
-        /// <param name="trackerType"></param>
-        /// <returns></returns>
+    
         public Quaternion GetRotation(TrackerType trackerType)
         {
             switch (trackerType)
@@ -250,11 +212,7 @@ namespace XvXR.Foundation
             return Quaternion.identity;
         }
 
-        /// <summary>
-        /// 获取当前手柄置信度
-        /// </summary>
-        /// <param name="trackerType"></param>
-        /// <returns></returns>
+     
         public int GetConfidence(TrackerType trackerType)
         {
             switch (trackerType)
@@ -287,10 +245,10 @@ namespace XvXR.Foundation
         }
 
 
-        #region 蓝牙手柄
+        #region blue controller
 
         /// <summary>
-        /// 获取蓝牙列表
+        /// get blue list
         /// </summary>
         /// <param name="trackerType"></param>
         /// <returns></returns>
@@ -312,7 +270,7 @@ namespace XvXR.Foundation
         }
 
         /// <summary>
-        /// 连接蓝牙设备
+        /// connect blue devices
         /// </summary>
         /// <param name="name"></param>
         /// <param name="mac"></param>
@@ -333,7 +291,7 @@ namespace XvXR.Foundation
         }
 
         /// <summary>
-        /// 断开蓝牙连接
+        /// disconnect blue devices
         /// </summary>
         /// <param name="name"></param>
         /// <param name="mac"></param>
@@ -411,11 +369,11 @@ namespace XvXR.Foundation
     public enum JoystickButton
     {
      
-        Button_Trigger,//扳机键
+        Button_Trigger,
         Button_A,
         Button_B,
-        Button_Grip,//侧卧键
-        Button_Thumbstick,//拇指摇杆
+        Button_Grip,
+        Button_Thumbstick,
     }
     public enum DataSource
     {

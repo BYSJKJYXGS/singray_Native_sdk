@@ -11,13 +11,13 @@ namespace Assets.XvXRScripts.Engine
     [StructLayout(LayoutKind.Sequential)]
     public struct XvXROpticalParameter_t
     {
-       public float fov_left; //度
+       public float fov_left; 
        public float fov_right;
        public float fov_top;
        public float fov_bottom;
      
        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
-       public float[] red_coff;     //畸变系数
+       public float[] red_coff;     
       
        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
        public float[] green_coff;
@@ -25,18 +25,18 @@ namespace Assets.XvXRScripts.Engine
        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
        public float[] blue_coff;
       
-       public float red_effective_focal_length;  //有效焦距 
+       public float red_effective_focal_length;  
        public float green_effective_focal_length;
        public float blue_effective_focal_length;
-       public float screen_width_physics;        //屏幕物理宽
-       public float screen_height_physics;       //屏幕物理高
-       public float screen_width_pixels;         //像素单位
-       public float screen_height_pixels;        //像素单位
+       public float screen_width_physics;        
+       public float screen_height_physics;      
+       public float screen_width_pixels;         
+       public float screen_height_pixels;       
         
-       public float left_eye_center_x;           //以屏左上角为原点，左眼中心x
-       public float left_eye_center_y;           //以屏左上角为原点，左眼中心y
-       public float right_eye_center_x;          //以屏左上角为原点，右眼中心x
-       public float right_eye_center_y;          //以屏左上角为原点，右眼中心y
+       public float left_eye_center_x;          
+       public float left_eye_center_y;           
+       public float right_eye_center_x;          
+       public float right_eye_center_y;         
        public float separation; // Center to center. 
        public float screenDistance; // Distance from lens center to the phone screen.
        public float bottomOffset; // Offset of lens center from top or bottom

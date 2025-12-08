@@ -84,7 +84,7 @@ public class WifiDisplayPluginWrapper : MonoBehaviour
     {
         if (Application.platform == RuntimePlatform.Android)
         {
-            AndroidHelper.CallObjectMethod(InterfaceObject, "setUseDLNA", new object[] { false });//true PC ������ֱ��ͨ��VLC ������������
+            AndroidHelper.CallObjectMethod(InterfaceObject, "setUseDLNA", new object[] { false });
             AndroidHelper.CallObjectMethod(InterfaceObject, "tvDisplayClicked", new object[] { });
             
             if (pcStartBtn != null)
@@ -97,7 +97,7 @@ public class WifiDisplayPluginWrapper : MonoBehaviour
 
     public void OnTvDisplayClick(){
          if (Application.platform == RuntimePlatform.Android) {
-            AndroidHelper.CallObjectMethod(InterfaceObject, "setUseDLNA", new object[] { true });//false ������С�׵��� ����Ҫ���ǽ���������
+            AndroidHelper.CallObjectMethod(InterfaceObject, "setUseDLNA", new object[] { true });
             AndroidHelper.CallObjectMethod(InterfaceObject,"tvDisplayClicked",new object[]{});
             if (pcStartBtn != null)
                 pcStartBtn.SetActive(false);

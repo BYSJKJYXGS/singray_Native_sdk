@@ -46,7 +46,6 @@ namespace XvXR.Engine
             }
             updated = true;
             XvXRManager.SDK.UpdateState();
-            //HeadPose在UpdateState()里有更新
             if (trackRotation && XvXRManager.SDK.IsVRMode)
             {
                 var rot = XvXRManager.SDK.HeadPose.Orientation;

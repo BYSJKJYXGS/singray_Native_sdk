@@ -6,9 +6,9 @@ public class XvAitalkModels
    public class cwmodel
     {
         public int gm;
-        public int id;//定义的语义id
-        public int sc;//置信度
-        public string w;//识别词
+        public int id;
+        public int sc;
+        public string w;
     
     };
 
@@ -29,7 +29,7 @@ public class XvAitalkModels
 
         public int ed;
 
-        public int sc;//置信度
+        public int sc;
 
         public List<wsmodel>ws;
     }

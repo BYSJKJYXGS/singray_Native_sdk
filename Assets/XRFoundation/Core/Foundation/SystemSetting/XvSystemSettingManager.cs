@@ -1,4 +1,4 @@
-using UnityEngine;
+锘縰sing UnityEngine;
 using XvXR.Engine;
 using XvXR.SystemEvents;
 using static XvXR.Foundation.XvSystemSetting;
@@ -6,7 +6,7 @@ using static XvXR.Foundation.XvSystemSetting;
 namespace XvXR.Foundation
 {
     /// <summary>
-    /// 该类提供系统相关的参数设置、获取方法
+    /// This class provides methods for setting and retrieving system-related parameters. 谩This class provides methods for setting and retrieving system-related parameters. 
     /// </summary>
     public sealed class XvSystemSettingManager : MonoBehaviour
     {
@@ -15,14 +15,14 @@ namespace XvXR.Foundation
         private int level = 6;
 
         /// <summary>
-        /// 获取当前亮度
+        /// GetBrightnessLevel
         /// </summary>
         /// <returns></returns>
         public int GetBrightnessLevel() {
             return level;
         }
         /// <summary>
-        /// 设置眼镜亮度
+        /// SetBrightnessLevel
         /// </summary>
         /// <param name="level">1~9</param>
         public void SetBrightnessLevel(int level)
@@ -37,7 +37,7 @@ namespace XvXR.Foundation
         }
 
         /// <summary>
-        /// 设置当前瞳距
+        /// SetIPD
         /// </summary>
         /// <param name="ipd">55mm~75mm</param>
         public void SetIPD(float ipd)
@@ -52,9 +52,9 @@ namespace XvXR.Foundation
             XvXREye.EDI = 0;
         }
         /// <summary>
-        /// 获取当前IPD
+        /// GetIPD
         /// </summary>
-        /// <returns> 返回值单位为mm（毫米）</returns>
+        /// <returns> float</returns>
         public float GetIPD()
         {
 #if UNITY_EDITOR
@@ -67,7 +67,7 @@ namespace XvXR.Foundation
         }
 
         /// <summary>
-        /// 监听眼镜按键事件、是否佩戴，感光事件等
+        /// XSlamStartEventStream
         /// </summary>
         /// <param name="cb"></param>
         public void XSlamStartEventStream(device_stream_callback cb) {
@@ -84,7 +84,6 @@ namespace XvXR.Foundation
             xslam_stop_event_stream();
         }
 
-       //获取当前音量
         public int GetVolumeCurrent()
         {
 #if UNITY_EDITOR
@@ -93,7 +92,6 @@ namespace XvXR.Foundation
             return AndroidConnection.getVolumeCurr();
         }
 
-        //获取最大音量
         public int GetVolumeMax()
         {
 #if UNITY_EDITOR
@@ -102,9 +100,9 @@ namespace XvXR.Foundation
             return AndroidConnection.getVolumeMax();
         }
         /// <summary>
-        /// 调节音量
+        /// AdjustVolume
         /// </summary>
-        /// <param name="direction">-1：减小音量  1:增加音量</param>
+        /// <param name="direction">AdjustVolume -1 or +1</param>
         /// <returns></returns>
         public int AdjustVolume(int direction)
         {

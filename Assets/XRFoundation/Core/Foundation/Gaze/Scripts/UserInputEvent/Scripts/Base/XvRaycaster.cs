@@ -18,19 +18,19 @@ namespace XvXR.UI.Input
             private set;
         }
         /// <summary>
-        /// 记录当前帧射线选中的UI对象
+        /// Records the UI object selected by the ray in the current frame.
         /// </summary>
-        private readonly List<RaycastResult> sortedRaycastResults = new List<RaycastResult>();//当前射线选择到的对象
+        private readonly List<RaycastResult> sortedRaycastResults = new List<RaycastResult>();
 
         /// <summary>
-        /// 射线管理器
+        /// RaycasterManager
         /// </summary>
         private Type RaycasterManager;
 
         private RaycastResult raycastResult3D;
 
         /// <summary>
-        /// 每个自定义输入的事件相机
+        /// Each event camera for custom input
         /// </summary>
         private Camera fallbackCam;
         public override Camera eventCamera
@@ -66,7 +66,7 @@ namespace XvXR.UI.Input
 
 
 
-        //射线能交互的最近距离
+    
         [SerializeField]
         private float nearDistance = 0f;
         public float NearDistance
@@ -84,7 +84,7 @@ namespace XvXR.UI.Input
 
 
         /// <summary>
-        /// 射线的最远距离
+        /// farDistance max distance
         /// </summary>
         [SerializeField]
         private float farDistance = 20f;
@@ -113,7 +113,6 @@ namespace XvXR.UI.Input
 
         protected override void Start()
         {
-            //通过反射找到UGUI射线管理器
             RaycasterManager = EventSystem.current.GetType().Assembly.GetType("UnityEngine.EventSystems.RaycasterManager");
             UpdateAllBaseRaycasters();
         }
@@ -124,7 +123,7 @@ namespace XvXR.UI.Input
 
         }
         /// <summary>
-        /// 更新所有的BaseRaycaster输入,如果是动态构建的Canvas都需要调用一下
+        /// Updates input for all BaseRaycasters. This method must be called for dynamically constructed Canvases.
         /// </summary>
         public void UpdateAllBaseRaycasters()
         {
@@ -134,7 +133,7 @@ namespace XvXR.UI.Input
 
 
         /// <summary>
-        /// 获取射线第一个触碰到的UI交互组件
+        /// Gets the first UI interactive component hit by the ray.
         /// </summary>
         /// <returns></returns>
         public RaycastResult FirstRaycastResult()
@@ -149,7 +148,7 @@ namespace XvXR.UI.Input
 
         }
         /// <summary>
-        /// 设置照相机的位置，循环处理射线分别和UI元素交互的结果
+        /// Sets the camera's position and processes the interaction results between the ray and each UI element in a loop.
         /// </summary>
         private void Raycast()
         {
@@ -200,7 +199,6 @@ namespace XvXR.UI.Input
                   
                     if (!RectTransformUtility.RectangleContainsScreenPoint(canvas.GetComponent<RectTransform>(), CustomEventData.ScreenCenterPoint, eventCamera))
                     {
-                        //Debug.LogError("不在视野之内不处理：" + canvas.name);
                         continue;
                     }
                   
@@ -209,20 +207,13 @@ namespace XvXR.UI.Input
             }
             else
             {
-                Debug.LogError("RaycasterManager == null这是不应该的");
+                Debug.LogError("RaycasterManager == null");
             }
 
 
         }
 
-        /// <summary>
-        /// 处理射线和UI元素交互结果
-        /// </summary>
-        /// <param name="canvas">当前的Canvas</param>
-        /// <param name="ignoreReversedGraphics">是否忽略反方向上的图形</param>
-        /// <param name="ray">当前交互的射线</param>
-        /// <param name="distance">能够检测的最大距离</param>
-        /// <param name="raycastResults">返回一个检测结果</param>
+      
         private void Raycast(Canvas canvas, bool ignoreReversedGraphics, Ray ray, float distance, List<RaycastResult> raycastResults)
         {
             if (canvas == null) { return; }
@@ -239,16 +230,10 @@ namespace XvXR.UI.Input
             for (int i = 0; i < graphics.Count; ++i)
             {
                 var graphic = graphics[i];
-                // -1的情况和不接受射线检测情况下是不处理
                 if (graphic.depth == -1 || !graphic.raycastTarget) { continue; }
-                //当前射线点不在矩形框区域内不处理
                 if (!RectTransformUtility.RectangleContainsScreenPoint(graphic.rectTransform, screenCenterPoint, eventCamera)) { continue; }
-                //反方向点击不处理
                 if (ignoreReversedGraphics && Vector3.Dot(ray.direction, graphic.transform.forward) <= 0f) { continue; }
-
-                //当前射线没有选中不处理
                 if (!graphic.Raycast(screenCenterPoint, eventCamera)) { continue; }
-                //超过照相机最远距离不处理
                 float dist = 10;
                 new Plane(graphic.transform.forward, graphic.transform.position).Raycast(ray, out dist);
                 if (dist > distance || dist > rayCasterDis)
@@ -280,7 +265,6 @@ namespace XvXR.UI.Input
                     sortingOrder = canvas.sortingOrder
                 });
             }
-            //将结果的深度进行升序排序
             raycastResults.Sort((g1, g2) => g2.depth.CompareTo(g1.depth));
         }
         private void LateUpdate()

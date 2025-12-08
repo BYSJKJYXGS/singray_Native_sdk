@@ -6,11 +6,7 @@ using XvXR.utils;
 
 namespace XvXR.Foundation
 {
-    /// <summary>
-    /// 该类主要实现将第一人称视角的混合现实画面通过RTSP进行推流，可以使用rtsp拉流软件进行查看
-    /// rtsp地址：rtsp://{ip}:8554/stream/            例:rtsp://192.168.32.98:8554/stream/  
-    ///      
-    /// </summary>
+
     public sealed class XvRTSPStreamerManager : MonoBehaviour
     {
         private XvRTSPStreamerManager() { }
@@ -106,18 +102,7 @@ namespace XvXR.Foundation
             }
         }
 
-        //private void Update()
-        //{
-        //    if (Input.GetKeyDown(KeyCode.LeftArrow)) { 
-        //        API.xslam_switch_audio(true);
-
-        //    }
-        //    if (Input.GetKeyDown(KeyCode.RightArrow))
-        //    {
-        //        API.xslam_switch_audio(false);
-
-        //    }
-        //}
+   
 
         private void OnDisable()
         {
@@ -155,13 +140,10 @@ namespace XvXR.Foundation
       
 
 
-        /// <summary>
-        /// 开始进行推流
-        /// </summary>
+
         public void StartRtspStreaming()
         {
             if (isStreeaming) {
-                MyDebugTool.LogWarning("当前正在推流中...");
                 return;
             }
             isStreeaming = true;
@@ -184,9 +166,7 @@ namespace XvXR.Foundation
         }
 
         private bool initAudio;
-        /// <summary>
-        ///初始化音频 只能调用一次
-        /// </summary>
+    
         private void StartAudioCapture()
         {
             if (audioStreaming&&!initAudio)
@@ -211,9 +191,7 @@ namespace XvXR.Foundation
             activityObject = activityClass.GetStatic<AndroidJavaObject>("currentActivity");
         }
 
-        /// <summary>
-        /// 停止推流
-        /// </summary>
+      
         public void StopRtspStreaming()
         {
 
@@ -239,7 +217,7 @@ namespace XvXR.Foundation
         {
             if (Application.platform == RuntimePlatform.Android)
             {
-                AndroidHelper.CallObjectMethod(InterfaceObject, "setUseDLNA", new object[] { true });//false ������С�׵��� ����Ҫ���ǽ���������
+                AndroidHelper.CallObjectMethod(InterfaceObject, "setUseDLNA", new object[] { true });
                 AndroidHelper.CallObjectMethod(InterfaceObject, "tvDisplayClicked", new object[] { });
 
             }

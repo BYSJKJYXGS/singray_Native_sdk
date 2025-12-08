@@ -10,9 +10,9 @@ namespace XvXR.Foundation
         MR,
     }
     /// <summary>
-    /// 该类主要涵盖混合现实视频的捕捉，依赖于XvCameraManager类，
-    /// 启用混合现实捕捉之前需要确保相机已经打开
-    /// </summary>
+    /// /// This class mainly covers mixed reality video capture and depends on the XvCameraManager class.
+    /// /// Before enabling mixed reality capture, ensure that the camera is already turned on.
+    /// /// </summary>
     [DisallowMultipleComponent]
     public sealed class XvMRVideoCaptureManager : MonoBehaviour
     {
@@ -101,7 +101,7 @@ namespace XvXR.Foundation
         [SerializeField]
         private bool autoCapture = false;
         /// <summary>
-        /// 混合现实纹理
+        /// Mixed Reality texture
         /// </summary>
 
         private RenderTexture cameraRenderTexture = null;
@@ -165,7 +165,7 @@ namespace XvXR.Foundation
         }
 
         /// <summary>
-        ///  开启捕捉虚实结合视频流
+        ///  Enable the capture of augmented-reality video stream.
         /// </summary>
 
         public void StartCapture()
@@ -191,9 +191,10 @@ namespace XvXR.Foundation
 
         }
         /// <summary>
-        /// 停止捕捉虚实结合视频流，由于相机是共用的，关闭的时候确保需要判断是否会对其他功能造成影响
-        /// </summary>
-        /// <param name="closeCamera"> true:关闭相机  false：不关闭相机</param>
+        /// /// Stops capturing the augmented-reality video stream.
+        /// Since the camera is shared, ensure to check whether closing it will affect other functions before shutdown.
+        /// /// </summary>
+        /// /// <param name="closeCamera">true: Close the camera; false: Do not close the camera</param>
         public void StopCapture(bool closeCamera = false)
         {
             if (isOn)
@@ -208,10 +209,10 @@ namespace XvXR.Foundation
             }
         }
 
-        /// <summary>
-        /// 接收相机图像并填充到背景图像，
-        /// 设置相机参数
-        /// </summary>
+        /// <summary>/// 
+        /// Receives camera images and fills them into the background image,
+        /// /// and sets camera parameters.
+        /// /// </summary>
         /// <param name="cameraData"></param>
         private void onFrameArrived(cameraData cameraData)
         {

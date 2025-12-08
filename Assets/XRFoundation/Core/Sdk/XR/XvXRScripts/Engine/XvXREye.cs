@@ -16,11 +16,9 @@ namespace XvXR.Engine
         public static int EDI = 2;
         public static double EyeDistance = 0;
 
-        //左眼旋转矩阵（数组）与位移矩阵（数组）
         // eye rotation matrix (array) and transform matrix (array)
         private double[] _R;
         private double[] _T;
-        //左眼的欧拉角
         private double[] _EulerAngles;
 
         private XvXRStereoController mController;
@@ -140,11 +138,7 @@ namespace XvXR.Engine
         //    SetupStereo();
         //}
 
-        /// <summary>
-        /// 更新相关内外参数并赋值给左右两个camera(unity camera)，从glass里获取显示标定参数
-        /// Camera.onPreCull和start()触发调用,用来在Camera剔除场景之前执行自定义代码。
-        /// </summary>
-        public void UpdateStereoValues()//原vr
+        public void UpdateStereoValues()
         {
 #if UNITY_EDITOR_WIN
             // return;
@@ -178,13 +172,11 @@ namespace XvXR.Engine
                     //     XvXRLog.InternalXvXRLog("camera is :" + (camera == null) + ",monocamera is:" + (monoCamera == null));
                     if (XvXRManager.SDK.GetDevice().isReadFed == false)
                     {
-                        //从glass获取显示标定参数fed,fed会在ComputeEyesFromProfile()计算投影矩阵时使用
                         if (XvXRAndroidDevice.readStereoDisplayCalibration(ref fed_))
                         {
                             XvXRLog.LogInfo("readStereoDisplayCalibration:" + fed_);
                             XvXRManager.SDK.GetDevice().SetFed(fed_);
                             XvXRManager.SDK.GetDevice().isReadFed = true;
-                            // 更新参数并计算投影矩阵设置到android java库
                             XvXRManager.SDK.GetDevice().UpdateScreenData();
                         }
                         else
@@ -236,19 +228,16 @@ namespace XvXR.Engine
 
                 API.stereo_pdm_calibration fed = XvXRManager.SDK.GetDevice().GetFed();
 
-                //眼镜标定数据的使用（眼镜左右眼是正常的顺序）
                 if (eye == XvXRManager.Eye.Left)
                 {
 
                     if (XvXRManager.SDK.GetDevice().isReadFed)
                     {
                         _T = new double[3] { fed.calibrations[0].extrinsic.translation[0], -fed.calibrations[0].extrinsic.translation[1], fed.calibrations[0].extrinsic.translation[2] };
-                        //左眼标定的旋转矩阵→欧拉角
                         _R = new double[9] { fed.calibrations[0].extrinsic.rotation[0], -fed.calibrations[0].extrinsic.rotation[1], fed.calibrations[0].extrinsic.rotation[2], -fed.calibrations[0].extrinsic.rotation[3], fed.calibrations[0].extrinsic.rotation[4],
                                      -fed.calibrations[0].extrinsic.rotation[5],fed.calibrations[0].extrinsic.rotation[6],-fed.calibrations[0].extrinsic.rotation[7],fed.calibrations[0].extrinsic.rotation[8]};
                         RotationMatrixToEulerAngles(ref _EulerAngles, _R);
 
-                        //眼镜的外参设置（左眼相机）
                         transform.localPosition = new Vector3((float)_T[0], (float)_T[1], (float)_T[2]);
 
                         transform.localEulerAngles = new Vector3((float)_EulerAngles[0], (float)_EulerAngles[1], (float)_EulerAngles[2]);
@@ -275,7 +264,6 @@ namespace XvXR.Engine
 
                     if (XvXRManager.SDK.GetDevice().isReadFed)
                     {
-                        //右眼相机
                         _T = new double[3] { fed.calibrations[1].extrinsic.translation[0], -fed.calibrations[1].extrinsic.translation[1], fed.calibrations[1].extrinsic.translation[2] };
                         _R = new double[9] { fed.calibrations[1].extrinsic.rotation[0], -fed.calibrations[1].extrinsic.rotation[1], fed.calibrations[1].extrinsic.rotation[2], -fed.calibrations[1].extrinsic.rotation[3], fed.calibrations[1].extrinsic.rotation[4],
                                      -fed.calibrations[1].extrinsic.rotation[5],fed.calibrations[1].extrinsic.rotation[6],-fed.calibrations[1].extrinsic.rotation[7],fed.calibrations[1].extrinsic.rotation[8]};
@@ -283,7 +271,6 @@ namespace XvXR.Engine
                         RotationMatrixToEulerAngles(ref _EulerAngles, _R);
 
 
-                        //眼镜的外参设置（右眼相机）
                         transform.localPosition = new Vector3((float)_T[0], (float)_T[1], (float)_T[2]);
 
                         transform.localEulerAngles = new Vector3((float)_EulerAngles[0], (float)_EulerAngles[1], (float)_EulerAngles[2]);
@@ -460,7 +447,6 @@ namespace XvXR.Engine
                 if (eye == XvXRManager.Eye.Left)
                 {
 
-                    //眼镜的外参设置（左眼相机）
                     transform.localPosition = new Vector3((float)fed.calibrations[0].extrinsic.translation[0], (float)-fed.calibrations[0].extrinsic.translation[1], (float)fed.calibrations[0].extrinsic.translation[2]);
 
                     EDI++;
@@ -477,7 +463,6 @@ namespace XvXR.Engine
         }
 
 
-        //旋转矩阵转换成欧拉角
         internal static void RotationMatrixToEulerAngles(ref double[] eulerAngle, double[] rm)
         {
 

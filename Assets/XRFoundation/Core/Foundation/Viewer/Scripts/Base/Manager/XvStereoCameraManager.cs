@@ -1,7 +1,7 @@
 
 namespace XvXR.Foundation
 {
-    #region ÓãÑÛÏà»ú
+    #region Stereo Fisheye Camera
     public sealed class XvStereoCameraManager
     {
         private static XvStereoCameraManager xvLeftStereoCameraManager;

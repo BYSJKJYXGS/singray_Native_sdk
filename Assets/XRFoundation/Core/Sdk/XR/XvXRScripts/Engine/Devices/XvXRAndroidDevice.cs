@@ -58,15 +58,10 @@ namespace XvXR.Engine
             return Info.GetEyeCenter();
         }
 
-        /// <summary>
-        /// 获取显示屏相关参数重新计算FOV等再设置参数到XvXRConfigInfo.parmeter
-        /// mParameter
-        /// </summary>
+  
         public override void ReadConfigInfo()
         {
             XvXROpticalParameter_t parameter = new XvXROpticalParameter_t();
-            //如果userDefined没有置，就设置默认参数
-            //userDefined在java库内调用onSdkConfigParamterChange()--->SetOpticalParameter()时赋值
             if (!userDefined)
             {
                 //iqy xyy
@@ -94,10 +89,8 @@ namespace XvXR.Engine
             }
 
 
-            //isUseDefaultScreen是在java库内调用onSdkConfigParamterChange()--->SetOpticalParameter()时赋值
             if (isUseDefaultScreen)
             {
-                //获取显示屏的一些参数类似分辨率:physicalWidth,physicalHeight, pixelWidth,pixelHeight，
                 float[] datas = AndroidEvent.GetXvXRConfigInfo();
                 float physicalWidth = datas[0];
                 float physicalHeight = datas[1];
@@ -125,17 +118,11 @@ namespace XvXR.Engine
 	public override void UpdateState()
 	{
 
-            // headPose.Set(tempHeadPose.Position, tempHeadPose.Orientation);
-
-            // headPose.Orientation = AndroidEvent.GetSensorQuaternion();
-
-            // float [] pose = AndroidEvent.GetPose();
-            //获取glass的最新pose，java库getCurrentPose()
+        
 
             getCurrentTwoPose(mPose,mPredPose);
 
             headPose.Set(new Vector3((float)mPredPose[4], (float)mPredPose[5], (float)mPredPose[6]), new Quaternion((float)mPose[0],(float)mPose[1], (float)mPose[2], (float)mPose[3]));
-           // XvXRLog.LogInfo("tss,UpdateState:"+headPose.Orientation);
             ProcessEvents();
   
       
@@ -161,10 +148,7 @@ namespace XvXR.Engine
         }
 
 
-        // Helper functions.
-        /// <summary>
-        /// 计算出双眼的投影矩阵,赋值给leftEyeProjection,rightEyeProjection,recommendedTextureSize
-        /// </summary>
+
         protected override void ComputeEyesFromProfile()
         {
 
@@ -220,7 +204,6 @@ namespace XvXR.Engine
                 leftMatrix[i] = leftProjection[i];
                 rightMatrix[i] = rightProjection[i];
             }
-            //调用java库接口设置glass的投影矩阵
             SetProjectionMatrix(leftMatrix,rightMatrix);
         }
 
@@ -384,7 +367,6 @@ namespace XvXR.Engine
 
         internal void ChangeStatus()
         {
-            //调用java库SetSrcQuaternion()，设置src pose以便java库在二次渲染时使用到的参数
             SetSrcQuaternionUnity(headPose.Orientation, posetimestamp);
         }
 

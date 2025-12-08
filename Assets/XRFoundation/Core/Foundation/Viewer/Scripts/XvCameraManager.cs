@@ -7,13 +7,7 @@ using Quaternion = UnityEngine.Quaternion;
 
 namespace XvXR.Foundation
 {
-    /// <summary>
-    /// 可以通过该类获取相机的图像数据以及相机的开关功能
-    /// tof相机
-    /// AR眼镜相机
-    /// 计算单元相机
-    /// 左右鱼眼相机
-    /// </summary>
+
     [DisallowMultipleComponent]
     public sealed class XvCameraManager : MonoBehaviour
     {
@@ -45,12 +39,6 @@ namespace XvXR.Foundation
         };
 
 
-
-
-
-        /// <summary>
-        /// 宽高尺寸
-        /// </summary>
         private int requestedWidth = 1920;
         private int requestedHeight = 1080;
 
@@ -140,9 +128,7 @@ namespace XvXR.Foundation
 
         }
 
-        /// <summary>
-        /// 相机数据回调
-        /// </summary>
+ 
         public static UnityEvent<cameraData> onARCameraStreamFrameArrived = new UnityEvent<cameraData>();
         public static UnityEvent<cameraData> onLeftStereoStreamFrameArrived = new UnityEvent<cameraData>();
         public static UnityEvent<cameraData> onRightStereoStreamFrameArrived = new UnityEvent<cameraData>();
@@ -157,7 +143,7 @@ namespace XvXR.Foundation
         }
 
         /// <summary>
-        /// 打开相机
+        /// Open Camera
         /// </summary>
         /// <param name="cameraType"></param>
         public void StartCapture(XvCameraStreamType cameraType)
@@ -221,7 +207,7 @@ namespace XvXR.Foundation
 
         }
         /// <summary>
-        /// 关闭相机
+        /// Close Camera
         /// </summary>
         /// <param name="cameraType"></param>
         public void StopCapture(XvCameraStreamType cameraType)
@@ -338,7 +324,7 @@ namespace XvXR.Foundation
 
 
 
-        #region Tof相机
+        #region ToF Camera
         private int width;
         private int height;
         private bool isGetTofData;
@@ -350,7 +336,7 @@ namespace XvXR.Foundation
      
 
         /// <summary>
-        /// 启用tof点云获取
+        /// Enable ToF Point Clound
         /// </summary>
         public void StartTofPointCloud()
         {
@@ -358,7 +344,7 @@ namespace XvXR.Foundation
             startPointCloud = true;
             while (!API.xslam_ready())
             {
-                MyDebugTool.Log("slam 未启动");
+                MyDebugTool.Log("slam not start");
             }
 
             if (!IsOn(XvCameraStreamType.TofDepthCameraStream))
@@ -373,7 +359,7 @@ namespace XvXR.Foundation
         }
 
         /// <summary>
-        /// 获取点云数据
+        /// Get PointCloud
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
@@ -387,7 +373,7 @@ namespace XvXR.Foundation
 
             while (!API.xslam_ready())
             {
-                MyDebugTool.Log("slam 未启动");
+                MyDebugTool.Log("slam not start");
             }
 
             if (!isGetTofData)
@@ -416,18 +402,18 @@ namespace XvXR.Foundation
             return false;
         }
 
-        
 
 
-        
+
+
 
         /// <summary>
-        /// 设置tof参数
+        /// Set ToF exp
         /// </summary>
         /// <param name="libmode"></param>
-        /// <param name="resulution">分辨率</param>
+        /// <param name="resulution">resulution</param>
         /// <param name="fps">fps</param>
-        /// <param name="exposureTimeMs">曝光时长</param>
+        /// <param name="exposureTimeMs">exposureTimeMs</param>
         public void SetTofExposure(int libmode, int resulution, int fps, float exposureTimeMs)
         {
             XvTofManager.GetXvTofManager().StopTofStream();
@@ -451,13 +437,13 @@ namespace XvXR.Foundation
     public enum XvCameraStreamType
     {
 
-        WebCameraStream,//计算单元后置摄像头
-        ARCameraStream,//MR眼镜rgb相机
-        TofDepthCameraStream,//Tof 深度相机
-        TofIRCameraStream,//Tof IR相机
+        WebCameraStream,
+        ARCameraStream,
+        TofDepthCameraStream,
+        TofIRCameraStream,
 
-        LeftStereoCameraStream,//左鱼眼相机
-        RightStereoCameraStream,//右鱼眼相机
+        LeftStereoCameraStream,
+        RightStereoCameraStream,
     }
 
     public class cameraData
@@ -466,7 +452,6 @@ namespace XvXR.Foundation
         public int texHeight;
         public Texture tex;
 
-        //相机姿态
         public CameraParameter parameter;
     }
 
@@ -474,22 +459,14 @@ namespace XvXR.Foundation
 
     public struct CameraParameter
     {
-        //AR相机位姿
         public Vector3 position;
         public Quaternion rotation;
-
-        //时间戳
         public double timeStamp;
-
-        //相机内参
         public float focal;
         public float fx;
         public float fy;
         public float cx;
         public float cy;
-
-
-        //纹理宽高
         public float width;
         public float height;
     }
