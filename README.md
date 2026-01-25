@@ -11,7 +11,7 @@ Demos are included for MRTK2 and basic SDK capabilities.
 
 ---
 
-## 2. What's New (release\_version\_4.1.0)
+## 2. What's New (release\_version\_4.1.1)
 
 1. Added support for G2 devices
 2. Fixed camera sensor (RGB/ToF) settings
