@@ -90,19 +90,23 @@ public class XvPointCloudDemo : MonoBehaviour
 
             if (XvCameraManager.GetPointCloudData(out vecGroup))
             {
+                Debug.Log($"[ToF] got point cloud, points={(vecGroup != null ? vecGroup.Length : 0)}, " +
+                          $"size={XvCameraManager.TofWidth}x{XvCameraManager.TofHeight}, drawing");
                 particlesCloudPoint.gameObject.SetActive(true);
-                particlesCloudPoint.StartDraw(vecGroup);
+                particlesCloudPoint.StartDraw(vecGroup, XvCameraManager.TofWidth, XvCameraManager.TofHeight);
             }
         }
 
     }
-    public void  StartTofPointCloud() { 
+    public void  StartTofPointCloud() {
+        Debug.Log("[ToF] Demo Start button clicked -> StartTofPointCloud");
         XvCameraManager.StartTofPointCloud();
 
     }
 
     public void StopTofPointCloud()
     {
+        Debug.Log("[ToF] Demo Stop button clicked -> StopTofPointCloud");
         particlesCloudPoint.gameObject.SetActive(false);
         XvCameraManager.StopTofPointCloud();
     }

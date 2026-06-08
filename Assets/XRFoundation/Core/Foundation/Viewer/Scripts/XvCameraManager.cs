@@ -1,4 +1,5 @@
 
+using System.Collections;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Events;
@@ -32,8 +33,9 @@ namespace XvXR.Foundation
         {
             streamType = TofStreamType.DeapthStream,
             tofFramerate = TofFramerate.FPS_30,
-            sonyTofLibMode = SonyTofLibMode.IQMIX_SF,
+            sonyTofLibMode = SonyTofLibMode.M2MIX_DF,            // hardcoded: required for point cloud
             tofResolution = TofResolution.QVGA,
+            tofStreamMode = TofStreamMode.CloudOnLeftHandSlam,   // hardcoded: cloud-producing mode
             enableGamma = false,
 
         };
@@ -330,6 +332,11 @@ namespace XvXR.Foundation
         private bool isGetTofData;
         private Vector3[] vecGroup;
 
+        /// <summary>ToF depth map width (columns). 0 until the first frame arrives.</summary>
+        public int TofWidth { get { return width; } }
+        /// <summary>ToF depth map height (rows). 0 until the first frame arrives.</summary>
+        public int TofHeight { get { return height; } }
+
 
         private bool startPointCloud;
 
@@ -340,20 +347,52 @@ namespace XvXR.Foundation
         /// </summary>
         public void StartTofPointCloud()
         {
-
+            Debug.Log("[ToF] StartTofPointCloud() called");
             startPointCloud = true;
+
+            // NOTE: do NOT block the main thread waiting for slam here.
+            // API.xslam_init() is driven from XvsdkDeviceManager.Update(), so a
+            // blocking "while(!xslam_ready())" on the main thread deadlocks Unity
+            // (Update never runs -> slam never becomes ready). Wait via coroutine.
+            StartCoroutine(StartTofPointCloudRoutine());
+        }
+
+        private IEnumerator StartTofPointCloudRoutine()
+        {
+            int waitFrames = 0;
             while (!API.xslam_ready())
             {
-                MyDebugTool.Log("slam not start");
+                if (waitFrames % 60 == 0)
+                {
+                    Debug.Log($"[ToF] waiting for slam ready... ({waitFrames} frames)");
+                }
+                waitFrames++;
+                yield return null;
             }
+            Debug.Log($"[ToF] slam ready after {waitFrames} frames, starting ToF stream");
+
+            // Force a point-cloud-producing config. The serialized defaults
+            // (tofStreamMode=DepthOnly=0, sonyTofLibMode=IQMIX_SF=1) do NOT emit
+            // cloud frames, so xslam_get_tof_width() stays 0 and nothing draws.
+            // Values below match the known-good config used elsewhere:
+            //   - tofStreamMode=4 (CloudOnLeftHandSlam) same as IRToWorld scene
+            //   - sonyTofLibMode=4 (M2MIX_DF) same as the SetUp/SetTofExposure path
+            // If your device needs a different mode, change these two lines.
+            XvTofCameraParameter.tofStreamMode = TofStreamMode.CloudOnLeftHandSlam; // 4
+            XvTofCameraParameter.sonyTofLibMode = SonyTofLibMode.M2MIX_DF;          // 4
 
             if (!IsOn(XvCameraStreamType.TofDepthCameraStream))
             {
                 StopCapture(XvCameraStreamType.TofDepthCameraStream);
             }
             XvTofManager.GetXvTofManager().SetTofStreamMode((int)XvTofCameraParameter.tofStreamMode);
+            Debug.Log($"[ToF] StartTofStream streamMode={(int)XvTofCameraParameter.tofStreamMode}, " +
+                      $"libMode={(int)XvTofCameraParameter.sonyTofLibMode}, " +
+                      $"resolution={(int)XvTofCameraParameter.tofResolution}, " +
+                      $"fps={(int)XvTofCameraParameter.tofFramerate}");
 
             XvTofManager.GetXvTofManager().StartTofStream(XvTofCameraParameter);
+            Debug.Log("[ToF] ToF stream started");
 
            //StartCapture(XvCameraStreamType.TofDepthCameraStream);
         }
@@ -371,9 +410,12 @@ namespace XvXR.Foundation
                 return false;
             }
 
-            while (!API.xslam_ready())
+            // Non-blocking: if slam is not ready yet, skip this cycle (Update will retry).
+            if (!API.xslam_ready())
             {
-                MyDebugTool.Log("slam not start");
+                Debug.Log("[ToF] GetPointCloudData: slam not ready yet, skipping this frame");
+                data = null;
+                return false;
             }
 
             if (!isGetTofData)
@@ -381,12 +423,16 @@ namespace XvXR.Foundation
                 width = API.xslam_get_tof_width();
                 height = API.xslam_get_tof_height();
 
-                //Debug.Log($"XVTof width:{API.xslam_get_tof_width()},height:{API.xslam_get_tof_height()}");
+                Debug.Log($"[ToF] tof resolution width:{width}, height:{height}");
                 if (width > 0)
                 {
                     vecGroup = new Vector3[width * height];
 
                     isGetTofData = true;
+                }
+                else
+                {
+                    Debug.LogWarning("[ToF] tof width<=0, ToF stream not producing frames yet");
                 }
             }
 
@@ -395,6 +441,10 @@ namespace XvXR.Foundation
                 bool b = API.xslam_get_cloud_data_ex(vecGroup);
                 data = vecGroup;
 
+                if (!b)
+                {
+                    Debug.Log("[ToF] xslam_get_cloud_data_ex returned false (no new cloud data)");
+                }
                 return b;
             }
             data = null;
