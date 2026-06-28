@@ -1,6 +1,7 @@
 using AOT;
 using System;
 using System.Runtime.InteropServices;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
 using static API;
@@ -8,7 +9,9 @@ using static API;
 namespace XvXR.Foundation
 {
 
- 
+    /// <summary>
+    /// 该类提供Apriltag、QRCode等识别功能
+    /// </summary>
     public sealed class XvTagRecognizerManager : MonoBehaviour
     {
         private XvTagRecognizerManager() { }
@@ -34,7 +37,12 @@ namespace XvXR.Foundation
                 return xvCameraManager;
             }
         }
-      
+       
+
+        /// <summary>
+        /// 使用识别码名称 apritag="36h11"   qrcode="qr-code"
+        /// </summary>
+        //[SerializeField]
 
         private string tagGroupName = "36h11";
 
@@ -53,7 +61,7 @@ namespace XvXR.Foundation
 
 
         [SerializeField]
-        [Tooltip("size")]
+        [Tooltip("识别码的物理尺寸")]
         private double size = 0.16f;
 
         public double Size
@@ -72,7 +80,7 @@ namespace XvXR.Foundation
 
 
         [SerializeField]
-        [Tooltip("confidence")]
+        [Tooltip("置信度阈值")]
         private float confidence = 0;
         public float Confidence
         {
@@ -149,7 +157,8 @@ namespace XvXR.Foundation
                     OnDetectedAprilTagEvent?.Invoke(tagDetection);
                     break;
                 case RecognizerMode.FishEye_Apriltag:
-                    tagDetection = XvAprilTag.StartFishEyeDetector(TagGroupName, size);
+                    OnDetectedAprilTagEvent?.Invoke(tagDetection);
+
                     break;
                 default:
                     break;
@@ -182,40 +191,40 @@ namespace XvXR.Foundation
             }
             catch (Exception e)
             {
+                //处理异常
                 MyDebugTool.Log("tagDetection is Null!!!" + e.ToString());
             }
         }
 
 
+        /// <summary>
+        /// 切换检测状态
+        /// </summary>
+        /// <param name="isDetect"></param>
         public void SetDetectStatus(bool isDetect)
         {
             
         }
 
-        public void StopTagDetector() {
-
-            MyDebugTool.Log("StopTagDetector" + currentRecognizerMode);
-
-            switch (currentRecognizerMode)
+        private void StartFishEyeDetector() {
+            while (currentRecognizerMode== RecognizerMode.FishEye_Apriltag&&IsDetection)
             {
-                case RecognizerMode.None:
-                    break;
-                case RecognizerMode.RGB_QRCode:
-                    XvAprilTag.StopRgbDetector();
+                MyDebugTool.Log("StartFishEyeDetector1" );
 
-                    break;
-                case RecognizerMode.RGB_Apriltag:
-                    XvAprilTag.StopRgbDetector();
-                    break;
-                case RecognizerMode.FishEye_Apriltag:
-                    XvAprilTag.StopFishEyeDetector();
-                    break;
-                default:
-                    break;
+                tagDetection = XvAprilTag.StartFishEyeDetector(TagGroupName, size);//鱼眼 模式
+
+
+                MyDebugTool.Log("StartFishEyeDetector2" );
+
             }
-            currentRecognizerMode = RecognizerMode.None;
-            IsDetection = false;
         }
+
+        private void StopFishEyeDetector()
+        {
+            XvAprilTag.StopFishEyeDetector();
+        }
+
+      
 
 
         public void StartTagDetector(RecognizerMode recognizerMode) {
@@ -225,8 +234,7 @@ namespace XvXR.Foundation
             }
 
             if (IsDetection) { 
-            StopTagDetector();
-            
+             StopTagDetector();
             }
             MyDebugTool.Log("StartTagDetector 1" + recognizerMode);
             switch (recognizerMode)
@@ -248,10 +256,9 @@ namespace XvXR.Foundation
                 case RecognizerMode.RGB_Apriltag:
                     if (!XvCameraManager.IsOn(XvCameraStreamType.ARCameraStream))
                     {
-
                         XvCameraManager.StartCapture(XvCameraStreamType.ARCameraStream);
                     }
-                    TagGroupName = "qr-code";
+                    TagGroupName = "36h11";
                     MyDebugTool.Log("StartTagDetector 21" + recognizerMode);
 
                     XvAprilTag.StartRgbDetector(TagGroupName, Size, OnDetecterTags);
@@ -261,6 +268,8 @@ namespace XvXR.Foundation
                     break;
                 case RecognizerMode.FishEye_Apriltag:
                     TagGroupName = "36h11";
+                    Thread thread = new Thread(StartFishEyeDetector);
+                    thread.Start();
 
                     break;
                 default:
@@ -269,6 +278,33 @@ namespace XvXR.Foundation
 
             IsDetection = true;
               currentRecognizerMode = recognizerMode;
+        }
+        public void StopTagDetector()
+        {
+
+            MyDebugTool.Log("StopTagDetector" + currentRecognizerMode);
+
+            switch (currentRecognizerMode)
+            {
+                case RecognizerMode.None:
+                    break;
+                case RecognizerMode.RGB_QRCode:
+                    XvAprilTag.StopRgbDetector();
+
+                    break;
+                case RecognizerMode.RGB_Apriltag:
+                    XvAprilTag.StopRgbDetector();
+                    break;
+                case RecognizerMode.FishEye_Apriltag:
+                   // Invoke("StopFishEyeDetector",0.1f);
+
+                    break;
+                default:
+                    break;
+            }
+            currentRecognizerMode = RecognizerMode.None;
+            IsDetection = false;
+
         }
 
         [MonoPInvokeCallback(typeof(XvAprilTag.TagArrayCallback))]
@@ -290,6 +326,7 @@ namespace XvXR.Foundation
                 detection.rotation = new Vector3(tag.orientation.x, tag.orientation.y, tag.orientation.z);
                 detection.quaternion = new Vector4(tag.quaternion.x, tag.quaternion.y, tag.quaternion.z, tag.quaternion.w);
                 detection.confidence = tag.confidence;
+                detection.qrcode = tag.qrcode;
                 tagDetection[i] = detection;
 
                 MyDebugTool.Log("AprilTag##StartDetector detection translation:(" + detection.translation.x + "," + detection.translation.y + "," + detection.translation.z + ")");
@@ -303,8 +340,8 @@ namespace XvXR.Foundation
     
     public enum CameraType
     {
-        Rgb = 0,
-        FishEye = 1,
+        Rgb = 0,//rgb相机
+        FishEye = 1,//鱼眼相机
     }
 
     public enum RecognizerMode

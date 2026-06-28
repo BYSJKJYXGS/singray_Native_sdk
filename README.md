@@ -1,6 +1,4 @@
 # singray_Native_sdk
-## SDK Developer API Documentation
-http://13.114.45.251/documentation/index%20-%20JP.html
 ## 1. Overview
 
 **Singray AR SDK** is designed for developing AR apps on B50R, B50H, and G2 standalone devices.
@@ -11,7 +9,7 @@ Demos are included for MRTK2 and basic SDK capabilities.
 
 ---
 
-## 2. What's New (release\_version\_4.1.0)
+## 2. What's New (release\_version\_4.1.1)
 
 1. Added support for G2 devices
 2. Fixed camera sensor (RGB/ToF) settings

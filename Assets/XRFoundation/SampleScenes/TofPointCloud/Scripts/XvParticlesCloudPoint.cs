@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 namespace XvXR.Foundation.SampleScenes
 {
@@ -20,6 +20,17 @@ namespace XvXR.Foundation.SampleScenes
         public List<GameObject> planeList = new List<GameObject>();
         bool isCreateMesh;
         float totaltime;
+
+        [Header("Depth coloring")]
+        [Tooltip("Distance (meters) mapped to the near end of the color ramp (warm).")]
+        public float nearDistance = 0.2f;
+        [Tooltip("Distance (meters) mapped to the far end of the color ramp (cold).")]
+        public float farDistance = 3.0f;
+        [Tooltip("If on, use the custom Gradient below; otherwise a red(near)->blue(far) heatmap is generated.")]
+        public bool useCustomGradient = false;
+        [Tooltip("Custom near->far color ramp (only used when 'Use Custom Gradient' is on).")]
+        public Gradient depthGradient = new Gradient();
+
         void Start()
         {
 
@@ -36,11 +47,15 @@ namespace XvXR.Foundation.SampleScenes
            }*/
         }
 
+        // Overload kept so callers that pass the ToF dimensions still compile.
+        public void StartDraw(Vector3[] vs, int width, int height)
+        {
+            StartDraw(vs);
+        }
+
         public void StartDraw(Vector3[] vs)
         {
             FilterVec.Clear();
-
-         
 
             for (int i = 0; i < vs.Length; i++)
             {
@@ -51,8 +66,8 @@ namespace XvXR.Foundation.SampleScenes
                 }
             }
 
+            float range = Mathf.Max(0.0001f, farDistance - nearDistance);
 
-          
             var main = ps.main;
 
             var pointCount = FilterVec.Count;
@@ -63,14 +78,33 @@ namespace XvXR.Foundation.SampleScenes
             ps.GetParticles(allParticles);
             for (int i = 0; i < pointCount; i++)
             {
-                allParticles[i].position = (Vector3)FilterVec[i];    // Set the position of each point
-                allParticles[i].startColor = Color.blue;    // Set the RGB of each point
+                Vector3 p = FilterVec[i];
+                allParticles[i].position = p;       // Set the position of each point
+
+                // Color by distance from the camera: near -> warm, far -> cold.
+                float t = Mathf.Clamp01((p.magnitude - nearDistance) / range);
+                allParticles[i].startColor = EvaluateDepthColor(t);
                 allParticles[i].startSize = 0.025f;
             }
 
 
             ps.SetParticles(allParticles, pointCount);      // Load the point cloud into the particle system
-        
+
+        }
+
+        /// <summary>
+        /// Map a normalized depth t (0 = near, 1 = far) to a color.
+        /// Uses the custom gradient if enabled, otherwise a red(near)->blue(far) HSV heatmap.
+        /// </summary>
+        private Color EvaluateDepthColor(float t)
+        {
+            if (useCustomGradient && depthGradient != null)
+            {
+                return depthGradient.Evaluate(t);
+            }
+
+            // Hue 0 (red, near) -> 0.66 (blue, far): red -> yellow -> green -> cyan -> blue.
+            return Color.HSVToRGB(t * 0.66f, 1f, 1f);
         }
 
         void CreateMesh(List<Vector3> FilterVec)
