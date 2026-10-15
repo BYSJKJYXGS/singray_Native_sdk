@@ -17,7 +17,7 @@ public sealed class MyDebugTool
             return;
         }
 
-        Debug.Log(TAG + message);
+        //Debug.Log(TAG + message);
     }
 
     public static void Log(object message, Object context)

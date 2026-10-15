@@ -99,8 +99,8 @@ public class API : MonoBehaviour
         public double[] K;
         /**
           Projection and raytrace formula can be found here:
-          1.C. Geyer and K. Daniilidis, "A unifying theory for central panoramic systems and practical applications", in Proc. 6th Eur. Conf. Comput. Vis.
-      
+          1.  C. Geyer and K. Daniilidis, “A unifying theory for central panoramic systems and practical applications,” in Proc. 6th Eur. Conf. Comput. Vis.
+        II (ECCV’00), Jul. 26, 2000, pp. 445–461
           or
           2. "J.P. Barreto. General central projection systems, modeling, calibration and visual
         servoing. Ph.D., University of Coimbra, 2003". Section 2.2.2.
@@ -399,9 +399,8 @@ public class API : MonoBehaviour
     // RGB_1280x720  = 1, ///< RGB 720p
     // RGB_640x480   = 2, ///< RGB 480p
     // RGB_320x240   = 3, ///< RGB QVGA
-    // RGB_2560x1920 = 4, ///< RGB 5m
-    // TOF           = 5, ///< TOF YUYV 224x172
-    // TOF only support in uvc rgb
+    // RGB_2560x1920 = 4, ///< RGB 5m  需要特定眼镜固件支持
+    // RGB_3840x2160 = 5，///< 需要特定眼镜固件支持
     [DllImport("xslam-unity-wrapper")]
     public static extern bool xslam_set_rgb_resolution(int res);
 
@@ -437,7 +436,26 @@ public class API : MonoBehaviour
     public static extern bool xslam_stop_rgb_stream();
 
 
+    [DllImport("xslam-unity-wrapper")]
+    public static extern bool xv_get_sony_tof_image([In, Out] ushort[] data);
 
+    [DllImport("xslam-unity-wrapper")]
+    public static extern bool xv_get_tof_image([In, Out] char[] data);
+
+
+    /// <summary>
+    /// 定焦
+    /// </summary>
+    /// <returns></returns>
+    [DllImport("xslam-unity-wrapper")]
+    public static extern bool xslam_prime_lens();
+    /// <summary>
+    /// 变焦
+    /// </summary>
+    /// <returns></returns>
+
+    [DllImport("xslam-unity-wrapper")]
+    public static extern bool xslam_zoom_lens();
     /// <summary>
     /// 
     /// </summary>
@@ -483,7 +501,7 @@ public class API : MonoBehaviour
     // Get the TOF image width, return 0 if no image is available
     [DllImport("xslam-unity-wrapper")]
     public static extern int xslam_get_tof_width();
- 
+
 
     // Get the TOF image height, return 0 if no image is available
     [DllImport("xslam-unity-wrapper")]
@@ -515,7 +533,7 @@ public class API : MonoBehaviour
     public static extern bool xslam_get_cloud_data([In, Out] Vector3[] data);
 
     [DllImport("xslam-unity-wrapper")]
-    public static extern bool xslam_get_cloud_data_ex([In, Out] Vector3[] data);
+    public static extern bool xslam_get_cloud_data_ex([In, Out] Vector3[] data);//已经过转换的数据，接口数据可以直接用
 
     // Start TOF stream.
     [DllImport("xslam-unity-wrapper")]
@@ -533,7 +551,8 @@ public class API : MonoBehaviour
     // Stop TOF stream.
     [DllImport("xslam-unity-wrapper")]
     public static extern bool xslam_stop_tof_stream();
-    
+
+    //设置tof模式，0:DepthOnly,1:CloudOnly,2:DepthAndCloud,3:None,4:CloudOnLeftHandSlam
     [DllImport("xslam-unity-wrapper")]
     public static extern bool xslam_tof_set_steam_mode(int cmd);
 
@@ -541,6 +560,11 @@ public class API : MonoBehaviour
 
     [DllImport("xslam-unity-wrapper")]
     public static extern bool xslam_tof_set_exposure(int aecMode, int exposureGain, float exposureTimeMs);
+
+    [DllImport("xslam-unity-wrapper")]
+
+    public static extern bool xv_get_tof_image_depth([In, Out] float[] data);
+
 
 
 
@@ -679,7 +703,7 @@ public class API : MonoBehaviour
 
     [DllImport("xslam-unity-wrapper")]
     public static extern bool xslam_get_plane_from_tof(IntPtr data, ref int len);
-    
+
     // ** hand **
 
     [DllImport("xslam-unity-wrapper")]
@@ -715,7 +739,7 @@ public class API : MonoBehaviour
     [DllImport("xslam-unity-wrapper")]
     public static extern bool xslam_get_dynamic_gesture(ref GestureData gesture);
 
-
+    //手势
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
     public struct Point
     {
@@ -742,32 +766,32 @@ public class API : MonoBehaviour
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 52, ArraySubType = UnmanagedType.Struct)]
         public RotatePoint[] rotateData;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2, ArraySubType = UnmanagedType.Struct)]
-        public float[] scale;
+        public float[] scale;//微调虚拟手模大小的尺寸值
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2, ArraySubType = UnmanagedType.Struct)]
-        public int[] status;
+        public int[] status;//静态手势
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2, ArraySubType = UnmanagedType.Struct)]
         public double[] timestamp;
-        public double fisheye_timestamp;
+        public double fisheye_timestamp;//当前鱼眼的时间戳
 
         public long dataFetchTimeMs;
         public long dataTimeStampMs;
     };
 
-    public enum PLATFORM 
-    { 
-        LINUX_CPU = 0, 
-        ANDROID_GPU, 
-        ANDROID_DSP, 
-        ANDROID_NPU 
+    public enum PLATFORM
+    {
+        LINUX_CPU = 0,
+        ANDROID_GPU,
+        ANDROID_DSP,
+        ANDROID_NPU
     };
 
     [DllImport("xslam-unity-wrapper")]
     public static extern void xslam_set_gesture_platform(int platform);
     [DllImport("xslam-unity-wrapper")]
-    public static extern void xslam_set_gesture_ego( bool ego);
+    public static extern void xslam_set_gesture_ego(bool ego);//设置手势平台,ego:true->第一人称，false->第三人称
 
     [DllImport("xslam-unity-wrapper")]
-    public static extern void xslam_set_gesture_filter(int level);
+    public static extern void xslam_set_gesture_filter(int level, bool easy_pinch);
 
 
 
@@ -784,7 +808,7 @@ public class API : MonoBehaviour
     public static extern int xslam_start_surface_callback(bool enableSuface, bool enableTexturing, xslam_surface_callback cb);
 
     [DllImport("xslam-unity-wrapper")]
-    public static extern void xslam_enable_surface_reconstruction(bool enable);
+    public static extern void xslam_enable_surface_reconstruction(bool enable);//mesh开关功能
 
     [DllImport("xslam-unity-wrapper")]
     public static extern bool xslam_stop_skeleton_with_cb(int type, int id);
@@ -843,14 +867,14 @@ public class API : MonoBehaviour
     public static extern int xslam_get_rgb_detect_tags(ref TagData tagsArray, int arraySize);
 
 
-   // stop rgb detect
-   [DllImport("xslam-unity-wrapper")]
+    // stop rgb detect
+    [DllImport("xslam-unity-wrapper")]
     public static extern int xslam_stop_rgb_detect_tags();
 
 
     //fe
     [DllImport("xslam-unity-wrapper")]
-    public static extern  void xslam_start_fisheyes_rectification_thread();
+    public static extern void xslam_start_fisheyes_rectification_thread();
 
     [DllImport("xslam-unity-wrapper")]
     public static extern void xslam_stop_fisheyes_rectification_thread();
@@ -860,11 +884,11 @@ public class API : MonoBehaviour
 
 
     [DllImport("xslam-unity-wrapper")]
-    public static extern bool xslam_get_fe_images_data(ref int width,ref int height, [In, Out] byte[] left, [In, Out] byte[] right, [In, Out] double[] poseData);
+    public static extern bool xslam_get_fe_images_data(ref int width, ref int height, [In, Out] byte[] left, [In, Out] byte[] right, [In, Out] double[] poseData);
 
 
     [DllImport("xslam-unity-wrapper")]
-    public static extern bool xslam_get_fe_mesh_params(ref double focal,ref double baseline, ref int camerasModelWidth, ref int camerasModelHeight,  [In, Out] double[] leftPose,   [In, Out] double[] rightPose);
+    public static extern bool xslam_get_fe_mesh_params(ref double focal, ref double baseline, ref int camerasModelWidth, ref int camerasModelHeight, [In, Out] double[] leftPose, [In, Out] double[] rightPose);
 
 
     [DllImport("xslam-unity-wrapper")]
@@ -879,11 +903,16 @@ public class API : MonoBehaviour
         public int[] status;
     }
 
-
+    /// <summary>
+    /// mode 0 1 2 
+    /// isroot rk true ;bb false
+    /// </summary>
+    /// <param name="mode"></param>
+    /// <param name="isroot"></param>
     [DllImport("xslam-unity-wrapper")]
     public static extern void xslam_set_start_mode(int mode, bool isroot);
-	
-	[DllImport("xslam-unity-wrapper")]
+
+    [DllImport("xslam-unity-wrapper")]
     public static extern int xslam_get_start_mode();
 
     [DllImport("xslam-unity-wrapper")]
@@ -908,38 +937,74 @@ public class API : MonoBehaviour
 
 
     [DllImport("xslam-unity-wrapper")]
-    public static extern void xslam_display_set_brightnesslevel(int level); 
+    public static extern void xslam_display_set_brightnesslevel(int level); //level为亮度等级
 
 
 
+
+    /// <summary>
+    /// 开启slam接口
+    /// </summary>
+    /// <returns></returns>
     [DllImport("xslam-unity-wrapper")]
     public static extern bool xslam_start_map();
-
+    /// <summary>
+    /// 关闭slam接口
+    /// </summary>
+    /// <returns></returns>
     [DllImport("xslam-unity-wrapper")]
     public static extern bool xslam_stop_map();
-
+    /// <summary>
+    /// 保存地图接口
+    /// </summary>
+    /// <param name="mapStream"></param> 保存地图到本地设备的存储地址
+    /// <param name="cslamSavedCallback"></param>  保存地图成功后的回调函数
+    /// <param name="cslamLocalizedCallBack"></param>  获取地图匹配度的回调函数
+    /// <returns></returns>
     [DllImport("xslam-unity-wrapper")]
     public static extern bool xslam_save_map_and_switch_to_cslam(string mapStream, detectCslamSaved_callback cslamSavedCallback, detectLocalized_callback cslamLocalizedCallBack);//size 0.16 rate 4
 
-
+    /// <summary>
+    /// 加载地图接口
+    /// </summary>
+    /// <param name="mapStream"></param> 加载地图的路径地址
+    /// <param name="cslamSwitchedCallback"></param> 加载地图的地图地址路径
+    /// <param name="cslamLocalizedCallBack"></param> 获取地图匹配度的回调函数
+    /// <returns></returns>
     [DllImport("xslam-unity-wrapper")]
     public static extern bool xslam_load_map_and_switch_to_cslam(string mapStream, detectSwitched_callback cslamSwitchedCallback, detectLocalized_callback cslamLocalizedCallBack);//size 0.16 rate 4
-
+    /// <summary>
+    /// jiazai 地图的回调函数
+    /// </summary>
+    /// <param name="map_quality"></param>
     public delegate void detectSwitched_callback(int map_quality);
 
-
+    /// <summary>
+    /// 保存slam特征点数据
+    /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct SlamMap
     {
         public Vector3 vertices;
     };
-
+    /// <summary>
+    /// 保存地图的回调函数
+    /// </summary>
+    /// <param name="status_of_saved_map"></param>
+    /// <param name="map_quality"></param>
     public delegate void detectCslamSaved_callback(int status_of_saved_map, int map_quality);
 
-
+    /// <summary>
+    /// 获取地图匹配度的回调函数
+    /// </summary>
+    /// <param name="percent"></param>
     public delegate void detectLocalized_callback(float percent);
 
-
+    /// <summary>
+    /// 获取场景特征点的接口
+    /// </summary>
+    /// <param name="count"></param>
+    /// <returns></returns>
     [DllImport("xslam-unity-wrapper")]
     public static extern IntPtr xslam_get_slam_map(ref int count);
 
@@ -970,6 +1035,19 @@ public class API : MonoBehaviour
         VIO = 1,
         CSLAM = 2,
         SHARE_MAP = 3
+    };
+
+    /// <summary>
+    /// 返回手柄点亮温度数据
+    /// battery  电量（0~100）
+    /// temp  温度(0~100)
+    /// </summary>
+    public struct WirelessControllerDeviceInfo
+    {
+        public int battery;
+        public int temp;
+        public int sleep;
+        public int charging;
     };
 
     public delegate void WirelessPoseCallback(ref WirelessPos pose);
@@ -1010,6 +1088,16 @@ public class API : MonoBehaviour
     public static extern bool xv_rgb_device_get_rgba(int width, int height, System.IntPtr data1, System.IntPtr data2);
 
 
+
+
+    /// <summary>
+    /// 获取手柄信息
+    /// </summary>
+    /// <param name="info">参数查看对应结构体</param>
+    /// <param name="type">参数查看对应结构体</param>
+    [DllImport("xslam-unity-wrapper")]
+    public static extern void xv_wireless_get_device_info(ref WirelessControllerDeviceInfo info, int type);
+
     public enum WirelessState
     {
         DISCONNECT = 0,
@@ -1036,6 +1124,14 @@ public class API : MonoBehaviour
     };
 
     [DllImport("xslam-unity-wrapper")]
+    public static extern bool xslam_set_electrochromic_level(int level);
+
+
+    [DllImport("xslam-unity-wrapper")]
+    public static extern bool xslam_set_hms_electrochromic_level(int level);
+
+
+    [DllImport("xslam-unity-wrapper")]
     public static extern bool xv_stm_start();
 
     [DllImport("xslam-unity-wrapper")]
@@ -1049,4 +1145,27 @@ public class API : MonoBehaviour
 
 
 
+
+    [DllImport("xslam-unity-wrapper")]
+    public static extern bool xv_get_sn(IntPtr sn, int bufferSize);
+
+    public static string GetSerialNumber()
+    {
+        //Allocate a buffer for the serial number 
+        int bufferSize = 128;
+        //Adjust size according to your needs 
+        IntPtr buffer = Marshal.AllocHGlobal(bufferSize);
+        //Call the native function
+        xv_get_sn(buffer, bufferSize);
+        //Convert the result from IntPtr to a C# string
+        string serialNumber = Marshal.PtrToStringAnsi(buffer);
+        //Free the allocated memory 
+        Marshal.FreeHGlobal(buffer);
+        return serialNumber;
+    }
+
+    [DllImport("xslam-unity-wrapper")]
+    public static extern void xslam_read_version(ref byte version);
+    [DllImport("xslam-unity-wrapper")]
+    public static extern void xslam_read_device_version(ref byte version);
 }

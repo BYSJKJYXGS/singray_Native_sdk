@@ -164,7 +164,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4890012464652379300, guid: 60cdb9bc117b5f04798cadf13320b2bd, type: 3}
       propertyPath: m_Name
-      value: MixedRealityToolkit
+      value: MixedRealityToolkit (Inactive)
       objectReference: {fileID: 0}
     - target: {fileID: 4890012464652379302, guid: 60cdb9bc117b5f04798cadf13320b2bd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -557,6 +557,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 317320373262098620, guid: d6f80ce5cf6425c47a40bda431ced7bc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 317320373262098620, guid: d6f80ce5cf6425c47a40bda431ced7bc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 317320373262098620, guid: d6f80ce5cf6425c47a40bda431ced7bc, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 906864774502218802, guid: d6f80ce5cf6425c47a40bda431ced7bc, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -564,6 +576,46 @@ PrefabInstance:
     - target: {fileID: 906864775325300933, guid: d6f80ce5cf6425c47a40bda431ced7bc, type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1829904095695541841, guid: d6f80ce5cf6425c47a40bda431ced7bc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1829904095695541841, guid: d6f80ce5cf6425c47a40bda431ced7bc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1947839585044385328, guid: d6f80ce5cf6425c47a40bda431ced7bc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1947839585044385328, guid: d6f80ce5cf6425c47a40bda431ced7bc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1947839585044385328, guid: d6f80ce5cf6425c47a40bda431ced7bc, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2631778349176993383, guid: d6f80ce5cf6425c47a40bda431ced7bc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2631778349176993383, guid: d6f80ce5cf6425c47a40bda431ced7bc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3048329745412863261, guid: d6f80ce5cf6425c47a40bda431ced7bc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3048329745412863261, guid: d6f80ce5cf6425c47a40bda431ced7bc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3048329745412863261, guid: d6f80ce5cf6425c47a40bda431ced7bc, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3310882358265577202, guid: d6f80ce5cf6425c47a40bda431ced7bc, type: 3}
       propertyPath: m_Mesh
@@ -576,6 +628,14 @@ PrefabInstance:
     - target: {fileID: 3310882360095291909, guid: d6f80ce5cf6425c47a40bda431ced7bc, type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5454672514319724472, guid: d6f80ce5cf6425c47a40bda431ced7bc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5454672514319724472, guid: d6f80ce5cf6425c47a40bda431ced7bc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6220213239419333820, guid: d6f80ce5cf6425c47a40bda431ced7bc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -625,6 +685,30 @@ PrefabInstance:
       propertyPath: cameraManager
       value: 
       objectReference: {fileID: 1056500348}
+    - target: {fileID: 7974597919644360518, guid: d6f80ce5cf6425c47a40bda431ced7bc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8441525883826488350, guid: d6f80ce5cf6425c47a40bda431ced7bc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8441525883826488350, guid: d6f80ce5cf6425c47a40bda431ced7bc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8441525883826488350, guid: d6f80ce5cf6425c47a40bda431ced7bc, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8472268756175992858, guid: d6f80ce5cf6425c47a40bda431ced7bc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8472268756175992858, guid: d6f80ce5cf6425c47a40bda431ced7bc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

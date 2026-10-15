@@ -1,59 +1,52 @@
-# singray_Native_sdk
-## SDK Developer API Documentation
-http://13.114.45.251/documentation/index%20-%20JP.html
-## 1. Overview
+# SiNGRAY G2 Native SDK
 
-**Singray AR SDK** is designed for developing AR apps on B50R, B50H, and G2 standalone devices.
-The SDK project is hosted on GitHub and can be compiled and run directly after cloning.
-Demos are included for MRTK2 and basic SDK capabilities.
+Native SDK and Unity integration for SiNGRAY G2 AR devices, including Android native libraries, MRTK2 integration, sensor APIs, and sample applications.
 
-* **For G2 devices, please use the branch:** `release_version_4.1.0`
+## Official production SDK repository
 
----
+The official production SDK repository for **SiNGRAY G2** is [HMS-Unity/SiNGRAY_G2_NativeSDK](https://github.com/HMS-Unity/SiNGRAY_G2_NativeSDK).
 
-## 2. What's New (release\_version\_4.1.0)
+For new G2 integrations and production deliveries, use that repository and the SDK version specified for your device and firmware. The legacy `singray_Native_sdk` repository and its `release_version_4.1.0` / `release_version_4.1.1` instructions are retained for reference and maintenance of existing projects. Refer to the official repository for current setup instructions, documentation, and updates.
 
-1. Added support for G2 devices
-2. Fixed camera sensor (RGB/ToF) settings
-3. Gesture recognition algorithm now uses CPU by default
-4. Various bug fixes
-5. Some known issues remain
+The `dev/4.2` branch documented below is a development branch. Its contents are not a frozen production release.
 
----
+## Documentation
 
-## 3. Quick Start
+- [Release Notes](RELEASE_NOTES.md): versioned development changes since October 6, 2026, validation results, and upgrade notes.
+- [Demo and User Guide](Docs/Demo-and-User-Guide.md): environment setup, demo scenes, Android builds, device operation, integration, and troubleshooting.
+- [API Reference](Docs/API-Reference.md): product interfaces, sensor settings, events, data types, Foundation feature managers, and native interop guidance.
+- [Keys and MRTK Buttons](Docs/Keys-and-Buttons.md): device-key setup, default mappings, MRTK press-cycle protection, and verification steps.
+- [Key Input API Guide](Assets/XRFoundation/Core/Input/README.md): complete C# examples, mapping profiles, event lifecycle, and simulation.
 
-### 1. Clone the Repository
+## Development branch
 
-<pre><div class="gpt-dark force-dark"><div class="code-block"><div class="markdown-body"><div class="code-block-inner custom-scrollbar custom-scrollbar-wide "><code class="hljs language-bash">git clone &lt;repo_url&gt;
-</code></div></div></div></div></pre>
+The `dev/4.2` branch contains the `4.2.0.2` development project. Use Unity **2022.3.62f3** with Android Build Support. This is the recorded Unity 2022 editor version; Unity 6 migration is not part of this branch. The current Android configuration uses IL2CPP, ARM64, minimum API 30, and target API 35.
 
-### 2. Unity Version Requirements
+```sh
+git lfs install
+git clone --branch dev/4.2 git@github.com:HMS-Unity/SiNGRAY_G2_NativeSDK.git
+cd SiNGRAY_G2_NativeSDK
+git lfs pull
+git lfs fsck
+```
 
-* **Recommended:** Unity 2022.3.17f or any Unity 2022.x version
-* **Not supported:** Latest LTS version
-* For errors on other versions, contact: [li.zhang@edge-perception.com](D:\UGit\sdk\singray_Native_sdk/mailto:li.zhang@edge-perception.com)
+Open the repository root in Unity Hub and allow package import to finish. The current enabled build scene is `Assets/XRFoundation/SampleScenes/Viewer/Scenes/Viewer.unity`. For the categorized demo hub, open `Assets/XRFoundation/SampleScenes/SDKSampleHub/Scenes/SDKSamples.unity` and configure it as the entry scene in Build Settings.
 
-### 3. Import Project and Set Up SDK
+### Android entry scene
 
-* Open the Unity project in **Android** mode
-* Download our Android SDK:
-  [Download Link](https://drive.google.com/file/d/11d3omUPIPpGrlkPCFcey-dZQELRx-vDq/view?usp=drive_link)
-* In Unity, navigate to `Edit > Project Settings > Android` and set the SDK path to the downloaded SDK
+![Android Build Settings with Viewer enabled](Docs/images/android-build-settings.jpg)
 
-### 4. Build APK
+Actual Editor screenshot captured on October 7, 2026. It shows the Android target and Viewer entry scene, not an APK build result or live device output. To test the reported sample issues, replace the entry scene with `SDKSamples.unity` before building.
 
-* Build your project inside Unity to generate an APK file
+## Current integration changes
 
-### 5. Install & Test
+- Consolidated the 18 remaining additional `xv-wrapper` bindings into the global `API` class. Update callers of the removed `XvNativeAPI` class to use `API`.
+- Moved `XvGazeButton` to `Singray.UI.Input` while preserving its asset identity.
+- Removed the obsolete branding postprocessor, legacy Java demo activities, and AI Talk implementation and sample. Required native libraries and the separate speech examples remain.
+- Updated RGBD preview setup, ToF point-cloud display startup, plane-detection initialization and parsing, and spatial-map callback and native-memory handling.
 
-* Install the APK on your G2 or other supported device
-* Launch the app and perform tests
+## Validation status
 
----
+Managed runtime and Editor compilation completed with no errors; existing warnings remain. Eight plane-parser checks passed. RGBD, ToF Point Cloud, Plane Detection, and Spatial Map still require regression testing on G2 hardware. These code changes do not establish that the reported device failures are resolved.
 
-**Questions & Support:** [li.zhang@edge-perception.com](D:\UGit\sdk\singray_Native_sdk/mailto:li.zhang@edge-perception.com)
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
------------------------
+This is a development build. Editor simulation does not validate native device behavior; test the selected features on the target G2 hardware and firmware before deployment. See the [device regression checklist](Docs/Demo-and-User-Guide.md#device-regression-checklist) for expected results and evidence to collect.
